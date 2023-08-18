@@ -10,40 +10,40 @@ import { SvgIcon } from '@mui/material';
 
 export const items = [
   {
-    title: 'Overview',
+    title: 'Dashboard',
     path: '/',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ChartBarIcon />
-      </SvgIcon>
-    )
+    // icon: (
+    //   <SvgIcon fontSize="small">
+    //     <ChartBarIcon />
+    //   </SvgIcon>
+    // )
   },
   {
-    title: 'Customers',
-    path: '/customers',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UsersIcon />
-      </SvgIcon>
-    )
+    title: 'HS Code Finder',
+    path: 'tax.intgrow.co/hscodefinder.html',
+    // icon: (
+    //   <SvgIcon fontSize="small">
+    //     <UsersIcon />
+    //   </SvgIcon>
+    // )
   },
   {
-    title: 'Companies',
-    path: '/companies',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
-      </SvgIcon>
-    )
+    title: 'Duty Calculator',
+    path: 'tax.intgrow.co/duty.html',
+    // icon: (
+    //   <SvgIcon fontSize="small">
+    //     <ShoppingBagIcon />
+    //   </SvgIcon>
+    // )
   },
   {
-    title: 'Account',
-    path: '/account',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserIcon />
-      </SvgIcon>
-    )
+    title: 'Duty Saver Pro',
+    path: 'tax.intgrow.co/fta.html',
+    // icon: (
+    //   <SvgIcon fontSize="small">
+    //     <UserIcon />
+    //   </SvgIcon>
+    // )
   },
   {
     title: 'Settings',

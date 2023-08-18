@@ -3,9 +3,9 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Link, Stack, TextField, Typography, Alert } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
-import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import { TopNav } from 'src/layouts/dashboard/top-nav';
 
 const Page = () => {
   const router = useRouter();
@@ -35,6 +35,15 @@ const Page = () => {
     onSubmit: async (values, helpers) => {
       try {
         await auth.signUp(values.email, values.name, values.password);
+        <Alert
+          color="primary"
+          severity="info"
+          sx={{ mt: 3 }}
+        >
+          <div>
+            You can use <b>demo@devias.io</b> and password <b>Password123!</b>
+          </div>
+        </Alert>
         router.push('/');
       } catch (err) {
         helpers.setStatus({ success: false });
@@ -48,9 +57,10 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Register | Devias Kit
+          Register | IntGrow Corp.
         </title>
       </Head>
+      <TopNav onNavOpen={() => setOpenNav(true)} />
       <Box
         sx={{
           flex: '1 1 auto',
@@ -145,7 +155,7 @@ const Page = () => {
                 type="submit"
                 variant="contained"
               >
-                Continue
+                Register
               </Button>
             </form>
           </div>
@@ -156,9 +166,9 @@ const Page = () => {
 };
 
 Page.getLayout = (page) => (
-  <AuthLayout>
+  <div>
     {page}
-  </AuthLayout>
+  </div>
 );
 
 export default Page;

@@ -29,13 +29,13 @@ export const OverviewTasksProgress = (props) => {
               gutterBottom
               variant="overline"
             >
-              Task Progress
+              Import Duty Calculator
             </Typography>
             <Typography variant="h4">
-              {value}%
+              8
             </Typography>
           </Stack>
-          <Avatar
+          {/* <Avatar
             sx={{
               backgroundColor: 'warning.main',
               height: 56,
@@ -45,14 +45,14 @@ export const OverviewTasksProgress = (props) => {
             <SvgIcon>
               <ListBulletIcon />
             </SvgIcon>
-          </Avatar>
+          </Avatar> */}
         </Stack>
-        <Box sx={{ mt: 3 }}>
+        {/* <Box sx={{ mt: 3 }}>
           <LinearProgress
             value={value}
             variant="determinate"
           />
-        </Box>
+        </Box> */}
       </CardContent>
     </Card>
   );

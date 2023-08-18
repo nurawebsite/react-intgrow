@@ -19,13 +19,13 @@ export const OverviewTotalProfit = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Total Profit
+              Duty Saver Pro
             </Typography>
             <Typography variant="h4">
-              {value}
+              10
             </Typography>
           </Stack>
-          <Avatar
+          {/* <Avatar
             sx={{
               backgroundColor: 'primary.main',
               height: 56,
@@ -35,7 +35,7 @@ export const OverviewTotalProfit = (props) => {
             <SvgIcon>
               <CurrencyDollarIcon />
             </SvgIcon>
-          </Avatar>
+          </Avatar> */}
         </Stack>
       </CardContent>
     </Card>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
+import React, { createContext, useContext, useEffect, useReducer, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 const HANDLERS = {
@@ -84,8 +84,8 @@ export const AuthProvider = (props) => {
       const user = {
         id: '5e86809283e28b96d2d38537',
         avatar: '/assets/avatars/avatar-anika-visser.png',
-        name: 'Anika Visser',
-        email: 'anika.visser@devias.io'
+        name: 'Test',
+        email: 'test@test.com'
       };
 
       dispatch({
@@ -117,8 +117,8 @@ export const AuthProvider = (props) => {
     const user = {
       id: '5e86809283e28b96d2d38537',
       avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
+      name: 'Test',
+      email: 'test@test.com'
     };
 
     dispatch({
@@ -128,21 +128,44 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
-    if (email !== 'demo@devias.io' || password !== 'Password123!') {
-      throw new Error('Please check your email and password');
+    // if (email !== 'demo@devias.io' || password !== 'Password123!') {
+    //   throw new Error('Please check your email and password');
+    // }
+    let responseData = {};
+    try {
+      const url = 'https://dev.intgrow.co/api/auth/signIn';
+      const data = {
+        email,
+        password
+      };
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      responseData = await response.json();
+      window.sessionStorage.setItem('authenticated', 'true');
+      window.localStorage.setItem('access_token', responseData.result.token);
+    } catch (error) {
+      console.error('Error:', error);
     }
 
-    try {
-      window.sessionStorage.setItem('authenticated', 'true');
-    } catch (err) {
-      console.error(err);
-    }
+
+    // const user = {
+    //   id: '5e86809283e28b96d2d38537',
+    //   avatar: '/assets/avatars/avatar-anika-visser.png',
+    //   name: responseData.result.first_name,
+    //   email: responseData.result.email
+    // };
 
     const user = {
       id: '5e86809283e28b96d2d38537',
       avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
+      name: 'Test',
+      email: 'test@test.com'
     };
 
     dispatch({
@@ -152,7 +175,26 @@ export const AuthProvider = (props) => {
   };
 
   const signUp = async (email, name, password) => {
-    throw new Error('Sign up is not implemented');
+    try {
+      const url = 'https://dev.intgrow.co/api/auth/signUp';
+      const data = {
+        email,
+        firstname: name,
+        password
+      };
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const responseData = await response.json();
+      
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const signOut = () => {

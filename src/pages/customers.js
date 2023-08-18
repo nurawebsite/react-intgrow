@@ -61,13 +61,13 @@ const data = [
     address: {
       city: 'Madrid',
       country: 'Spain',
-      name: 'Anika Visser',
+      name: 'Test',
       street: '4158  Hedge Street'
     },
     avatar: '/assets/avatars/avatar-anika-visser.png',
     createdAt: subDays(subHours(now, 11), 2).getTime(),
-    email: 'anika.visser@devias.io',
-    name: 'Anika Visser',
+    email: 'test@test.com',
+    name: 'Test',
     phone: '908-691-3242'
   },
   {
@@ -199,7 +199,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Customers | Devias Kit
+          Customers | IntGrow Corp.
         </title>
       </Head>
       <Box

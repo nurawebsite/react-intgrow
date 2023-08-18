@@ -21,13 +21,13 @@ export const OverviewTotalCustomers = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Total Customers
+              HS Code Finder
             </Typography>
             <Typography variant="h4">
-              {value}
+              6
             </Typography>
           </Stack>
-          <Avatar
+          {/* <Avatar
             sx={{
               backgroundColor: 'success.main',
               height: 56,
@@ -37,9 +37,9 @@ export const OverviewTotalCustomers = (props) => {
             <SvgIcon>
               <UsersIcon />
             </SvgIcon>
-          </Avatar>
+          </Avatar> */}
         </Stack>
-        {difference && (
+        {/* {difference && (
           <Stack
             alignItems="center"
             direction="row"
@@ -71,7 +71,7 @@ export const OverviewTotalCustomers = (props) => {
               Since last month
             </Typography>
           </Stack>
-        )}
+        )} */}
       </CardContent>
     </Card>
   );
