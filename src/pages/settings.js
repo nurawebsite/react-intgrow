@@ -8,7 +8,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Settings | IntGrow Corp.
+        Profile | IntGrow Corp.
       </title>
     </Head>
     <Box
@@ -21,10 +21,11 @@ const Page = () => (
       <Container maxWidth="lg">
         <Stack spacing={3}>
           <Typography variant="h4">
-            Settings
+            Profile Settings
           </Typography>
-          <SettingsNotifications />
+
           <SettingsPassword />
+          <SettingsNotifications />
         </Stack>
       </Container>
     </Box>

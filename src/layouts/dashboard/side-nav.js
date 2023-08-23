@@ -63,7 +63,7 @@ export const SideNav = (props) => {
           >
             {items.map((item) => {
               const active = item.path ? (pathname === item.path) : false;
-
+              const redirectURL = item.path.startsWith('/') ? item.path : `https://${item.path}`;
               return (
                 <SideNavItem
                   active={active}
@@ -71,7 +71,7 @@ export const SideNav = (props) => {
                   external={item.external}
                   icon={item.icon}
                   key={item.title}
-                  path={item.path}
+                  path={redirectURL}
                   title={item.title}
                 />
               );

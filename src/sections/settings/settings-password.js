@@ -12,8 +12,10 @@ import {
 
 export const SettingsPassword = () => {
   const [values, setValues] = useState({
-    password: '',
-    confirm: ''
+    password: '********',
+    confirm: '',
+    first_name: 'Test',
+    email: 'test@test.com'
   });
 
   const handleChange = useCallback(
@@ -35,6 +37,41 @@ export const SettingsPassword = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <Card>
+        <CardHeader
+          subheader="Update your personal information"
+          title="Personal Information"
+        />
+        <CardContent>
+          <Stack
+            spacing={3}
+            sx={{ maxWidth: 400 }}
+          >
+            <TextField
+              fullWidth
+              label="Name"
+              name="username"
+              onChange={handleChange}
+              type="text"
+              value={values.first_name}
+            />
+            <TextField
+              fullWidth
+              label="Email-Id"
+              name="email"
+              onChange={handleChange}
+              type="email"
+              value={values.email}
+            />
+          </Stack>
+        </CardContent>
+        <CardActions sx={{ mb: 3 }}>
+          <Button variant="contained">
+            Update Information
+          </Button>
+        </CardActions>
+        <Divider />
+      </Card>
       <Card>
         <CardHeader
           subheader="Update password"
@@ -65,9 +102,9 @@ export const SettingsPassword = () => {
           </Stack>
         </CardContent>
         <Divider />
-        <CardActions sx={{ justifyContent: 'flex-end' }}>
+        <CardActions sx={{ mb: 3 }}>
           <Button variant="contained">
-            Update
+            Update Password
           </Button>
         </CardActions>
       </Card>
