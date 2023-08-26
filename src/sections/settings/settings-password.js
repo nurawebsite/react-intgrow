@@ -39,41 +39,6 @@ export const SettingsPassword = () => {
     <form onSubmit={handleSubmit}>
       <Card>
         <CardHeader
-          subheader="Update your personal information"
-          title="Personal Information"
-        />
-        <CardContent>
-          <Stack
-            spacing={3}
-            sx={{ maxWidth: 400 }}
-          >
-            <TextField
-              fullWidth
-              label="Name"
-              name="username"
-              onChange={handleChange}
-              type="text"
-              value={values.first_name}
-            />
-            <TextField
-              fullWidth
-              label="Email-Id"
-              name="email"
-              onChange={handleChange}
-              type="email"
-              value={values.email}
-            />
-          </Stack>
-        </CardContent>
-        <CardActions sx={{ mb: 3 }}>
-          <Button variant="contained">
-            Update Information
-          </Button>
-        </CardActions>
-        <Divider />
-      </Card>
-      <Card>
-        <CardHeader
           subheader="Update password"
           title="Password"
         />
@@ -103,7 +68,9 @@ export const SettingsPassword = () => {
         </CardContent>
         <Divider />
         <CardActions sx={{ mb: 3 }}>
-          <Button variant="contained">
+          <Button
+            variant="contained"
+            type="submit">
             Update Password
           </Button>
         </CardActions>

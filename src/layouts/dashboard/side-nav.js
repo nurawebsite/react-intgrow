@@ -91,7 +91,7 @@ export const SideNav = (props) => {
         open
         PaperProps={{
           sx: {
-            backgroundColor: 'neutral.800',
+            background: 'linear-gradient(0deg, #1391a5, #274685)',
             color: 'common.white',
             width: 280,
             top: 86

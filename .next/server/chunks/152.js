@@ -121,9 +121,6 @@ const AuthProvider = (props)=>{
         });
     };
     const signIn = async (email, password)=>{
-        // if (email !== 'demo@devias.io' || password !== 'Password123!') {
-        //   throw new Error('Please check your email and password');
-        // }
         let responseData = {};
         try {
             const url = "https://dev.intgrow.co/api/auth/signIn";
@@ -186,13 +183,35 @@ const AuthProvider = (props)=>{
             type: HANDLERS.SIGN_OUT
         });
     };
+    const updateUserInfo = async (name)=>{
+        try {
+            const url = "https://dev.intgrow.co/api/auth/me";
+            const data = {
+                first_name: name
+            };
+            const token = window.localStorage.getItem("access_token");
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            });
+            const responseData = await response.json();
+            return responseData;
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
     return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(AuthContext.Provider, {
         value: {
             ...state,
             skip,
             signIn,
             signUp,
-            signOut
+            signOut,
+            updateUserInfo
         },
         children: children
     });

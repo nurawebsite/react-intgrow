@@ -1,7 +1,8 @@
 import Head from 'next/head';
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Box, Container, Divider, Stack, Typography } from '@mui/material';
 import { SettingsNotifications } from 'src/sections/settings/settings-notifications';
 import { SettingsPassword } from 'src/sections/settings/settings-password';
+import { SettingsInfo } from 'src/sections/settings/settings-info';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 
 const Page = () => (
@@ -15,7 +16,8 @@ const Page = () => (
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8
+        py: 8,
+        paddingTop: 2
       }}
     >
       <Container maxWidth="lg">
@@ -23,7 +25,8 @@ const Page = () => (
           <Typography variant="h4">
             Profile Settings
           </Typography>
-
+          <Divider />
+          <SettingsInfo />
           <SettingsPassword />
           <SettingsNotifications />
         </Stack>

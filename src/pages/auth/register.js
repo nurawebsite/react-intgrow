@@ -35,15 +35,6 @@ const Page = () => {
     onSubmit: async (values, helpers) => {
       try {
         await auth.signUp(values.email, values.name, values.password);
-        <Alert
-          color="primary"
-          severity="info"
-          sx={{ mt: 3 }}
-        >
-          <div>
-            You can use <b>demo@devias.io</b> and password <b>Password123!</b>
-          </div>
-        </Alert>
         router.push('/');
       } catch (err) {
         helpers.setStatus({ success: false });
