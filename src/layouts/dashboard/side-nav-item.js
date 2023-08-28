@@ -60,12 +60,12 @@ export const SideNavItem = (props) => {
         <Box
           component="span"
           sx={{
-            color: 'neutral.400',
+            color: 'common.white',
             flexGrow: 1,
             fontFamily: (theme) => theme.typography.fontFamily,
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: 600,
-            lineHeight: '24px',
+            lineHeight: '26px',
             whiteSpace: 'nowrap',
             ...(active && {
               color: 'common.white'

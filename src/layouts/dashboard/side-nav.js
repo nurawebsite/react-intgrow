@@ -94,7 +94,7 @@ export const SideNav = (props) => {
             background: 'linear-gradient(0deg, #1391a5, #274685)',
             color: 'common.white',
             width: 280,
-            top: 86
+            top: 81
           }
         }}
         variant="permanent"

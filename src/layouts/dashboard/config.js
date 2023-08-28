@@ -1,7 +1,5 @@
-import ChartBarIcon from '@heroicons/react/24/solid/ChartBarIcon';
 import CogIcon from '@heroicons/react/24/solid/CogIcon';
 import LockClosedIcon from '@heroicons/react/24/solid/LockClosedIcon';
-import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
 import UserIcon from '@heroicons/react/24/solid/UserIcon';
 import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
@@ -20,7 +18,7 @@ export const items = [
   },
   {
     title: 'HS Code Finder',
-    path: 'tax.intgrow.co/hscodefinder.html',
+    path: 'taxes.intgrow.co/hscodefinder.html',
     // icon: (
     //   <SvgIcon fontSize="small">
     //     <UsersIcon />
@@ -29,7 +27,7 @@ export const items = [
   },
   {
     title: 'Duty Calculator',
-    path: 'tax.intgrow.co/duty.html',
+    path: 'taxes.intgrow.co/duty.html',
     // icon: (
     //   <SvgIcon fontSize="small">
     //     <ShoppingBagIcon />
@@ -38,7 +36,7 @@ export const items = [
   },
   {
     title: 'Duty Saver Pro',
-    path: 'tax.intgrow.co/fta.html',
+    path: 'taxes.intgrow.co/fta.html',
     // icon: (
     //   <SvgIcon fontSize="small">
     //     <UserIcon />
@@ -80,41 +78,14 @@ export const items = [
         <CogIcon />
       </SvgIcon>
     )
-  },
-  {
-    title: 'Account',
-    path: '/account',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Companies',
-    path: '/companies',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Customers',
-    path: '/customers',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UsersIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Error',
-    path: '/404',
-    icon: (
-      <SvgIcon fontSize="small">
-        <XCircleIcon />
-      </SvgIcon>
-    )
   }
+  // {
+  //   title: 'Error',
+  //   path: '/404',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <XCircleIcon />
+  //     </SvgIcon>
+  //   )
+  // }
 ];

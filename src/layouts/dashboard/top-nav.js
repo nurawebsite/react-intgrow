@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import BellIcon from '@heroicons/react/24/solid/BellIcon';
-import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import Bars3Icon from '@heroicons/react/24/solid/Bars3Icon';
-import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
+import UserIcon from '@heroicons/react/24/solid/UserIcon';
+
 import {
   Avatar,
   Badge,
@@ -70,7 +70,7 @@ export const TopNav = (props) => {
             direction="row"
             spacing={2}
           >
-           
+
             <Tooltip title="Notifications">
               <IconButton>
                 <Badge
@@ -92,8 +92,11 @@ export const TopNav = (props) => {
                 height: 40,
                 width: 40
               }}
-              src="/assets/avatars/avatar-anika-visser.png"
-            />
+            >
+              <SvgIcon fontSize='small'>
+                <UserIcon />
+              </SvgIcon>
+            </Avatar>
           </Stack>
         </Stack>
       </Box>
