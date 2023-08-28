@@ -172,6 +172,38 @@ const items = [
         })
     },
     {
+        title: "Subscription Plans",
+        path: "/subscriptions",
+        icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_9__.SvgIcon, {
+            fontSize: "small",
+            children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_heroicons_react_24_solid_CogIcon__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+        })
+    },
+    {
+        title: "Account",
+        path: "/account",
+        icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_9__.SvgIcon, {
+            fontSize: "small",
+            children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_heroicons_react_24_solid_UserIcon__WEBPACK_IMPORTED_MODULE_5__["default"], {})
+        })
+    },
+    {
+        title: "Companies",
+        path: "/companies",
+        icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_9__.SvgIcon, {
+            fontSize: "small",
+            children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_heroicons_react_24_solid_ShoppingBagIcon__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+        })
+    },
+    {
+        title: "Customers",
+        path: "/customers",
+        icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_9__.SvgIcon, {
+            fontSize: "small",
+            children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_heroicons_react_24_solid_UsersIcon__WEBPACK_IMPORTED_MODULE_7__["default"], {})
+        })
+    },
+    {
         title: "Error",
         path: "/404",
         icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_9__.SvgIcon, {
