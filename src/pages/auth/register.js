@@ -6,10 +6,13 @@ import * as Yup from 'yup';
 import { Box, Button, Link, Stack, TextField, Typography, Alert } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { TopNav } from 'src/layouts/dashboard/top-nav';
+import { useState } from 'react';
 
 const Page = () => {
   const router = useRouter();
   const auth = useAuth();
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -34,11 +37,24 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signUp(values.email, values.name, values.password);
+        const response = await auth.signUp(values.email, values.name, values.password);
+        
+        if(!response.ok) {
+          const registerError = new Error(response.message || 'An error occurred');
+          registerError.status = response.status;
+          throw registerError;
+        }
+
+        const responseData = await response.json();
+        console.log("--- data => " ,responseData);
+        setData(responseData);
+        setError(null);
         router.push('/');
       } catch (err) {
-        helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
+        console.log("inside err");
+        // helpers.setStatus({ success: false });
+        // helpers.setErrors({ submit: err.message });
+        setError(err.message);
         helpers.setSubmitting(false);
       }
     }
@@ -152,6 +168,14 @@ const Page = () => {
           </div>
         </Box>
       </Box>
+
+      {data && (
+        <div>
+          <h2>Data Received:</h2>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+        </div>
+      )}
+      {error && <p>{error}</p>}
     </>
   );
 };

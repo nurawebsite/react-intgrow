@@ -128,7 +128,7 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
-   
+
     let responseData = {};
     try {
       const url = 'https://dev.intgrow.co/api/auth/signIn';
@@ -188,7 +188,9 @@ export const AuthProvider = (props) => {
         body: JSON.stringify(data),
       });
 
-      const responseData = await response.json();
+      console.log("--- response => ", response);
+
+      return response;
       
     } catch (error) {
       console.error('Error:', error);
