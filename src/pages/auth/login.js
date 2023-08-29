@@ -69,10 +69,12 @@ const Page = () => {
         };
 
         dispatch({
-          type: HANDLERS.INITIALIZE,
+          type: HANDLERS.SIGN_IN,
           payload: user
         });
+
         router.push('/');
+        
       } catch (err) {
         console.log("Error in login");
         // setError(err.message);

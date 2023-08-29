@@ -47,6 +47,7 @@ const Page = () => {
         const responseData = await response.json();
         setData(responseData);
         setError(null);
+        
         router.push('/');
       } catch (err) {
         console.log("Error in registration");

@@ -44,7 +44,7 @@ export const AccountPopover = (props) => {
           color="text.secondary"
           variant="body2"
         >
-          {/* {getUsername()} */}
+          {getUsername()}
         </Typography>
       </Box>
       <Divider />
