@@ -52,7 +52,7 @@ const Page = () => {
                             <Typography variant="h2">
                                 Our Pricing
                             </Typography>
-                            <Typography variant="h6">
+                            <Typography variant="subtitle2">
                                 Simple, affordable, self-serving, cancel whenever.
                             </Typography>
 

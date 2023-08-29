@@ -90,7 +90,7 @@ export const items = [
   },
   {
     title: 'Terms & Conditions',
-    path: '/termsandconditions',
+    path: '/terms-conditions',
     icon: (
       <SvgIcon fontSize="small">
         <DocumentCheckIcon />
