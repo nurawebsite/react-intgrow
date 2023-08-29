@@ -2,8 +2,8 @@ import CogIcon from '@heroicons/react/24/solid/CogIcon';
 import LockClosedIcon from '@heroicons/react/24/solid/LockClosedIcon';
 import UserIcon from '@heroicons/react/24/solid/UserIcon';
 import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
-import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
-import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
+import ShieldCheckIcon from '@heroicons/react/24/solid/ShieldCheckIcon';
+import DocumentCheckIcon from '@heroicons/react/24/solid/DocumentCheckIcon';
 import { SvgIcon } from '@mui/material';
 
 export const items = [
@@ -76,6 +76,24 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <CogIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Privacy Policy',
+    path: '/privacy',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ShieldCheckIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Terms & Conditions',
+    path: '/termsandconditions',
+    icon: (
+      <SvgIcon fontSize="small">
+        <DocumentCheckIcon />
       </SvgIcon>
     )
   }
