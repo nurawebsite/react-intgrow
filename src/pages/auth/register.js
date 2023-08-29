@@ -38,15 +38,14 @@ const Page = () => {
     onSubmit: async (values, helpers) => {
       try {
         const response = await auth.signUp(values.email, values.name, values.password);
-        
-        if(!response.ok) {
-          const registerError = new Error(response.message || 'An error occurred');
+        if (!response.ok) {
+          const responseData = await response.json();
+          const registerError = new Error(responseData.message || 'An error occurred');
           registerError.status = response.status;
           throw registerError;
         }
-
         const responseData = await response.json();
-        console.log("--- data => " ,responseData);
+        console.log("--- data => ", responseData);
         setData(responseData);
         setError(null);
         router.push('/');
@@ -165,17 +164,11 @@ const Page = () => {
                 Register
               </Button>
             </form>
+            { error && <span>{error}</span> }
+            { data && <span>Registration successful.</span> }
           </div>
         </Box>
       </Box>
-
-      {data && (
-        <div>
-          <h2>Data Received:</h2>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
-      )}
-      {error && <p>{error}</p>}
     </>
   );
 };
