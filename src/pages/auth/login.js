@@ -60,8 +60,7 @@ const Page = () => {
         window.sessionStorage.setItem('authenticated', 'true');
         window.localStorage.setItem('access_token', responseData.result.token);
 
-        setData(responseData);
-        setError(null);
+ 
         const user = {
           id: responseData.result.id,
           name: responseData.result.first_name,
@@ -73,12 +72,13 @@ const Page = () => {
           payload: user
         });
 
+        setData(responseData);
         router.push('/');
-        
+
       } catch (err) {
         console.log("Error in login");
         // setError(err.message);
-        // helpers.setStatus({ success: false });
+        helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
         helpers.setSubmitting(false);
       }
