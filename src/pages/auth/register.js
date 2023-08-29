@@ -49,7 +49,7 @@ const Page = () => {
         setError(null);
         router.push('/');
       } catch (err) {
-        console.log("inside err");
+        console.log("Error in registration");
         // helpers.setStatus({ success: false });
         // helpers.setErrors({ submit: err.message });
         setError(err.message);

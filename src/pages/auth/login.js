@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useReducer } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -18,15 +18,20 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { TopNav } from 'src/layouts/dashboard/top-nav';
+import { HANDLERS } from 'src/utils/constants';
+import { reducer, initialState } from 'src/contexts/auth-context';
 
 const Page = () => {
   const router = useRouter();
   const auth = useAuth();
   const [method, setMethod] = useState('email');
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const formik = useFormik({
     initialValues: {
-      email: 'temp@temp.com',
-      password: 'temp',
+      email: '',
+      password: '',
       submit: null
     },
     validationSchema: Yup.object({
@@ -42,18 +47,35 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signIn(values.email, values.password);
-        <Alert
-          color="primary"
-          severity="info"
-          sx={{ mt: 3 }}
-        >
-          <div>
-            Log in successful
-          </div>
-        </Alert>
+        const response = await auth.signIn(values.email, values.password);
+
+        if (!response.ok) {
+          const responseData = await response.json();
+          const loginError = new Error(responseData.error || 'An error occurred');
+          loginError.status = response.status;
+          throw loginError;
+        }
+
+        const responseData = await response.json();
+        window.sessionStorage.setItem('authenticated', 'true');
+        window.localStorage.setItem('access_token', responseData.result.token);
+
+        setData(responseData);
+        setError(null);
+        const user = {
+          id: responseData.result.id,
+          name: responseData.result.first_name,
+          email: responseData.result.email
+        };
+
+        dispatch({
+          type: HANDLERS.SIGN_IN,
+          payload: user
+        });
         router.push('/');
       } catch (err) {
+        console.log("Error in login");
+        setError(err.message);
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
         helpers.setSubmitting(false);
@@ -161,7 +183,7 @@ const Page = () => {
               </Button>
 
             </form>
-
+            {data && <span>Login successful.</span>}
           </div>
         </Box>
       </Box>

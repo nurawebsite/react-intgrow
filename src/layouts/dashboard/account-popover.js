@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
+import { getUsername } from 'src/utils/constants';
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
@@ -17,6 +18,7 @@ export const AccountPopover = (props) => {
     },
     [onClose, auth, router]
   );
+
 
   return (
     <Popover
@@ -42,7 +44,7 @@ export const AccountPopover = (props) => {
           color="text.secondary"
           variant="body2"
         >
-          Test
+          {getUsername()}
         </Typography>
       </Box>
       <Divider />

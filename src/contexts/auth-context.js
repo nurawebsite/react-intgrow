@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useReducer, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { apis } from "/src/utils/constants";
+import jwt from 'jwt-decode';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -82,11 +83,12 @@ export const AuthProvider = (props) => {
     }
 
     if (isAuthenticated) {
+      const token = window.localStorage.getItem('access_token');
+      const userInfo = jwt(token);
       const user = {
-        id: '5e86809283e28b96d2d38537',
-        avatar: '/assets/avatars/avatar-anika-visser.png',
-        name: 'Test',
-        email: 'test@test.com'
+        id: userInfo.id,
+        name: userInfo.first_name,
+        email: userInfo.email
       };
 
       dispatch({
@@ -129,10 +131,8 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
-
-    let responseData = {};
     try {
-      const url = 'https://dev.intgrow.co/api/auth/signIn';
+      const url = apis.login;
       const data = {
         email,
         password
@@ -144,33 +144,12 @@ export const AuthProvider = (props) => {
         },
         body: JSON.stringify(data),
       });
+      return response;
 
-      responseData = await response.json();
-      window.sessionStorage.setItem('authenticated', 'true');
-      window.localStorage.setItem('access_token', responseData.result.token);
     } catch (error) {
       console.error('Error:', error);
     }
 
-
-    // const user = {
-    //   id: '5e86809283e28b96d2d38537',
-    //   avatar: '/assets/avatars/avatar-anika-visser.png',
-    //   name: responseData.result.first_name,
-    //   email: responseData.result.email
-    // };
-
-    const user = {
-      id: '5e86809283e28b96d2d38537',
-      avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Test',
-      email: 'test@test.com'
-    };
-
-    dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: user
-    });
   };
 
   const signUp = async (email, name, password) => {
@@ -247,3 +226,5 @@ AuthProvider.propTypes = {
 export const AuthConsumer = AuthContext.Consumer;
 
 export const useAuthContext = () => useContext(AuthContext);
+
+export { reducer, initialState };
