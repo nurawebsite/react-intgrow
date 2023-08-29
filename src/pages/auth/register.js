@@ -51,8 +51,7 @@ const Page = () => {
       } catch (err) {
         console.log("Error in registration");
         // helpers.setStatus({ success: false });
-        // helpers.setErrors({ submit: err.message });
-        setError(err.message);
+        helpers.setErrors({ submit: err.message });
         helpers.setSubmitting(false);
       }
     }
@@ -163,7 +162,6 @@ const Page = () => {
                 Register
               </Button>
             </form>
-            { error && <span>{error}</span> }
             { data && <span>Registration successful.</span> }
           </div>
         </Box>

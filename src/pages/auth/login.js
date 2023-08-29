@@ -69,7 +69,7 @@ const Page = () => {
         };
 
         dispatch({
-          type: HANDLERS. INITIALIZE,
+          type: HANDLERS.INITIALIZE,
           payload: user
         });
         router.push('/');
