@@ -14,9 +14,12 @@ const HANDLERS = {
 
 const getUsername = () => {
     const token = window.localStorage.getItem("access_token");
-    const userInfo = jwt(token);
-    return userInfo && userInfo.first_name;
-  };
+    if (token) {
+        const userInfo = jwt(token);
+        return userInfo && userInfo.first_name;
+    }
+    return "";
+};
 
 export {
     apiEndpoint,

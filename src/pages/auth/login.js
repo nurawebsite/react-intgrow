@@ -69,14 +69,14 @@ const Page = () => {
         };
 
         dispatch({
-          type: HANDLERS.SIGN_IN,
+          type: HANDLERS. INITIALIZE,
           payload: user
         });
         router.push('/');
       } catch (err) {
         console.log("Error in login");
-        setError(err.message);
-        helpers.setStatus({ success: false });
+        // setError(err.message);
+        // helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
         helpers.setSubmitting(false);
       }
@@ -183,6 +183,7 @@ const Page = () => {
               </Button>
 
             </form>
+            {/* {error && <span>{error}</span>} */}
             {data && <span>Login successful.</span>}
           </div>
         </Box>
