@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { apis } from "/src/utils/constants";
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -177,7 +178,7 @@ export const AuthProvider = (props) => {
       const url = 'https://dev.intgrow.co/api/auth/signUp';
       const data = {
         email,
-        firstname: name,
+        "first_name": name,
         password
       };
       const response = await fetch(url, {
@@ -187,11 +188,7 @@ export const AuthProvider = (props) => {
         },
         body: JSON.stringify(data),
       });
-
-      console.log("--- response => ", response);
-
       return response;
-      
     } catch (error) {
       console.error('Error:', error);
     }
@@ -205,7 +202,7 @@ export const AuthProvider = (props) => {
 
   const updateUserInfo = async (name) => {
     try {
-      const url = 'https://dev.intgrow.co/api/auth/me';
+      const url = apis.register;
       const data = {
         first_name: name
       };

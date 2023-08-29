@@ -45,7 +45,6 @@ const Page = () => {
           throw registerError;
         }
         const responseData = await response.json();
-        console.log("--- data => ", responseData);
         setData(responseData);
         setError(null);
         router.push('/');
