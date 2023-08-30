@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>IntGrow</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <!-- <link href="landingPageAssets/img/favicon.png" rel="icon"> -->
+  <!-- <link href="landingPageAssets/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="landingPageAssets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="landingPageAssets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="landingPageAssets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="landingPageAssets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="landingPageAssets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="landingPageAssets/css/style.css" rel="stylesheet">
+
+  <script type="text/javascript" src="jsfiles/functions.js"></script>
+  <script type="text/javascript" src="jsfiles/utils.js"></script>
+
+</head>
+
+<body>
+  <script>loadCountryList()</script>
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex justify-content-between align-items-center">
+
+      <div class="logo">
+        <!-- <h1><a href="index.html"><em>int<span>g</span>row</em></a></h1> -->
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <a href="#"><img src="assets/logos/main-logo.png" alt="logo" class="img-fluid"></a>
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="active " href="index.html">Home</a></li>
+          <li class="dropdown"><a href="#"><span>Solutions</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="/hscodefinder">HS Code Finder</a></li>
+              <li><a href="/dutycalculator">Import Duty Calculator</a></li>
+              <li><a href="#">DutySaver Pro</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#"><span>APIs</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="#">API plugins</a></li>
+              <li><a href="#">API Documentation</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="/auth/login">Login</a></li>
+          <li><a href="/auth/register">Register</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section class="hero-section" id="hero">
+
+    <div class="wave">
+
+      <svg width="100%" height="355px" viewBox="0 0 1920 355" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g id="Apple-TV" transform="translate(0.000000, -402.000000)" fill="#FFFFFF">
+            <path
+              d="M0,439.134243 C175.04074,464.89273 327.944386,477.771974 458.710937,477.771974 C654.860765,477.771974 870.645295,442.632362 1205.9828,410.192501 C1429.54114,388.565926 1667.54687,411.092417 1920,477.771974 L1920,757 L1017.15166,757 L0,757 L0,439.134243 Z"
+              id="Path"></path>
+          </g>
+        </g>
+      </svg>
+
+    </div>
+
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12 hero-text-image">
+          <div class="row">
+            <div class="col-lg-7 text-center text-lg-start">
+              <h1 data-aos="fade-right">Global Import Duty Calculator</h1>
+              <p class="mb-5" data-aos="fade-right" data-aos-delay="100">Smartly Calculate Duties and Taxes for
+                Unbeatable Profits</p>
+              <p data-aos="fade-right" data-aos-delay="200" data-aos-offset="-500"><a href="#"
+                  class="btn btn-outline-white">Get started</a></p>
+            </div>
+            <div class="col-lg-5 iphone-wrap">
+              <div class="card bg-section-secondary mb-0 py-4 px-4 shadow-lg hover-scale-110">
+                <div class="card-body">
+                  <h2 class="heading">
+                    Calculate import duty and tax.
+                  </h2>
+                  <div>
+                    <form class="forms-sample row" onsubmit="return getDuty()" id="myForm">
+                      <div class="row">
+                        <div class="form-group col-12">
+                          <label for="import_country" class="col col-form-label">Importing Country</label>
+                          <div class="btn-group col form-group-input col-12">
+                            <select class="form-control form-control-lg" id="import_country" onchange="loadData()">
+                              </select>
+                          </div>
+                        </div>
+                        <div class="form-group col-12">
+                          <label for="export_country" class="col col-form-label">Exporting Country</label>
+                          <div class="btn-group col form-group-input col-12" id="export_list">
+                            <select class="form-control form-control-lg" id="export_country" >
+                              <option>Select country</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-sm-12 col-md-5">
+                          <label for="productValue" class="col col-form-label">Product Value</label>
+                          <div class="btn-group col form-group-input col-12">
+                            <input type="number" class="form-control form-control-lg" id="productValue"
+                              placeholder="Numbers only" autocomplete="off">
+                          </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-7">
+                          <label for="cyn" class="col col-form-label">Currency</label>
+                          <div class="btn-group col form-group-input col-12" id="currencyList">
+                            <select class="form-control form-control-lg" id="cyn">
+                              <option>Currency</option>
+                              <!-- load currency data -->
+                            </select>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="col-12">
+                        <button id="formsubmit" type="button"
+                          class="btn btn-icon-text btn-center-align landing-page-btn" onclick="gotoPage('duty')">
+                          Calculate duty
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Home Section ======= -->
+    <section class="section">
+      <div class="container">
+
+        <div class="row justify-content-center text-center mb-12">
+          <div class="col-md-12" data-aos="fade-up">
+            <h2 class="section-heading">Acurately Calculate Landed Cost of Goods</h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="">
+            <div class="feature-1 text-center">
+              <div class="wrap-icon icon-1">
+                <i class="bi bi-people"></i>
+              </div>
+              <h3 class="mb-3">HS Code Finder</h3>
+              <p>Identify HS Code for Sellers & Buyers</p>
+            </div>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-1 text-center">
+              <div class="wrap-icon icon-1">
+                <i class="bi bi-brightness-high"></i>
+              </div>
+              <h3 class="mb-3">Import Duty Calculator</h3>
+              <p>Calculate Landing Cost for the Global Market</p>
+            </div>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-1 text-center">
+              <div class="wrap-icon icon-1">
+                <i class="bi bi-bar-chart"></i>
+              </div>
+              <h3 class="mb-3">DutySaver Pro</h3>
+              <p>Maximize Profits with FTA & PTAs</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+
+      <div class="container">
+        <div class="row justify-content-center text-center mb-5" data-aos="fade">
+          <div class="col-md-6 mb-5">
+            <img src="landingPageAssets/img/undraw_svg_1.svg" alt="Image" class="img-fluid">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3">
+            <div class="step">
+              <span class="number">01</span>
+              <h3>Sign Up & find HS code</h3>
+              <p>Enter product's name for classification and discover HS codes for importing and exporting countries.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="step">
+              <span class="number">02</span>
+              <h3>Provide shipping details</h3>
+              <p>Simply provide the product name, origin, destination, product value & qty, and shipping method.</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="step">
+              <span class="number">03</span>
+              <h3>Calculate import duty</h3>
+              <p>Get complete landed cost, including duties, taxes, HS codes, and compliance details in one go.</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="step">
+              <span class="number">04</span>
+              <h3>Save duty and make profit</h3>
+              <p>Explore options to save duty under FTA/PTA and exemption notifications to make more profits .</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-4 me-auto">
+            <h2 class="mb-4">For Exporters</h2>
+            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur at reprehenderit optio,
+              laudantium eius quod, eum maxime molestiae porro omnis. Dolores aspernatur delectus impedit incidunt
+              dolore mollitia esse natus beatae.</p>
+            <p><a href="#" class="btn btn-primary">Download Now</a></p>
+          </div>
+          <div class="col-md-6" data-aos="fade-left">
+            <img src="landingPageAssets/img/undraw_svg_2.svg" alt="Image" class="img-fluid">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-4 ms-auto order-2">
+            <h2 class="mb-4">For Importers</h2>
+            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur at reprehenderit optio,
+              laudantium eius quod, eum maxime molestiae porro omnis. Dolores aspernatur delectus impedit incidunt
+              dolore mollitia esse natus beatae.</p>
+            <p><a href="#" class="btn btn-primary">Download Now</a></p>
+          </div>
+          <div class="col-md-6" data-aos="fade-right">
+            <img src="landingPageAssets/img/undraw_svg_3.svg" alt="Image" class="img-fluid">
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4 mb-md-0">
+          <h3>About intgrow</h3>
+          <p>Smartly Calculate Duties and Taxes for Unbeatable Profits</p>
+          <p class="social">
+            <!-- <a href="#"><span class="bi bi-twitter"></span></a>
+            <a href="#"><span class="bi bi-facebook"></span></a>
+            <a href="#"><span class="bi bi-instagram"></span></a>
+            <a href="#"><span class="bi bi-linkedin"></span></a> -->
+          </p>
+        </div>
+        <div class="col-md-7 ms-auto">
+          <div class="row site-section pt-0">
+            <div class="col-md-4 mb-4 mb-md-0">
+              <h3>Solutions</h3>
+              <ul class="list-unstyled">
+                <li><a href="hscodefinder.html">HS Code Finder</a></li>
+                <li><a href="duty.html">Import Duty Calculator</a></li>
+                <li><a href="fta.html">DutySaver Pro</a></li>
+              </ul>
+            </div>
+            <div class="col-md-4 mb-4 mb-md-0">
+              <h3>Resources</h3>
+              <ul class="list-unstyled">
+                <li><a href="#">Help Center</a></li>
+                <li><a href="404page.html">API Documentations</a></li>
+                <li><a href="404page.html">E-Commerce Integration</a></li>
+
+              </ul>
+            </div>
+            <div class="col-md-4 mb-4 mb-md-0">
+              <h3>About</h3>
+              <ul class="list-unstyled">
+                <li><a href="#">Pricing</a></li>
+                <li><a href="404page.html">Privacy</a></li>
+                <li><a href="404page.html">Terms</a></li>
+                <li><a href="#">Contact us</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center text-center">
+        <div class="col-md-7">
+          <p class="copyright">&copy; Copyright © 2023 IntGrow</p>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="landingPageAssets/vendor/aos/aos.js"></script>
+  <script src="landingPageAssets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="landingPageAssets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="landingPageAssets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="landingPageAssets/js/main.js"></script>
+
+</body>
+
+</html>

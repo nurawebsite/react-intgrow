@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>IntGrow</title>
+  <!-- base:css -->
+  <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <script type="text/javascript" src="jsfiles/functions.js"></script>
+  <script type="text/javascript" src="jsfiles/utils.js"></script>
+  <!-- endinject -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+  <!-- endinject -->
+
+</head>
+
+<body>
+  <script>loadCountryList()</script>
+
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:./partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 px-0 py-0 d-flex flex-row">
+      <div class="navbar-menu-wrapper d-flex align-items-center">
+
+        <div class="navbar-brand-wrapper">
+          <h3>Find Your HS Code</h3>
+        </div>
+      </div>
+
+    </nav>
+    <!-- partial -->
+
+    <!-- Duty calculator form -->
+    <div>
+      <div class="banner-block">
+        <img class="banner-img" src="assets/banner.png" alt="subscribe_banner" />
+      </div>
+
+      <div class="col-md-12 grid-margin stretch-card" id="hscode_form">
+        <div class="">
+          <div class="card-body">
+            <div class="">
+              <h3>Classify products accurately and efficiently according to the HS code system</h3>
+              <p class="body-subtitle">Use our HSN database to find the correct HS Code for your product. Simply
+                provide us with the product name, and we will furnish you with the country-specific HS description
+                for both the exporting and importing countries. This information is valuable for sellers and buyers
+                alike, as it enables them to classify the actual product accurately based on their country-specific
+                HS code. By doing so, they can avoid any hidden challenges and issues during Customs clearances. If
+                you cannot find your product in the database, please don't hesitate to contact us for assistance.
+              </p>
+            </div>
+            <div class="row">
+              <form class="forms-sample row" onsubmit="return loadHsCodes(event)" id="myForm">
+                <div class="row col-12">
+                  <div class="card-blocks col-12">
+                    <span class="">STEP 1</span>
+                    <h3 class="">Destination Details</h3>
+                    <div class="vertical-separator"></div>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label for="import_country" class="col col-form-label">Importing
+                      Country</label>
+                    <div class="btn-group col">
+                      <select class="form-control form-control-lg" id="import_country" onchange="loadData()" required
+                        autofocus>
+                        <!-- insert country dropdown -->
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <label for="export_country" class="col col-form-label">Exporting
+                      Country</label>
+                    <div class="btn-group col">
+                      <select class="form-control form-control-lg" id="export_country" required>
+                        <option>Select Country</option>
+                        <!-- insert country dropdown -->
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row col-12">
+                  <div class="card-blocks col-12">
+                    <span class="">STEP 2</span>
+                    <h3 class="">Product Details</h3>
+                    <div class="vertical-separator"></div>
+                    <p class="body-subtitle">Please provide the 2, 4 or 6-digit HS Code or type the product name and
+                      will display the nearest HS Codes and descriptions to help you better understand and make your
+                      selection.</p>
+                  </div>
+                  <div class="form-group col-sm-12 example">
+                    <label for="hscode" class="col col-form-label">Product Name/HS Code</label>
+                    <div class="col">
+                      <input type="text" autocomplete="off" class="form-control form-control-lg" id="hscode"
+                        name="hscodeList" list="hscodeList" role="listbox"
+                        placeholder="Enter product name or HS code here..." onkeyup="findHSCode()" required>
+                      <datalist id="hscodeList" role="listbox">
+                        <!-- load hscodes here -->
+                      </datalist>
+                    </div>
+                  </div>
+                </div>
+                <button id="hscodesubmit" type="button"
+                  class="btn btn-outline-primary btn-icon-text btn-center-align row">
+                  <i class="mdi mdi-file-check btn-icon-prepend" onclick="loadHsCodes(event)"></i>
+                  Get Result
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="errorMsg"> </div>
+    <div id="hs_freetext_search" class="col-md-12 grid-margin stretch-card">
+      <!-- free text search -->
+    </div>
+    <div class="card-body">
+      <div id="show_hscodes">
+        <!-- load country hscodes -->
+      </div>
+    </div>
+  </div>
+  </div>
+  <div id="popup-box" class="modal">
+    <div class="content">
+      <span class="box-close" onclick="closeModal()">
+        ×
+      </span>
+      <div id="searchHSN">
+        <!-- Show hsn form selection -->
+      </div>
+
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <footer class="footer">
+    <div class="card">
+      <div class="card-body footer-text">
+        <div class="d-sm-flex justify-content-center">
+          <span class="d-block text-center d-sm-inline-block">Copyright © 2023 IntGrow</span>
+
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("hscodesubmit").onclick = function () { loadHsCodes(event) };
+    document.addEventListener("DOMContentLoaded", function () {
+      document.body.classList.add("loaded");
+    });
+  </script>
+  <!-- base:js -->
+  <script src="vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="vendors/chart.js/Chart.min.js"></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/template.js"></script>
+  <!-- endinject -->
+  <!-- plugin js for this page -->
+  <!-- End plugin js for this page -->
+  <!-- Custom js for this page-->
+  <script src="js/dashboard.js"></script>
+  <!-- End custom js for this page-->
+
+</body>
+
+</html>
