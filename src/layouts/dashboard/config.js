@@ -4,44 +4,50 @@ import UserIcon from '@heroicons/react/24/solid/UserIcon';
 import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
 import ShieldCheckIcon from '@heroicons/react/24/solid/ShieldCheckIcon';
 import DocumentCheckIcon from '@heroicons/react/24/solid/DocumentCheckIcon';
+import HomeIcon from '@heroicons/react/24/solid/HomeIcon';
+import Squares2X2Icon from '@heroicons/react/24/outline/Squares2X2Icon';
+import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
+import CalculatorIcon from '@heroicons/react/24/solid/CalculatorIcon';
+import BanknotesIcon from '@heroicons/react/24/solid/BanknotesIcon';
+
 import { SvgIcon } from '@mui/material';
 
 export const items = [
   {
     title: 'Dashboard',
     path: '/',
-    // icon: (
-    //   <SvgIcon fontSize="small">
-    //     <ChartBarIcon />
-    //   </SvgIcon>
-    // )
+    icon: (
+      <SvgIcon fontSize="small">
+        <Squares2X2Icon />
+      </SvgIcon>
+    )
   },
   {
     title: 'HS Code Finder',
-    path: 'taxes.intgrow.co/hscodefinder.html',
-    // icon: (
-    //   <SvgIcon fontSize="small">
-    //     <UsersIcon />
-    //   </SvgIcon>
-    // )
+    path: '/hscodefinder',
+    icon: (
+      <SvgIcon fontSize="small">
+        <MagnifyingGlassIcon />
+      </SvgIcon>
+    )
   },
   {
     title: 'Duty Calculator',
-    path: 'taxes.intgrow.co/duty.html',
-    // icon: (
-    //   <SvgIcon fontSize="small">
-    //     <ShoppingBagIcon />
-    //   </SvgIcon>
-    // )
+    path: '/404',
+    icon: (
+      <SvgIcon fontSize="small">
+        <CalculatorIcon />
+      </SvgIcon>
+    )
   },
   {
     title: 'Duty Saver Pro',
     path: 'taxes.intgrow.co/fta.html',
-    // icon: (
-    //   <SvgIcon fontSize="small">
-    //     <UserIcon />
-    //   </SvgIcon>
-    // )
+    icon: (
+      <SvgIcon fontSize="small">
+        <BanknotesIcon />
+      </SvgIcon>
+    )
   },
   {
     title: 'Profile Settings',
@@ -94,6 +100,15 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <DocumentCheckIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Home Page',
+    path: '/home',
+    icon: (
+      <SvgIcon fontSize="small">
+        <HomeIcon />
       </SvgIcon>
     )
   }
