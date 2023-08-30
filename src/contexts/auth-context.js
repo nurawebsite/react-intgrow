@@ -184,9 +184,9 @@ export const AuthProvider = (props) => {
 
   const updateUserInfo = async (name) => {
     try {
-      const url = apis.register;
+      const url = apis.updateUser;
       const data = {
-        first_name: name
+        "first_name": name
       };
       const token = window.localStorage.getItem('access_token');
       const response = await fetch(url, {
@@ -198,8 +198,31 @@ export const AuthProvider = (props) => {
         body: JSON.stringify(data),
       });
 
-      const responseData = await response.json();
-      return responseData;
+      return response;
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const updatePassword = async (oldPassword,newPassword) => {
+    try {
+      const url = apis.changePassword;
+      const data = {
+        "old_password": oldPassword,
+        "new_password": newPassword
+      };
+      const token = window.localStorage.getItem('access_token');
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+      });
+
+      return response;
 
     } catch (error) {
       console.error('Error:', error);
@@ -214,7 +237,8 @@ export const AuthProvider = (props) => {
         signIn,
         signUp,
         signOut,
-        updateUserInfo
+        updateUserInfo,
+        updatePassword
       }}
     >
       {children}

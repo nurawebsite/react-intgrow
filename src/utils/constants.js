@@ -3,7 +3,9 @@ import jwt from 'jwt-decode';
 const apiEndpoint = "https://dev.intgrow.co/api/";
 const apis = {
     register: `${apiEndpoint}auth/signUp`,
-    login: `${apiEndpoint}auth/signIn`
+    login: `${apiEndpoint}auth/signIn`,
+    updateUser: `${apiEndpoint}auth/me`,
+    changePassword: `${apiEndpoint}auth/changePassword`
 };
 
 const HANDLERS = {
@@ -21,9 +23,22 @@ const getUsername = () => {
     return "";
 };
 
+const getUserData = () => {
+    const token = window.localStorage.getItem("access_token");
+    if (token) {
+        const userInfo = jwt(token);
+        return  {
+            name: userInfo.first_name,
+            email: userInfo.email
+        };
+    }
+    return {};
+};
+
 export {
     apiEndpoint,
     apis,
     HANDLERS,
-    getUsername
+    getUsername,
+    getUserData
 };

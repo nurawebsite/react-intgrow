@@ -11,17 +11,47 @@ import {
   Alert
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
+import { getUserData } from 'src/utils/constants';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 
 export const SettingsInfo = () => {
-  const [values, setValues] = useState({
-    first_name: 'Test',
-    email: 'test@test.com'
-  });
+  const [values, setValues] = useState(getUserData());
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const [response, setResponse] = useState(null);
+  const [data, setData] = useState(null);
 
   const auth = useAuth();
+
+  const formik = useFormik({
+    initialValues: {
+      submit: null
+    },
+    onSubmit: async (values, helpers) => {
+      setData(null);
+      try {
+        const response = await auth.updateUserInfo(values.name);
+        if (!response.ok) {
+          const responseData = await response.json();
+          const updateUserError = new Error(responseData.message || 'An error occurred');
+          updateUserError.status = response.status;
+          throw updateUserError;
+        }
+        const responseData = await response.json();
+        setData(responseData);
+        setError(null);
+        
+         Router.reload();
+       
+
+      } catch (err) {
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: err.message });
+        helpers.setSubmitting(false);
+      }
+    }
+  });
 
   const handleChange = useCallback(
     (event) => {
@@ -34,31 +64,9 @@ export const SettingsInfo = () => {
   );
 
 
-  const handleSubmit = async (values, handlers) => {
-    try {
-      const response = await auth.updateUserInfo(values.name);
-      setResponse(response);
-      Router.reload();
-      <Alert
-        color="primary"
-        severity="info"
-        sx={{ mt: 3 }}
-      >
-        <div>
-          Updated successfully.
-        </div>
-      </Alert>
-
-    } catch (err) {
-      helpers.setStatus({ success: false });
-      helpers.setErrors({ submit: err.message });
-      helpers.setSubmitting(false);
-    }
-  }
-
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <Card>
           <CardHeader
             subheader="Update your personal information"
@@ -72,10 +80,11 @@ export const SettingsInfo = () => {
               <TextField
                 fullWidth
                 label="Name"
-                name="first_name"
+                name="name"
                 onChange={handleChange}
                 type="text"
-                value={values.first_name}
+                value={values.name}
+                required
               />
               <TextField
                 fullWidth
@@ -91,26 +100,15 @@ export const SettingsInfo = () => {
             <Button
               variant="contained"
               type="submit"
-              onClick={handleSubmit}>
+              onClick={formik.handleSubmit}>
               Update Information
             </Button>
           </CardActions>
+          {data && data.message && <span style={{ color: 'blue' }}>{data.message}</span>}
           <Divider />
         </Card>
 
       </form>
-
-      {response && (
-        <Alert
-          color="primary"
-          severity="info"
-          sx={{ mt: 3 }}
-        >
-          <div>
-            Updated successfully.
-          </div>
-        </Alert>
-      )}
 
     </>
   );
