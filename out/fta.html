@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
   <script type="text/javascript" src="jsfiles/functions.js"></script>
   <script type="text/javascript" src="jsfiles/utils.js"></script>
+
   <!-- endinject -->
   <!-- inject:css -->
   <link rel="stylesheet" href="css/style.css">
@@ -21,20 +22,22 @@
 
   <!-- endinject -->
 
+  <!-- endinject -->
+
 </head>
 
 <body>
-  <script>loadCountryList(formPrefilledData); </script>
+  <script>loadCountryList()</script>
 
   <!-- Duty calculator form -->
   <div>
     <div class="banner-block">
       <img class="banner-img" src="assets/banner.png" alt="subscribe_banner" />
     </div>
-    <div class="col-sm-12 col-lg-12 col-md-12 grid-margin stretch-card" id="getdutyForm">
+    <div class="col-sm-12 col-lg-12 col-md-12 grid-margin stretch-card" id="getSaveDutyForm">
       <div class="card">
         <div class="">
-          <form class="forms-sample row" onsubmit="return getDuty()" id="myForm">
+          <form class="forms-sample row" onsubmit="return getSavedDuty()" id="myForm">
             <div class="row">
               <div class="col-12">
                 <span class="">STEP 1</span>
@@ -73,9 +76,9 @@
                 <span class="">STEP 2</span>
                 <h3 class="">Product Details</h3>
                 <div class="vertical-separator"></div>
-                <p class="body-subtitle">If you are unsure about the HS Code for your product, don't worry. You
-                  can utilize our HS Code finder tool, which will assist you in accurately classifying your
-                  product for both the exporting and importing countries
+                <p class="body-subtitle">If you are unsure about the HS Code for your product, don't worry. You can
+                  utilize our HS Code finder tool, which will assist you in accurately classifying your product for both
+                  the exporting and importing countries
                 </p>
               </div>
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
@@ -92,7 +95,7 @@
                       </button>
                     </div>
                   </div>
-
+                
                 </div>
               </div>
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
@@ -104,19 +107,15 @@
                   </select>
                 </div>
               </div>
-              <div class="form-group col-sm-12 col-md-4 col-lg-4">
+              <div class="form-group col-sm-12 col-md-3 col-lg-3">
                 <label for="productValue" class="col col-form-label">Value of Product</label>
                 <div class="btn-group col form-group-input">
-                  <input type="number" class="form-control form-control-lg" id="productValue"
-                    placeholder="Numbers only" />
+                  <input type="number" class="form-control form-control-lg" id="productValue" placeholder="Numbers only"
+                    autocomplete="off" />
                 </div>
               </div>
             </div>
-            <!-- <div class="box">
-                    <a href="#popup-box">
-                        Click to Open Popup Box !
-                    </a>
-                </div> -->
+
             <div id="popup-box" class="modal">
               <div class="content">
                 <span class="box-close" onclick="closeModal()">
@@ -155,28 +154,28 @@
                     <label for="originCharges" class="col col-form-label">Origin Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="number" class="form-control form-control-lg" id="originCharges"
-                        placeholder="Numbers only" autocomplete="off" />
+                        placeholder="Numbers only" />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="originFreight" class="col col-form-label">Origin Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="number" class="form-control form-control-lg" id="originFreight"
-                        placeholder="Numbers only" autocomplete="off" />
+                        placeholder="Numbers only" />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="exwIntFreight" class="col col-form-label">International Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="number" class="form-control form-control-lg" id="exwIntFreight"
-                        placeholder="Numbers only" autocomplete="off" />
+                        placeholder="Numbers only" />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="exwInsuranceCharges" class="col col-form-label">Insurance Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="number" class="form-control form-control-lg" id="exwInsuranceCharges"
-                        placeholder="Numbers only" autocomplete="off" />
+                        placeholder="Numbers only" />
                     </div>
                   </div>
                 </div>
@@ -187,14 +186,14 @@
                     <label for="cifIntFreight" class="col col-form-label">International Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="number" class="form-control form-control-lg" id="cifIntFreight"
-                        placeholder="Numbers only" autocomplete="off" />
+                        placeholder="Numbers only" />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-6 col-lg-6">
                     <label for="cifInsuranceCharges" class="col col-form-label">Insurance Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="number" class="form-control form-control-lg" id="cifInsuranceCharges"
-                        placeholder="Numbers only" autocomplete="off" />
+                        placeholder="Numbers only" />
                     </div>
                   </div>
                 </div>
@@ -205,14 +204,14 @@
                     <label for="fobIntFreight" class="col col-form-label">International Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="number" class="form-control form-control-lg" id="fobIntFreight"
-                        placeholder="Numbers only" autocomplete="off" />
+                        placeholder="Numbers only" />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-6 col-lg-6">
                     <label for="fobInsuranceCharges" class="col col-form-label">Insurance Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="number" class="form-control form-control-lg" id="fobInsuranceCharges"
-                        placeholder="Numbers only" autocomplete="off" />
+                        placeholder="Numbers only" />
                     </div>
                   </div>
                 </div>
@@ -233,7 +232,7 @@
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
               <button id="formsubmit" type="button" class="btn btn-outline-primary btn-icon-text btn-center-align">
-                <i class="mdi mdi-file-check btn-icon-prepend" onclick="getDuty(event)"></i>
+                <i class="mdi mdi-file-check btn-icon-prepend" onclick="getSavedDuty(event)"></i>
                 Calculate duty
               </button>
             </div>
@@ -248,12 +247,11 @@
         <!-- Display error -->
       </div>
     </div>
-    <div class="col-md-12">
-      <div class="row-msg row" id="getdutyDetails">
+    <div class="col-md-12 display-group">
+      <div class="row-msg" id="getSavedDutyDetails">
         <!-- get duty details -->
       </div>
     </div>
-
 
     <script>
       // formPrefilledData();
@@ -284,9 +282,11 @@
           fob.style.display = cif.style.display = exw.style.display = 'none';
         }
       });
-      document.getElementById("formsubmit").onclick = function () { getDuty(event) };
+      document.getElementById("formsubmit").onclick = function () { getSavedDuty(event) };
+
 
     </script>
+
   </div>
   <!-- Duty calculator form ends -->
 
@@ -295,6 +295,7 @@
   <!-- page-body-wrapper ends -->
   </div>
   </div>
+  <!-- container-scroller -->
   <footer class="footer">
     <div class="card">
       <div class="card-body footer-text">
@@ -317,14 +318,11 @@
       </div>
     </div>
   </footer>
-  <!-- container-scroller -->
-
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       document.body.classList.add("loaded");
     });
   </script>
-  <!-- base:js -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page-->
