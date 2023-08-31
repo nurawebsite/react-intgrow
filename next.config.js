@@ -11,6 +11,10 @@ module.exports = {
       destination: "/pages/getduty.js",
     },
     {
+      source: "/public/fta.html",
+      destination: "/pages/dutysaver.js",
+    },
+    {
       source: "/public/landingpage.html",
       destination: "/pages/home.js",
     },

@@ -33,7 +33,7 @@ export const items = [
   },
   {
     title: 'Duty Calculator',
-    path: '/404',
+    path: '/dutycalculator',
     icon: (
       <SvgIcon fontSize="small">
         <CalculatorIcon />
@@ -42,7 +42,7 @@ export const items = [
   },
   {
     title: 'Duty Saver Pro',
-    path: 'taxes.intgrow.co/fta.html',
+    path: '/dutysaver',
     icon: (
       <SvgIcon fontSize="small">
         <BanknotesIcon />

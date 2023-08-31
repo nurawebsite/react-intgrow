@@ -347,7 +347,7 @@ function displayGetDuty() {
     line += `<div class='col-sm-6 summary-label'> Mode of Transport: </div> <div class='col-sm-6 summary-value'> ${inputData.mode} </div>`;
     line += `<div class='col-sm-6 summary-label'> Import HSN: </div> <div class='col-sm-6 summary-value'> ${getDutyResponse.hscode} </div>`;
     line += `<div class='col-sm-6 summary-label'> Currency: </div> <div class='col-sm-6 summary-value'> ${cyn} </div>`;
-    line += `<div class='col-sm-6 summary-label'> Currency rate for ${cyn}: </div> <div class='col-sm-6 summary-value'> ${cynRate} </div>`;
+    line += `<div class='col-sm-6 summary-label'> Currency rate for ${cyn}: </div> <div class='col-sm-6 summary-value'> ${cynRate} ${impCurrency}</div>`;
     line += `<div class='col-sm-6 summary-label'> CIF Value: </div> <div class='col-sm-6 summary-value'> ${inputData.CIF} ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> Total Duty: </div> <div class='col-sm-6 summary-value'> ${totalDuty} ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> Total Landed Cost: </div> <div class='col-sm-6 summary-value'> ${getdutyTotal}  ${cyn}</div>`;
@@ -719,7 +719,7 @@ function displaySaveDuty() {
     shipmentSummary += `<div> Mode of Transport: <span>${inputData.mode}</span></div>`;
     shipmentSummary += `<div> Import HS Code: <span>${getDutyResponse.hscode}</span></div>`;
     shipmentSummary += `<div> Currency: <span>${cyn}</span></div>`;
-    shipmentSummary += `<div> Currency Rate for ${cyn}: <span>${cynRate}</span></div>`;
+    shipmentSummary += `<div> Currency Rate for ${cyn}: <span>${cynRate} ${impCurrency}</span></div>`;
     shipmentSummary += `<div> CIF Value: <span>${getDutyResponse.CIF} ${cyn}</span></div>`;
     shipmentSummary += `<div> Total Duty: <span>${currencyConvert(getDutyResponse.total)} ${cyn}</span></div>`;
     shipmentSummary += `<div> Total landed cost: <span>${landedCost}</span></div>`;
@@ -879,8 +879,8 @@ function displayHSTable(hscodesDisplay, impHSMap, expHSMap, importCountry, expor
     let hscodeHTML = "", imp_hsn, exp_hsn;
     if (impHSMap && impHSMap.length) {
         hscodeHTML = "<div class='row hstable-row'><div class='col-sm-6 hstable'>";
-        hscodeHTML += `<div class="hstable-body"><div class="hstable-title"> <span>HS Codes for ${getCountryId(importCountry, "label")} </span></div>`;
-        hscodeHTML += `<table class="hstable-data"><tr> <th> HSN </th> <th colspan='2'> Product Description </th> </tr>`
+        hscodeHTML += `<div class="hstable-body"><div class="hstable-title"> <span>HS Codes of ${getCountryId(importCountry, "label")} </span></div>`;
+        hscodeHTML += `<table class="hstable-data"><tr> <th> HS Code </th> <th colspan='2'> Product Description </th> </tr>`
         impHSMap.forEach(d => {
             hscodeHTML += `<tr> <td> ${d.value} </td> <td> ${d.label} </td><td><input type="radio" value="${d.value}" name="impHSCode" id="imp_hscode" onchange="enableBtn('${impHSMap}', '${expHSMap}','store_val')"></td></tr>`;
         });
@@ -889,8 +889,8 @@ function displayHSTable(hscodesDisplay, impHSMap, expHSMap, importCountry, expor
     }
     if (expHSMap && expHSMap.length) {
         hscodeHTML += "<div class='col-sm-6 hstable'>";
-        hscodeHTML += `<div class="hstable-body"><div class="hstable-title"> <span>HS Codes for ${getCountryId(exportCountry, "label")} </span></div>`;
-        hscodeHTML += `<table class="hstable-data"><tr> <th> HSN </th> <th colspan='2'> Product Description </th> </tr>`
+        hscodeHTML += `<div class="hstable-body"><div class="hstable-title"> <span>HS Codes of ${getCountryId(exportCountry, "label")} </span></div>`;
+        hscodeHTML += `<table class="hstable-data"><tr> <th> HS Code </th> <th colspan='2'> Product Description </th> </tr>`
         expHSMap.forEach(d => {
             hscodeHTML += `<tr> <td> ${d.value} </td> <td> ${d.label} </td><td><input type="radio" value="${d.value}" name="expHSCode" id="exp_hscode" onchange="enableBtn('${impHSMap}', '${expHSMap}','store_val')"></td></tr>`;
         });
