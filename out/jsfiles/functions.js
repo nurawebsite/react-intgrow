@@ -864,7 +864,7 @@ function storeHSValue(element, importCountry, exportCountry) {
         localStorage.setItem("imp", getCountryId(exportCountry, "label"));
     }
 
-    window.location.href = "duty.html";
+    window.location.href = "/dutycalculator";
 }
 
 function enableBtn(impHSMap, expHSMap, element) {
@@ -1005,9 +1005,9 @@ async function getCountryHSSearch(hscode, imp, formEle) {
     if (impHSMap && impHSMap.length) {
         hscodeHTML = "<div class='row hstable-row'><div class='col-sm-12 hstable'>";
         hscodeHTML += `<div class="hstable-body"><div class="hstable-title"> <span>HS Codes for ${getCountryId(imp, "label")} </span></div>`;
-        hscodeHTML += `<table class="hstable-data"><tr> <th> HSN </th> <th colspan='2'> Product Description </th> </tr>`
+        hscodeHTML += `<table class="hstable-data hstable-hsn-search"><tr> <th> HSN </th> <th colspan='2'> Product Description </th> </tr>`
         impHSMap.forEach(d => {
-            hscodeHTML += `<tr> <td> ${d.value} </td> <td> ${d.label} </td><td><input type="radio" value="${d.value}" name="impHSCode" id="imp_hscode" onclick="fillHSNSearch(this.value)"></td></tr>`;
+            hscodeHTML += `<tr> <td> ${d.value} </td> <td> ${d.label} </td><td><button type="radio" value="${d.value}" name="impHSCode" id="imp_hscode" onclick="fillHSNSearch(this.value)"></td></tr>`;
         });
         hscodeHTML += "</table></div></div>";
         imp_hsn = document.getElementById('imp_hscode');
@@ -1022,10 +1022,10 @@ function displayFreeHSSearch(hs_codes, importCountry, exportCountry, formEle = "
     if (hs_codes) {
         string = "<div class='row hstable-row'><div class='col-sm-11 hstable'>";
         string += `<div class="hsfree-text-body">`;
-        string += `<table class="hstable-data"><tr> <th colspan="2"> HSN </th> </tr>`;
+        string += `<table class="hstable-data hstable-hsn-search"><tr> <th colspan="2"> HS Codes </th> </tr>`;
         hs_codes.forEach(h => {
             let value = h.hs6.split(" -")[0];
-            string += `<tr> <td> ${h.hs6} </td> <td><input type="radio" value="${value}" onclick='getCountryHSCode("${h.hs6}","${importCountry}","${exportCountry}")' name="HSCode" id="hscode_select"></td></tr>`;
+            string += `<tr> <td> ${h.hs6} </td> <td><button class='btn btn-outline-primary btn-icon-text btn-center-align btn-select-hsn' type='button' onclick='getCountryHSCode("${h.hs6}","${importCountry}","${exportCountry}")' name="HSCode" id="hscode_select">Select</td></tr>`;
         });
         string += "</table></div></div></div>";
         hsFreeTextTable.innerHTML = string;
