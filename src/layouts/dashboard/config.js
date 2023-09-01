@@ -58,53 +58,9 @@ export const items = [
       </SvgIcon>
     )
   },
+  
   {
-    title: 'Login',
-    path: '/auth/login',
-    icon: (
-      <SvgIcon fontSize="small">
-        <LockClosedIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Register',
-    path: '/auth/register',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserPlusIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Subscription Plans',
-    path: '/subscriptions',
-    icon: (
-      <SvgIcon fontSize="small">
-        <CogIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Privacy Policy',
-    path: '/privacy',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ShieldCheckIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Terms & Conditions',
-    path: '/terms-conditions',
-    icon: (
-      <SvgIcon fontSize="small">
-        <DocumentCheckIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Home Page',
+    title: 'Home',
     path: '/home',
     icon: (
       <SvgIcon fontSize="small">

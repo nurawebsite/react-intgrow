@@ -610,7 +610,7 @@ function displaySaveDuty() {
                 htmlText += impCurrency != cyn ? `<td> ${totalPrecision} </td>` : "";
                 dutyData += `${htmlText} </tr></table></div></div>`;
             }
-            let savedAmt =  `<img class="thumbs-up-icon" src="images/thumbsup.png" alt="success">Congratulation you have saved ${integerToCurrency(savedDuty, impCurrency)} in above transaction if imported under ${ftaRule}`;
+            let savedAmt =  `<img class="thumbs-up-icon" src="assets/thumbsup.png" alt="success">Congratulation you have saved ${integerToCurrency(savedDuty, impCurrency)} in above transaction if imported under ${ftaRule}`;
             // let footnote_label = ftaLabel+"_f";
             let footnote_key = Object.keys(duty[0].dutyDetails[0]);
             dutyData += `<div class='col-sm-12 col-md-3 col-lg-3'><div id='rules${ftaLabel}' class='roo-table'>  </div>`;
@@ -685,7 +685,7 @@ function displaySaveDuty() {
             htmlText1 += impCurrency != cyn ? `<td> ${totalPrecision} </td>` : "";
             dutyData1 += `${htmlText1} </tr></table></div></div>`;
 
-            let savedAmt =  `<img class="thumbs-up-icon" src="images/thumbsdown.png" alt="nosave">None saved on duty under ${ftaRule}`;
+            let savedAmt =  `<img class="thumbs-up-icon" src="assets/thumbsdown.png" alt="nosave">None saved on duty under ${ftaRule}`;
             // let footnote_label = ftaLabel+"_f";
             let footnote_key = Object.keys(duty[0].dutyDetails[0]);
             dutyData1 += `<div class='col-sm-12 col-md-3 col-lg-3'><div id='rules${ftaLabel}' class='roo-table'>  </div>`;

@@ -899,6 +899,17 @@ input[type=number] {
   padding-left: 0;
   margin-left: 0;
 }
+
+.btn-select-hsn::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.btn-select-hsn {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 /* Style the datalist dropdown */
 /* datalist {
   width: 100%;
