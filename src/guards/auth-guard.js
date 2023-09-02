@@ -26,7 +26,7 @@ export const AuthGuard = (props) => {
       }
 
       ignore.current = true;
-      let isAuthenticated = window.sessionStorage.getItem("authenticated");
+      let isAuthenticated = window.localStorage.getItem("authenticated");
       if (!isAuthenticated) {
         console.log('Not authenticated, redirecting');
         router

@@ -318,7 +318,6 @@ input[type="text"]::-ms-input-placeholder {
 
 .btn {
   margin: 20px auto;
-  border-radius: 9px;
   background-color: rgba(14, 88, 141, 0.97);
   color: #fff;
 }

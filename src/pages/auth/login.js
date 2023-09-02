@@ -57,7 +57,7 @@ const Page = () => {
         }
 
         const responseData = await response.json();
-        window.sessionStorage.setItem('authenticated', 'true');
+        window.localStorage.setItem('authenticated', 'true');
         window.localStorage.setItem('access_token', responseData.result.token);
 
  
