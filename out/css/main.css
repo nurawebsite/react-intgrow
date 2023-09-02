@@ -318,7 +318,6 @@ input[type="text"]::-ms-input-placeholder {
 
 .btn {
   margin: 20px auto;
-  border-radius: 9px;
   background-color: rgba(14, 88, 141, 0.97);
   color: #fff;
 }
@@ -478,8 +477,9 @@ p {
 
 .content {
   position: absolute;
+  top: 10%;
   background: white;
-  width: 60%;
+  width: 80%;
   padding: 1em 2em;
   border-radius: 4px;
 }
@@ -879,7 +879,7 @@ select {
   text-overflow: '';
 }
 
-.form-hsn-browse {
+.position-absolute {
   position: absolute;
   top: 0;
   right: 0;
@@ -923,7 +923,6 @@ input[type=number] {
 ::-webkit-scrollbar-thumb:hover {
   background: black; 
 }
-
 /* .hstable::-webkit-scrollbar {
   display: none;
 }
