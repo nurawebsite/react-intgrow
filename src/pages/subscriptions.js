@@ -77,14 +77,15 @@ const Page = () => {
                 </Box>
             </Box >
             <Stack
-            sx={{
-                mt: 3
-            }}
+                sx={{
+                    mt: 3
+                }}
             >
 
-                <stripe-pricing-table pricing-table-id="prctbl_1NiJFqSFeGq1SuJxTPzzCwo3"
-                    publishable-key="pk_live_51Ni9DjSFeGq1SuJx9Z9zdgXFRB6sNdMRckE7Bm6hkXpd1dH9Bn0A3wTCcUuETbdC4iU0wQCI7DcCKQ90KeL6ScyA00yp7XmZxU">
+                <stripe-pricing-table pricing-table-id="prctbl_1NlT4ESFeGq1SuJx90RVzMWU"
+                    publishable-key="pk_test_51Ni9DjSFeGq1SuJxGPH0o06HX8AlUgXjehjnlgeEHhkSnOMRiQvEdNVXnnxLgRmGdDRJZYOCb7vfuk4INNL5CMIz00yJ8NjuvA">
                 </stripe-pricing-table>
+
             </Stack>
         </>
     );
