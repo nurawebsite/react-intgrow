@@ -433,7 +433,7 @@ function formRequest() {
     params["FOBVALUE"] = fobValue;
     cynDetail = currencyResponse && currencyResponse.find(c => c.country == params.cyn)
     cyn = cynDetail.currency || params.cyn;
-    params["CIFVALUE"] =  cifValue / cynDetail.value;
+    params["CIFVALUE"] = cifValue / cynDetail.value;
     otherData = {};
 
     urlInputResponse && urlInputResponse.forEach(val => {
@@ -610,7 +610,7 @@ function displaySaveDuty() {
                 htmlText += impCurrency != cyn ? `<td> ${totalPrecision} </td>` : "";
                 dutyData += `${htmlText} </tr></table></div></div>`;
             }
-            let savedAmt =  `<img class="thumbs-up-icon" src="assets/thumbsup.png" alt="success">Congratulation you have saved ${integerToCurrency(savedDuty, impCurrency)} in above transaction if imported under ${ftaRule}`;
+            let savedAmt = `<img class="thumbs-up-icon" src="assets/thumbsup.png" alt="success">Congratulation you have saved ${integerToCurrency(savedDuty, impCurrency)} in above transaction if imported under ${ftaRule}`;
             // let footnote_label = ftaLabel+"_f";
             let footnote_key = Object.keys(duty[0].dutyDetails[0]);
             dutyData += `<div class='col-sm-12 col-md-3 col-lg-3'><div id='rules${ftaLabel}' class='roo-table'>  </div>`;
@@ -685,7 +685,7 @@ function displaySaveDuty() {
             htmlText1 += impCurrency != cyn ? `<td> ${totalPrecision} </td>` : "";
             dutyData1 += `${htmlText1} </tr></table></div></div>`;
 
-            let savedAmt =  `<img class="thumbs-up-icon" src="assets/thumbsdown.png" alt="nosave">None saved on duty under ${ftaRule}`;
+            let savedAmt = `<img class="thumbs-up-icon" src="assets/thumbsdown.png" alt="nosave">None saved on duty under ${ftaRule}`;
             // let footnote_label = ftaLabel+"_f";
             let footnote_key = Object.keys(duty[0].dutyDetails[0]);
             dutyData1 += `<div class='col-sm-12 col-md-3 col-lg-3'><div id='rules${ftaLabel}' class='roo-table'>  </div>`;
@@ -808,7 +808,23 @@ function closeModal() {
     document.getElementById('popup-box').style.visibility = "hidden";
 }
 
-function findHSCode(ele = '') {
+async function findHSCode(ele = '') {
+    try {
+        ele = document.getElementById("hscode").value;
+        const response = await fetch(`${hostname}/api/hs_code/details?hs=${ele}`);
+
+        const data = await response.json();
+        if(!response.ok) {
+            console.log("Error in fetch hscode");
+            throw new Error('Error in fetch hscode');
+        }
+        return data;
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+}
+
+function findHSCode1(ele = '') {
     ele = document.getElementById("hscode").value;
     if ((ele.match(/^[0-9]+$/g) && ele.length > 1 && ele.length % 2 == 0) || (ele.match(/[a-zA-Z]+/g) && ele.length > 2)) {
         const hsDetailsUrl = `${hostname}/api/hs_code/details?hs=${ele}`;
@@ -1045,7 +1061,7 @@ async function loadHsCodes(event) {
 
     if (importCountry && importCountry.value && hscode && hscode.value) {
         if (hscode.value && (hscode.value.match(/^([a-zA-Z]+)/g)) || (hscode.value.match(/^([0-9]+$)/g) && hscode.value.length < 7)) {
-            findHSCode(hscode);
+            hsDetailsResponse = await findHSCode(hscode);
             if (hsDetailsResponse) {
                 document.getElementById('errorMsg').innerHTML = '';
                 displayFreeHSSearch(hsDetailsResponse, importCountry.value, exportCountry.value);
