@@ -298,9 +298,9 @@ function displayGetDuty() {
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class='col-hs col-form-label'>Exporting Country</span><input type='text' class='form-control form-control-lg' value='${expCountryLabel}' disabled> </div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div></div>`;
-    formDetails += `<div class='col-md-3 row align-center'>`;
-    formDetails += `<div class='col-md-7'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getDuty(event)'>Get Result</button></div>`;
-    formDetails += `<div class='col-md-5'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")'>Modify</button></div></div></div>`;
+    formDetails += `<div class='col-md-3 row align-center padding-zero position-absolute'>`;
+    formDetails += `<div class='col-md-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getDuty(event)'>Get Result</button></div>`;
+    formDetails += `<div class='col-md-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div></div>`;
 
     document.getElementById('export_country').value = expCountryLabel;
     const showGetDutyDetails = document.getElementById("getdutyDetails");
@@ -347,7 +347,7 @@ function displayGetDuty() {
     line += `<div class='col-sm-6 summary-label'> Mode of Transport: </div> <div class='col-sm-6 summary-value'> ${inputData.mode} </div>`;
     line += `<div class='col-sm-6 summary-label'> Import HSN: </div> <div class='col-sm-6 summary-value'> ${getDutyResponse.hscode} </div>`;
     line += `<div class='col-sm-6 summary-label'> Currency: </div> <div class='col-sm-6 summary-value'> ${cyn} </div>`;
-    line += `<div class='col-sm-6 summary-label'> Currency rate for ${cyn}: </div> <div class='col-sm-6 summary-value'> ${cynRate} ${impCurrency}</div>`;
+    line += `<div class='col-sm-6 summary-label'> Currency rate for 1 ${cyn}: </div> <div class='col-sm-6 summary-value'> ${cynRate} ${impCurrency}</div>`;
     line += `<div class='col-sm-6 summary-label'> CIF Value: </div> <div class='col-sm-6 summary-value'> ${inputData.CIF} ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> Total Duty: </div> <div class='col-sm-6 summary-value'> ${totalDuty} ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> Total Landed Cost: </div> <div class='col-sm-6 summary-value'> ${getdutyTotal}  ${cyn}</div>`;
@@ -543,9 +543,9 @@ function displaySaveDuty() {
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div> </div>`;
 
-    formDetails += `<div class='col-sm-3 row align-center'>`;
-    formDetails += `<div class='col-sm-6'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getSavedDuty(event)'>Get Result</button></div>`;
-    formDetails += `<div class='col-sm-6'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails")'>Modify</button></div></div></div>`;
+    formDetails += `<div class='col-sm-3 row align-center padding-zero position-absolute'>`;
+    formDetails += `<div class='col-sm-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getSavedDuty(event)'>Get Result</button></div>`;
+    formDetails += `<div class='col-sm-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails") title='Click to modify Shipping information.'>Modify</button></div></div></div>`;
 
     // document.querySelector('#export_country').value = expLabel.value;
     // document.getElementById('cyn').value = cyn;
