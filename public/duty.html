@@ -80,12 +80,14 @@
               </div>
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <div class="row hsn-form">
-                  <label for="hscode" class="col col-form-label col-sm-12 col-md-12 col-lg-9">HS code</label>
+                  <label for="hscode" class="col col-form-label col-sm-12 col-md-12 col-lg-9">HS code
+                    <span class="hscode-browse-subtext body-subtitle">(*only numeric values allowed.)</span>
+                  </label>
                   <div class="btn-group col form-group-input col-sm-12 col-md-12 col-lg-12">
                     <input type="text" class="form-control form-control-lg" pattern="[0-9]+[a-zA-Z]*" required
                       id="hscode" oninput="getUserInput()" placeholder="Enter HS Code here" autocomplete="off" />
                     <div class="position-absolute">
-                      <button id="findHSN" type="button"
+                      <button id="findHSN" type="button" title="Please click to locate the destination country's specific HS Code."
                         class="btn btn-outline-primary btn-icon-text btn-center-align btn-find-hsn"
                         onclick="searchHSCode()">
                         Browse
@@ -107,8 +109,8 @@
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="productValue" class="col col-form-label">Value of Product</label>
                 <div class="btn-group col form-group-input">
-                  <input type="text" class="form-control form-control-lg" id="productValue"
-                    placeholder="Numbers only"  pattern="[0-9]{1,}"/>
+                  <input type="text" class="form-control form-control-lg" id="productValue" placeholder="Numbers only"
+                    pattern="[0-9]{1,}" />
                 </div>
               </div>
             </div>
@@ -128,7 +130,7 @@
 
               </div>
             </div>
-            <div id="user_input" class="row">
+            <div id="user_input" class="row col-12 padding-zero">
               <!-- load user inputs here -->
             </div>
 
@@ -155,21 +157,21 @@
                     <label for="originCharges" class="col col-form-label">Origin Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="originCharges"
-                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]{1,}"/>
+                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]{1,}" />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="originFreight" class="col col-form-label">Origin Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="originFreight"
-                        placeholder="Numbers only" autocomplete="off"  pattern="[0-9]{1,}"/>
+                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]{1,}" />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="exwIntFreight" class="col col-form-label">International Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="exwIntFreight"
-                        placeholder="Numbers only" autocomplete="off"  pattern="[0-9]{1,}"/>
+                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]{1,}" />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -320,7 +322,16 @@
   <!-- container-scroller -->
 
   <script>
+    console.log("---script-----");
     document.addEventListener("DOMContentLoaded", function () {
+      const optionElements = document.querySelectorAll('option');
+      console.log("element => ", optionElements);
+      Array.from(optionElements).forEach(element => {
+        if (element.textContent.length > 35) {
+          element.textContent =
+            element.textContent.slice(0, 35) + '...';
+        }
+      });
       document.body.classList.add("loaded");
     });
   </script>
