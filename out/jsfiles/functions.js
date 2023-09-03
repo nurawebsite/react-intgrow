@@ -1,4 +1,4 @@
-let urlInputResponse, currencyResponse, countryListResponse, cyn, impCurrency, cynRate;
+let urlInputResponse, currencyResponse, countryListResponse, cyn, impCurrency, cynRate, params;
 let hsDetailsResponse, impcountryHSResponse, expcountryHSResponse, rulesResponse, footnoteResponse;
 let getDutyResponse = saveDutyResponse = {}, inputData = other_params = {}, showSaveDutyDetails = "";
 let importCountrySummary = exportCountrySummary = transportModeSummary = hscodeSummary = hscodeDescSummary = currencyDescSummary = null;
@@ -70,9 +70,7 @@ function displayUserInputs(userInputFields) {
         let type = attr.type ? attr.type : "none";
         userFields += "<div class='form-group col-sm-4'>";
         userFields += `<label for="${attr.field}" class="col col-form-label"> ${attr.label} `;
-        if (attr.pre_fix) {
-            userFields += `<span class="userinput-align">(in ${attr.pre_fix})</span>`;
-        }
+
         userFields += `</label><div class="btn-group col">`;
         switch (type) {
             case "none":
@@ -89,6 +87,9 @@ function displayUserInputs(userInputFields) {
                 });
                 userFields += "</select>";
                 break;
+        }
+        if (attr.pre_fix) {
+            userFields += `<span class="userinput-align">(in ${attr.pre_fix})</span>`;
         }
         userFields += "</div></div>";
     });
@@ -300,7 +301,8 @@ function displayGetDuty() {
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div></div>`;
     formDetails += `<div class='col-md-3 row align-center padding-zero position-absolute'>`;
     formDetails += `<div class='col-md-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getDuty(event)'>Get Result</button></div>`;
-    formDetails += `<div class='col-md-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div></div>`;
+    formDetails += `<div class='col-md-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div>`;
+    formDetails += `<span class='col-12 result-top-info'>Please click on the "Modify" button to change Exporting Country, Currency, and Value of Products for faster results.</span></div>`;
 
     document.getElementById('export_country').value = expCountryLabel;
     const showGetDutyDetails = document.getElementById("getdutyDetails");
@@ -313,7 +315,7 @@ function displayGetDuty() {
     let line = "";
     if (dutyDetailsDesc.length > 0) {
         line += `<div class='row display-group duty-block'><div class='col-sm-12 col-md-8 row duty-table'>`;
-        line += `<div class='col-sm-12'><table class="duty-details"><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
+        line += `<div class='col-sm-12'><div class='duty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div><table class="duty-details"><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
         line += impCurrency != cyn ? `<th>Duty Amount<br>(in ${cyn})</th>` : "";
         line += "</tr>";
 
@@ -348,6 +350,16 @@ function displayGetDuty() {
     line += `<div class='col-sm-6 summary-label'> Import HSN: </div> <div class='col-sm-6 summary-value'> ${getDutyResponse.hscode} </div>`;
     line += `<div class='col-sm-6 summary-label'> Currency: </div> <div class='col-sm-6 summary-value'> ${cyn} </div>`;
     line += `<div class='col-sm-6 summary-label'> Currency rate for 1 ${cyn}: </div> <div class='col-sm-6 summary-value'> ${cynRate} ${impCurrency}</div>`;
+    line += `<div class='col-sm-6 summary-label'> CIF Value: </div> <div class='col-sm-6 summary-value'> ${inputData.CIF} ${cyn}</div>`;
+
+    let insuranceCharge = params.exwInsuranceCharges || params.cifInsuranceCharges || params.fobInsuranceCharges || 0;
+    let internationalFreight = params.exwIntFreight || params.cifIntFreight || params.fobIntFreight || 0;
+    line += `<div class='col-sm-6 summary-label'> Inco Term: </div> <div class='col-sm-6 summary-value'> ${params.inco_term}</div>`;
+    line += params.exwInsuranceCharges ? `<div class='col-sm-6 summary-label'> Origin Charges: </div> <div class='col-sm-6 summary-value'> ${params.exwInsuranceCharges}</div>` : '';
+    line += params.exwIntFreight ? `<div class='col-sm-6 summary-label'> Origin Freight: </div> <div class='col-sm-6 summary-value'> ${params.exwIntFreight}</div>` : '';
+    line += `<div class='col-sm-6 summary-label'> International Freight: </div> <div class='col-sm-6 summary-value'> ${internationalFreight}</div>`;
+    line += `<div class='col-sm-6 summary-label'> Insurance Charges: </div> <div class='col-sm-6 summary-value'> ${insuranceCharge}</div>`;
+
     line += `<div class='col-sm-6 summary-label'> CIF Value: </div> <div class='col-sm-6 summary-value'> ${inputData.CIF} ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> Total Duty: </div> <div class='col-sm-6 summary-value'> ${totalDuty} ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> Total Landed Cost: </div> <div class='col-sm-6 summary-value'> ${getdutyTotal}  ${cyn}</div>`;
@@ -387,7 +399,7 @@ function formRequest() {
     totalDutySummary = document.getElementById('total_duty_summary');
     totalCostSummary = document.getElementById('total_cost_summary');
 
-    var params = {};
+    params = {};
     var y = document.getElementById("myForm");
     for (var i = 0; i < y.elements.length; i++) {
         var fieldName = y.elements[i].id;
@@ -451,13 +463,15 @@ function formRequest() {
         ...otherData
     };
 
+    const tokenData = window.localStorage.getItem("access_token") || "EAALlsF27TkEBAPFq6ow61SOkPt3Gg1LqAlkKtoZCsFPP3q3KkOgmXqiDpDyyeMAwxJbTB3k56bkliVcXvXjoZC0GcIMpIEXDjgDf3UGgT4USdVPu1SbVQMHJbssuvjZA5mLhJemWfnttFXRtfuUv5PiaZAeZAB7ZBWql4JCZBAhE71QalEqi78vUFZA5ILIFfv0vAbXFmAM8TkdaKsvvOqCzcZAlUYqXj4T0ZD";
+    const token = `Bearer ${tokenData}`;
     other_params = {
         headers: {
             "Content-type": "application/json",
             "Access-Control-Allow-Origin": "*",
             "Origin": "localhost:3000",
-            "Authorization": "Bearer EAALlsF27TkEBAPFq6ow61SOkPt3Gg1LqAlkKtoZCsFPP3q3KkOgmXqiDpDyyeMAwxJbTB3k56bkliVcXvXjoZC0GcIMpIEXDjgDf3UGgT4USdVPu1SbVQMHJbssuvjZA5mLhJemWfnttFXRtfuUv5PiaZAeZAB7ZBWql4JCZBAhE71QalEqi78vUFZA5ILIFfv0vAbXFmAM8TkdaKsvvOqCzcZAlUYqXj4T0ZD",
-            "x-access-token": "EAALlsF27TkEBAPFq6ow61SOkPt3Gg1LqAlkKtoZCsFPP3q3KkOgmXqiDpDyyeMAwxJbTB3k56bkliVcXvXjoZC0GcIMpIEXDjgDf3UGgT4USdVPu1SbVQMHJbssuvjZA5mLhJemWfnttFXRtfuUv5PiaZAeZAB7ZBWql4JCZBAhE71QalEqi78vUFZA5ILIFfv0vAbXFmAM8TkdaKsvvOqCzcZAlUYqXj4T0ZD"
+            "Authorization": token,
+            "x-access-token": tokenData
         },
         body: JSON.stringify(inputData),
         method: "POST",
@@ -542,7 +556,6 @@ function displaySaveDuty() {
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class='col-hs col-form-label'>Exporting Country</span><input type='text' class='form-control form-control-lg' value='${expCountryLabel}' disabled> </div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div> </div>`;
-
     formDetails += `<div class='col-sm-3 row align-center padding-zero position-absolute'>`;
     formDetails += `<div class='col-sm-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getSavedDuty(event)'>Get Result</button></div>`;
     formDetails += `<div class='col-sm-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails") title='Click to modify Shipping information.'>Modify</button></div></div></div>`;
@@ -593,13 +606,14 @@ function displaySaveDuty() {
                 });
 
                 let savedConvertPrice = savedDuty ? currencyConvert(savedDuty) : 0;
-                let categories = `Save ${integerToCurrency(savedDuty, impCurrency)} ( ${integerToCurrency(savedConvertPrice, cyn)} ) Landing cost <div class='saveduty-fta-ruletext'>with ${ftaRule}</div>`;
+                let categories = `Save ${integerToCurrency(savedDuty, impCurrency)} ( ${integerToCurrency(savedConvertPrice, cyn)} ) Landing cost`;
 
                 var line = `<div><div class='row display-group duty-block'>`;
                 line += `<div class="col-sm-12 save-duty-heading"><a class="nav-link save-duty-title" data-toggle="collapse" href="#index${index}" aria-expanded="false" aria-controls="index${index}">`;
                 line += `<span class="menu-title">${categories}</span><i class="menu-arrow-duty"></i></a></div>`;
                 line += `<div class='collapse row' id=index${index}><div class='col-sm-12 col-md-9 col-lg-9'>`;
                 line += `<div class='col-sm-12'>`;
+                line += `<div class='duty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
                 line += `<table class='duty-details'><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
                 line += impCurrency != cyn ? `<th>Duty Amount<br>(in ${cyn})</th>` : "";
                 line += "</tr>";
@@ -610,7 +624,7 @@ function displaySaveDuty() {
                 htmlText += impCurrency != cyn ? `<td> ${totalPrecision} </td>` : "";
                 dutyData += `${htmlText} </tr></table></div></div>`;
             }
-            let savedAmt = `<img class="thumbs-up-icon" src="assets/thumbsup.png" alt="success">Congratulation you have saved ${integerToCurrency(savedDuty, impCurrency)} in above transaction if imported under ${ftaRule}`;
+            let savedAmt = `<img class="thumbs-up-icon" src="assets/thumbsup.png" alt="success">Congratulation you have saved ${integerToCurrency(savedDuty, impCurrency)} in above transaction if imported under ${ftaRule} against the normal Import Duty of ${integerToCurrency(getDutyTotal, impCurrency)} from Duty Calculator.`;
             // let footnote_label = ftaLabel+"_f";
             let footnote_key = Object.keys(duty[0].dutyDetails[0]);
             dutyData += `<div class='col-sm-12 col-md-3 col-lg-3'><div id='rules${ftaLabel}' class='roo-table'>  </div>`;
@@ -675,6 +689,7 @@ function displaySaveDuty() {
             let savedConvertPrice = savedDuty ? currencyConvert(savedDuty) : 0;
             let line1 = `<div class='row'><div class='col-sm-12 col-md-9 col-lg-9'>`;
             line1 += `<div class='col-sm-12'>`;
+            line1 += `<div class='duty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
             line1 += `<table class='duty-details'><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
             line1 += impCurrency != cyn ? `<th>Duty Amount<br>(in ${cyn})</th>` : "";
             line1 += "</tr>";
@@ -685,7 +700,7 @@ function displaySaveDuty() {
             htmlText1 += impCurrency != cyn ? `<td> ${totalPrecision} </td>` : "";
             dutyData1 += `${htmlText1} </tr></table></div></div>`;
 
-            let savedAmt = `<img class="thumbs-up-icon" src="assets/thumbsdown.png" alt="nosave">None saved on duty under ${ftaRule}`;
+            let savedAmt = `<img class="thumbs-up-icon" src="assets/thumbsdown.png" alt="nosave">Sorry you haven't saved duty under ${ftaRule} and you may have to pay ${integerToCurrency(getDutyTotal, impCurrency)} from Duty Calculator.`;
             // let footnote_label = ftaLabel+"_f";
             let footnote_key = Object.keys(duty[0].dutyDetails[0]);
             dutyData1 += `<div class='col-sm-12 col-md-3 col-lg-3'><div id='rules${ftaLabel}' class='roo-table'>  </div>`;
@@ -790,14 +805,15 @@ function searchHSCode() {
     document.getElementById('popup-box').style.display = "flex";
 
     let searchHSForm = document.getElementById("searchHSN");
-    if (!impCountry) {
+    if (!impCountry || impCountry == 'Select country') {
         string = `<div class='row'><span> Select import country to continue</span></div>`;
     }
     else
         if (impCountry) {
             string = `<div class="row modal-body"> `;
-            string += `<div class="col col-sm-9"><input type="text" class="form-control form-control-lg" id="search-hscode" placeholder="Enter product name or HS code here..." aria-label="search"></div>`;
-            string += `<button id="hscodesubmit" type="button" class="btn btn-outline-primary btn-icon-text btn-center-align col-sm-3 modal-btn" onclick="getHSNSearch('${impCountry}', 'hs_search_result')"> Get Result</button>`;
+            string += `<div class="col-sm-12 padding-down"> Please enter the product name or at least HS 2, 4, 6 digit of HS codes. </div>`;
+            string += `<div class="col col-sm-9 padding-down"><input type="text" class="form-control form-control-lg" id="search-hscode" placeholder="Enter product name or HS code here..." aria-label="search"></div>`;
+            string += `<button id="hscodesubmit" type="button" class="btn btn-outline-primary btn-icon-text btn-center-align col-sm-3 modal-btn btn-hscode-result" onclick="getHSNSearch('${impCountry}', 'hs_search_result')"> Get Result</button>`;
             string += `<div class="col-sm-12" id="hs_search_result"></div> </div></div>`;
         }
 
@@ -814,7 +830,7 @@ async function findHSCode(ele = '') {
         const response = await fetch(`${hostname}/api/hs_code/details?hs=${ele}`);
 
         const data = await response.json();
-        if(!response.ok) {
+        if (!response.ok) {
             console.log("Error in fetch hscode");
             throw new Error('Error in fetch hscode');
         }

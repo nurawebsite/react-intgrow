@@ -923,37 +923,34 @@ input[type=number] {
 ::-webkit-scrollbar-thumb:hover {
   background: black; 
 }
-/* .hstable::-webkit-scrollbar {
-  display: none;
+
+
+.hscode-browse-subtext{
+  font-size: 11px;
+  color: grey;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-/* .hstable {
-  -ms-overflow-style: none;  / IE and Edge /
-  scrollbar-width: none;  / Firefox /
-} */ 
+select {
+  width: 100px;
+}
 
+select option {
+  width: 50px;
+}
 
-/* Style the datalist dropdown */
-/* datalist {
-  width: 100%;
-  overflow: clip auto;
-  display: none; /* Hide the default dropdown arrow */
-/* position: absolute;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  max-height: 16rem;
-} */
+.padding-down {
+  padding-bottom: 12px;
+}
 
-/* Style the datalist options */
-/* datalist option {
-  padding: 6px 12px;
-  cursor: pointer;
-} */
+.btn-hscode-result {
+  margin-bottom: 12px;
+}
+.result-top-info{
+  font-size: 14px;
+  margin-top: -10px;
+  margin-left: 16px;
+}
 
-/* Show the datalist dropdown when the input is focused */
-/* input[type="text"]:focus + datalist {
-  display: block;
-} */
-
+.duty-details-heading {
+  margin: 32px 10px -10px;
+}
