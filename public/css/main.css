@@ -881,8 +881,11 @@ select {
 
 .position-absolute {
   position: absolute;
-  top: 0;
   right: 0;
+}
+
+.position-absolute-top {
+  top: 0;
 }
 
 input::-webkit-outer-spin-button,

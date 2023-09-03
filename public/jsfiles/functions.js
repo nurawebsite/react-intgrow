@@ -168,7 +168,7 @@ function currencyConvert(val) {
     let total = 0;
     currencyResponse.forEach(c => {
         if (c.country === cyn || c.currency === cyn) {
-            total = val * c.value;
+            total = val / c.value;
             cynRate = !cynRate ? c.value : cynRate;
         }
     });
@@ -442,10 +442,11 @@ function formRequest() {
     }
 
 
-    params["FOBVALUE"] = fobValue;
+    
     cynDetail = currencyResponse && currencyResponse.find(c => c.country == params.cyn)
     cyn = cynDetail.currency || params.cyn;
-    params["CIFVALUE"] = cifValue / cynDetail.value;
+    params["CIFVALUE"] = params["CIF"] = cifValue * cynDetail.value;
+    params["FOBVALUE"] = fobValue * cynDetail.value;
     otherData = {};
 
     urlInputResponse && urlInputResponse.forEach(val => {
@@ -558,7 +559,7 @@ function displaySaveDuty() {
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div> </div>`;
     formDetails += `<div class='col-sm-3 row align-center padding-zero position-absolute'>`;
     formDetails += `<div class='col-sm-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getSavedDuty(event)'>Get Result</button></div>`;
-    formDetails += `<div class='col-sm-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails") title='Click to modify Shipping information.'>Modify</button></div></div></div>`;
+    formDetails += `<div class='col-sm-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails")' title='Click to modify Shipping information.>Modify</button></div></div></div>`;
 
     // document.querySelector('#export_country').value = expLabel.value;
     // document.getElementById('cyn').value = cyn;
