@@ -183,7 +183,7 @@ function displayOriginRules(ftaIds) {
             let rule = ftaIds.find(f => f == r.rule);
             let rulesHTML = document.getElementById(`rules${rule}`);
             if (r && r.criteria && r.criteria.toLowerCase() != 'not applicable' && rule) {
-                string = "<div class='col-sm-12 col-md-12 col-lg-12 padding-zero'>";
+                string = "<div class='col-sm-12 col-md-12 col-lg-12 padding-left-zero'>";
                 string += `<table class='roo-table-data'>`;
                 string += `<tr><th colspan='2'>Rules Of Origin</th></tr>`;
                 string += `<tr><td><span class="rules-label"> RoO Criteria </span></td><td> ${r.criteria}</td></tr>`;
@@ -299,9 +299,9 @@ function displayGetDuty() {
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class='col-hs col-form-label'>Exporting Country</span><input type='text' class='form-control form-control-lg' value='${expCountryLabel}' disabled> </div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div></div>`;
-    formDetails += `<div class='col-md-3 row align-center padding-zero position-absolute'>`;
-    formDetails += `<div class='col-md-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getDuty(event)'>Get Result</button></div>`;
-    formDetails += `<div class='col-md-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div>`;
+    formDetails += `<div class='col-md-3 row align-center padding-left-zero position-absolute'>`;
+    formDetails += `<div class='col-md-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getDuty(event)'>Get Result</button></div>`;
+    formDetails += `<div class='col-md-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div>`;
     formDetails += `<span class='col-12 result-top-info'>Please click on the "Modify" button to change Exporting Country, Currency, and Value of Products for faster results.</span></div>`;
 
     document.getElementById('export_country').value = expCountryLabel;
@@ -557,9 +557,9 @@ function displaySaveDuty() {
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class='col-hs col-form-label'>Exporting Country</span><input type='text' class='form-control form-control-lg' value='${expCountryLabel}' disabled> </div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div> </div>`;
-    formDetails += `<div class='col-sm-3 row align-center padding-zero position-absolute'>`;
-    formDetails += `<div class='col-sm-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getSavedDuty(event)'>Get Result</button></div>`;
-    formDetails += `<div class='col-sm-6 padding-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails")' title='Click to modify Shipping information.>Modify</button></div></div></div>`;
+    formDetails += `<div class='col-sm-3 row align-center padding-left-zero position-absolute'>`;
+    formDetails += `<div class='col-sm-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getSavedDuty(event)'>Get Result</button></div>`;
+    formDetails += `<div class='col-sm-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails")' title='Click to modify Shipping information.>Modify</button></div></div></div>`;
 
     // document.querySelector('#export_country').value = expLabel.value;
     // document.getElementById('cyn').value = cyn;

@@ -62,7 +62,7 @@ const Page = () => {
                                 left: 0
                             }}
                         >
-                            <svg width="100vw" height="25vh" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="100vw" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                 <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g id="Apple-TV" transform="translate(0.000000, -402.000000)" fill="#FFFFFF">
                                         <path
