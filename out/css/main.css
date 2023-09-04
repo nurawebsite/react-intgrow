@@ -299,6 +299,7 @@ input[type="text"]::-ms-input-placeholder {
 
 .row {
   margin: 0;
+  width: 100%;
 }
 
 .row-msg {
@@ -553,8 +554,17 @@ p {
   padding: 10px 0;
 }
 
-.padding-zero {
+.padding-left-zero {
   padding: 0;
+}
+
+.padding-right-zero {
+  padding-right: 0;
+  margin-right: 0;
+}
+
+.padding-down {
+  padding-right: 0;
 }
 
 .navbar {
@@ -901,7 +911,7 @@ input[type=number] {
   text-align: center;
 }
 
-.padding-zero {
+.padding-left-zero {
   padding-left: 0;
   margin-left: 0;
 }
