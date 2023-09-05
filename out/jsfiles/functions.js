@@ -1,4 +1,4 @@
-let urlInputResponse, currencyResponse, countryListResponse, cyn, impCurrency, cynRate, params;
+let urlInputResponse, currencyResponse, countryListResponse, cyn, impCurrency, cynRate, params, authHeaders;
 let hsDetailsResponse, impcountryHSResponse, expcountryHSResponse, rulesResponse, footnoteResponse;
 let getDutyResponse = saveDutyResponse = {}, inputData = other_params = {}, showSaveDutyDetails = "";
 let importCountrySummary = exportCountrySummary = transportModeSummary = hscodeSummary = hscodeDescSummary = currencyDescSummary = null;
@@ -12,6 +12,19 @@ const countryUrl = `${hostname}/api/country/search`;
 
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
+}
+
+function setHeaders() {
+    const tokenData = window.localStorage.getItem("access_token") || "EAALlsF27TkEBAPFq6ow61SOkPt3Gg1LqAlkKtoZCsFPP3q3KkOgmXqiDpDyyeMAwxJbTB3k56bkliVcXvXjoZC0GcIMpIEXDjgDf3UGgT4USdVPu1SbVQMHJbssuvjZA5mLhJemWfnttFXRtfuUv5PiaZAeZAB7ZBWql4JCZBAhE71QalEqi78vUFZA5ILIFfv0vAbXFmAM8TkdaKsvvOqCzcZAlUYqXj4T0ZD";
+    const token = `Bearer ${tokenData}`;
+
+    authHeaders = {
+        "Content-type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Origin": window.location.hostname,
+        "Authorization": token,
+        "x-access-token": tokenData
+    }
 }
 
 function loadData(cynLoad = true) {
@@ -388,6 +401,9 @@ function expandFootnote(btnEle, data) {
 }
 
 function formRequest() {
+
+    setHeaders();
+
     //summary block
     importCountrySummary = document.getElementById('import_name_summary');
     exportCountrySummary = document.getElementById('export_name_summary');
@@ -441,8 +457,6 @@ function formRequest() {
             exwValue = fobValue - (fobIntFreight + fobInsuranceCharges);
     }
 
-
-    
     cynDetail = currencyResponse && currencyResponse.find(c => c.country == params.cyn)
     cyn = cynDetail.currency || params.cyn;
     params["CIFVALUE"] = params["CIF"] = cifValue * cynDetail.value;
@@ -464,16 +478,8 @@ function formRequest() {
         ...otherData
     };
 
-    const tokenData = window.localStorage.getItem("access_token") || "EAALlsF27TkEBAPFq6ow61SOkPt3Gg1LqAlkKtoZCsFPP3q3KkOgmXqiDpDyyeMAwxJbTB3k56bkliVcXvXjoZC0GcIMpIEXDjgDf3UGgT4USdVPu1SbVQMHJbssuvjZA5mLhJemWfnttFXRtfuUv5PiaZAeZAB7ZBWql4JCZBAhE71QalEqi78vUFZA5ILIFfv0vAbXFmAM8TkdaKsvvOqCzcZAlUYqXj4T0ZD";
-    const token = `Bearer ${tokenData}`;
     other_params = {
-        headers: {
-            "Content-type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Origin": "localhost:3000",
-            "Authorization": token,
-            "x-access-token": tokenData
-        },
+        authHeaders,
         body: JSON.stringify(inputData),
         method: "POST",
     };
@@ -908,24 +914,24 @@ function enableBtn(impHSMap, expHSMap, element) {
     }
 }
 
-function displayHSTable(hscodesDisplay, impHSMap, expHSMap, importCountry, exportCountry) {
+function displayHSTable(hscodesDisplay, HSMap, importCountry, exportCountry) {
     let hscodeHTML = "", imp_hsn, exp_hsn;
-    if (impHSMap && impHSMap.length) {
+    if (HSMap && HSMap.import && HSMap.import.length) {
         hscodeHTML = "<div class='row hstable-row'><div class='col-sm-6 hstable'>";
         hscodeHTML += `<div class="hstable-body"><div class="hstable-title"> <span>HS Codes of ${getCountryId(importCountry, "label")} </span></div>`;
         hscodeHTML += `<table class="hstable-data"><tr> <th> HS Code </th> <th colspan='2'> Product Description </th> </tr>`
-        impHSMap.forEach(d => {
-            hscodeHTML += `<tr> <td> ${d.value} </td> <td> ${d.label} </td><td><input type="radio" value="${d.value}" name="impHSCode" id="imp_hscode" onchange="enableBtn('${impHSMap}', '${expHSMap}','store_val')"></td></tr>`;
+        HSMap.import.forEach(d => {
+            hscodeHTML += `<tr> <td> ${d.value} </td> <td> ${d.label} </td><td><input type="radio" value="${d.value}" name="impHSCode" id="imp_hscode" onchange="enableBtn('${HSMap}', '${HSMap}','store_val')"></td></tr>`;
         });
         hscodeHTML += "</table></div></div>";
         imp_hsn = document.getElementById('imp_hscode');
     }
-    if (expHSMap && expHSMap.length) {
+    if (HSMap && HSMap.export && HSMap.export.length) {
         hscodeHTML += "<div class='col-sm-6 hstable'>";
         hscodeHTML += `<div class="hstable-body"><div class="hstable-title"> <span>HS Codes of ${getCountryId(exportCountry, "label")} </span></div>`;
         hscodeHTML += `<table class="hstable-data"><tr> <th> HS Code </th> <th colspan='2'> Product Description </th> </tr>`
-        expHSMap.forEach(d => {
-            hscodeHTML += `<tr> <td> ${d.value} </td> <td> ${d.label} </td><td><input type="radio" value="${d.value}" name="expHSCode" id="exp_hscode" onchange="enableBtn('${impHSMap}', '${expHSMap}','store_val')"></td></tr>`;
+        HSMap.export.forEach(d => {
+            hscodeHTML += `<tr> <td> ${d.value} </td> <td> ${d.label} </td><td><input type="radio" value="${d.value}" name="expHSCode" id="exp_hscode" onchange="enableBtn('${HSMap}', '${HSMap}','store_val')"></td></tr>`;
         });
         hscodeHTML += "</table></div></div>";
         exp_hsn = document.getElementById('exp_hscode');
@@ -974,6 +980,8 @@ async function getCountryHSCode(hscode, importCountry, exportCountry) {
         openPopup('searchHSN');
     }
     else {
+        setHeaders();
+
         let hscodeForm = document.getElementById("hscode_form"),
             hsFreeTextTable = document.getElementById("hs_freetext_search"),
             hscodesDisplay = document.getElementById("show_hscodes");
@@ -985,34 +993,24 @@ async function getCountryHSCode(hscode, importCountry, exportCountry) {
         formDetails += `<div class='col-sm-3'><span class='col-hs col-form-label'>Exporting Country</span><input type='text' class='form-control form-control-lg' value='${exportCountry}' disabled> </div>`;
         formDetails += `<div class='col-sm-1'><button class='btn btn-outline-primary btn-icon-text' id='modifyHS' type='button' onclick='gotoForm("hscode_form", "show_hscodes")'>Modify</button></div>`
         hscodesDisplay.innerHTML = formDetails;
-        hscode = hscode.split(" ")[0];
+        // hscode = hscode.split(" ")[0];
         importCountry = importCountry && getCountryId(importCountry);
         exportCountry = exportCountry && getCountryId(exportCountry);
 
-        const countryHSUrl = `${hostname}/api/getProductFromCountryCode?hs=${hscode}&imp=`;
-        const impUrl = countryHSUrl + importCountry;
-        const expUrl = countryHSUrl + exportCountry;
-
-        impcountryHSResponse = await fetch(impUrl).catch(function (error) {
-            console.log("Error in impHS ", error);
+        const countryHSUrl = `${hostname}/api/getProductFromCountryCode?hs=${hscode}&imp=${importCountry}&exp=${exportCountry}`;
+        
+        HSCodeResponse = await fetch(countryHSUrl, {headers :authHeaders}).catch(function (error) {
+            console.log("Error in fetching hscodes", error);
         });
-        expcountryHSResponse = await fetch(expUrl).catch(function (error) {
-            console.log("Error in expHS ", error);
-        });
-
-        if (!impcountryHSResponse.ok) {
-            const msg = `Error in fetch ${impcountryHSResponse.status}`;
-            throw new Error(msg);
-        }
-        if (!expcountryHSResponse.ok) {
-            const msg = `Error in fetch ${expcountryHSResponse.status}`;
+        
+        if (!HSCodeResponse.ok) {
+            const msg = `Error in fetch ${HSCodeResponse.status}`;
             throw new Error(msg);
         }
 
-        const impHSMap = impcountryHSResponse.status != 204 ? await impcountryHSResponse.json() : [];
-        const expHSMap = expcountryHSResponse.status != 204 ? await expcountryHSResponse.json() : [];
+        const HSMap = HSCodeResponse.status != 204 ? await HSCodeResponse.json() : [];
 
-        displayHSTable(hscodesDisplay, impHSMap, expHSMap, importCountry, exportCountry);
+        displayHSTable(hscodesDisplay, HSMap, importCountry, exportCountry);
     }
 }
 
@@ -1058,7 +1056,7 @@ function displayFreeHSSearch(hs_codes, importCountry, exportCountry, formEle = "
         string += `<table class="hstable-data hstable-hsn-search"><tr> <th colspan="2"> HS Codes </th> </tr>`;
         hs_codes.forEach(h => {
             let value = h.hs6.split(" -")[0];
-            string += `<tr> <td> ${h.hs6} </td> <td><button class='btn btn-outline-primary btn-icon-text btn-center-align btn-select-hsn' type='button' onclick='getCountryHSCode("${h.hs6}","${importCountry}","${exportCountry}")' name="HSCode" id="hscode_select">Select</td></tr>`;
+            string += `<tr> <td> ${h.hs6} </td> <td><button class='btn btn-outline-primary btn-icon-text btn-center-align btn-select-hsn' type='button' onclick='getCountryHSCode("${value}","${importCountry}","${exportCountry}")' name="HSCode" id="hscode_select">Select</td></tr>`;
         });
         string += "</table></div></div></div>";
         hsFreeTextTable.innerHTML = string;
@@ -1089,7 +1087,8 @@ async function loadHsCodes(event) {
             }
         }
         else {
-            getCountryHSCode(hscode.value, importCountry.value, exportCountry.value);
+            const hsn = hscode.value.split(" ")[0];
+            getCountryHSCode(hsn, importCountry.value, exportCountry.value);
         }
     }
     else {
