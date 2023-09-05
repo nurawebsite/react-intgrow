@@ -1025,7 +1025,7 @@ function fillHSNSearch(hscode) {
 
 async function getCountryHSSearch(hscode, imp, formEle) {
     let hscodesDisplay = document.getElementById(formEle);
-    const countryHSUrl = `${hostname}/api/getProductFromCountryCode?hs=${hscode}&imp=${imp}`;
+    const countryHSUrl = `${hostname}/api/search/countryHSCode?hs=${hscode}&imp=${imp}`;
     impcountryHSResponse = await fetch(countryHSUrl);
     if (!impcountryHSResponse.ok) {
         const msg = `Error in fetch ${impcountryHSResponse.status}`;
@@ -1036,9 +1036,9 @@ async function getCountryHSSearch(hscode, imp, formEle) {
     if (impHSMap && impHSMap.length) {
         hscodeHTML = "<div class='row hstable-row'><div class='col-sm-12 hstable'>";
         hscodeHTML += `<div class="hstable-body"><div class="hstable-title"> <span>HS Codes for ${getCountryId(imp, "label")} </span></div>`;
-        hscodeHTML += `<table class="hstable-data hstable-hsn-search"><tr> <th> HSN </th> <th colspan='2'> Product Description </th> </tr>`
+        hscodeHTML += `<table class="hstable-data hstable-hsn-search hsn-browse"><tr> <th> HSN </th> <th colspan='2'> Product Description </th> </tr>`
         impHSMap.forEach(d => {
-            hscodeHTML += `<tr> <td> ${d.value} </td> <td> ${d.label} </td><td><button type="radio" value="${d.value}" name="impHSCode" id="imp_hscode" onclick="fillHSNSearch(this.value)"></td></tr>`;
+            hscodeHTML += `<tr> <td> ${d.value} </td> <td> ${d.label} </td><td><button type="button" class="btn btn-outline-primary btn-icon-text btn-center-align btn-select-hsn" value="${d.value}" name="impHSCode" id="imp_hscode" onclick="fillHSNSearch(this.value)">Select</button></td></tr>`;
         });
         hscodeHTML += "</table></div></div>";
         imp_hsn = document.getElementById('imp_hscode');
