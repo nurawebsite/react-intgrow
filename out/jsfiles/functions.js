@@ -479,7 +479,7 @@ function formRequest() {
     };
 
     other_params = {
-        authHeaders,
+        headers: authHeaders,
         body: JSON.stringify(inputData),
         method: "POST",
     };
