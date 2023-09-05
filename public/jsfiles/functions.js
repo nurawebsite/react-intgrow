@@ -903,7 +903,7 @@ function storeHSValue(element, importCountry, exportCountry) {
         localStorage.setItem("imp", getCountryId(exportCountry, "label"));
     }
 
-    window.location.href = "/dutycalculator";
+    window.top.location.href = "/dutycalculator";
 }
 
 function enableBtn(impHSMap, expHSMap, element) {

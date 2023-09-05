@@ -75,7 +75,7 @@ const Page = () => {
           justifyContent: 'center'
         }}
       >
-        <iframe src="/hscodefinder.html" width="100%" height="100%"></iframe>
+        <iframe src="/hscodefinder.html" width="100%" height="100%" sandbox="allow-top-navigation allow-scripts allow-forms"></iframe>
 
       </Box>
     </>
