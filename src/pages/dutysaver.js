@@ -75,7 +75,7 @@ const Page = () => {
           justifyContent: 'center'
         }}
       >
-        <iframe src="/fta.html" width="100%" height="100%" sandbox="allow-top-navigation allow-scripts allow-forms"></iframe>
+        <iframe src="/fta.html" width="100%" height="100%" data-tf-redirect-target="_self"></iframe>
 
       </Box>
     </>
