@@ -233,6 +233,11 @@ btn-outline-primary {
   width: 90%;
 }
 
+.hsn-browse td:first-child,
+.hsn-browse th:first-child {
+  width: 20%;
+}
+
 input[type="text"]::placeholder {
   color: #495057;
   opacity: 1;
@@ -470,6 +475,7 @@ p {
 
 .modal-body {
   margin: 34px 32px;
+  width: unset;
 }
 
 .modal-btn {
@@ -561,10 +567,6 @@ p {
 .padding-right-zero {
   padding-right: 0;
   margin-right: 0;
-}
-
-.padding-down {
-  padding-right: 0;
 }
 
 .navbar {
