@@ -229,8 +229,10 @@ btn-outline-primary {
 }
 
 .hstable-hsn-search td:first-child,
-.hstable-hsn-search th:first-child {
-  width: 90%;
+.hstable-hsn-search th:first-child,
+.hstable-hsn-search td:last-child,
+.hstable-hsn-search th:last-child {
+  width: 12%;
 }
 
 .hsn-browse td:first-child,
@@ -440,6 +442,10 @@ tr {
 
 .hsn-form {
   margin-left: 0;
+}
+
+hsn-form-body {
+  margin-bottom: 0;
 }
 
 /* modal box */
