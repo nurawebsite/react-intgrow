@@ -1054,12 +1054,12 @@ function displayFreeHSSearch(hs_codes, importCountry, exportCountry, formEle = "
     let hsFreeTextTable = document.getElementById(formEle);
     hsFreeTextTable.innerHTML = "";
     if (hs_codes) {
-        string = "<div class='row hstable-row'><div class='col-sm-11 hstable'>";
+        string = "<div class='row hstable-row'><div class='col-sm-12 hstable'>";
         string += `<div class="hsfree-text-body">`;
-        string += `<table class="hstable-data hstable-hsn-search"><tr> <th colspan="2"> HS Codes </th> </tr>`;
+        string += `<table class="hstable-data hstable-hsn-search"><tr> <th> HS Codes </th><th colspan="2"> Product Description </th> </tr>`;
         hs_codes.forEach(h => {
-            let value = h.hs6.split(" -")[0];
-            string += `<tr> <td> ${h.hs6} </td> <td><button class='btn btn-outline-primary btn-icon-text btn-center-align btn-select-hsn' type='button' onclick='getCountryHSCode("${value}","${importCountry}","${exportCountry}")' name="HSCode" id="hscode_select">Select</td></tr>`;
+            let [ value, des ] = h.hs6.split(" -");
+            string += `<tr> <td> ${value} </td> <td> ${des} </td> <td><button class='btn btn-outline-primary btn-icon-text btn-center-align btn-select-hsn' type='button' onclick='getCountryHSCode("${value}","${importCountry}","${exportCountry}")' name="HSCode" id="hscode_select">Select</td></tr>`;
         });
         string += "</table></div></div></div>";
         hsFreeTextTable.innerHTML = string;
