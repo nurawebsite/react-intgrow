@@ -355,7 +355,8 @@ function displayGetDuty() {
 
     line += string;
 
-    line += `<div class='col-sm-12 col-md-4 row getduty-summary'>`;
+    line += `<div class='col-sm-12 col-md-4 row'>`;
+    line += `<div class='row getduty-summary'>`;
     line += `<div class='col-sm-12 summary-title'> YOUR SHIPMENT SUMMARY</div>`;
     line += `<div class='col-sm-6 summary-label'> Import Country: </div> <div class='col-sm-6 summary-value'> ${impCountryLabel} </div>`;
     line += `<div class='col-sm-6 summary-label'> Export Country: </div> <div class='col-sm-6 summary-value'> ${expCountryLabel} </div>`;
@@ -377,7 +378,9 @@ function displayGetDuty() {
     line += `<div class='col-sm-6 summary-label'> Total Duty: </div> <div class='col-sm-6 summary-value'> ${totalDuty} ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> Total Landed Cost: </div> <div class='col-sm-6 summary-value'> ${getdutyTotal}  ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> HSN Description: </div> <div class='col-sm-12'> ${getDutyResponse.des} </div>`;
+    line += `</div>`;    //summary block closed.
 
+    line += `<button class="btn btn-outline-primary btn-icon-text duty-saver-btn" id="callSaveDuty" type="button" onclick="window.top.location.href='/dutysaver'">Duty Saver Pro</button>`;
     line += `</div>`;
 
     line += `<div class='col-sm-12 col-md-12 row' id='footnoteBlock'> </div>`;

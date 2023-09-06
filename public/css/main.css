@@ -59,7 +59,7 @@ td {
   color: #fff;
   text-align: center;
   width: 15vw;
-  font-size: 0.86rem;
+  font-size: 14px;
 }
 
 .duty-details td:first-child,
@@ -161,7 +161,7 @@ btn-outline-primary {
 
 .hstable-nodata {
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 20px;
   font-weight: 600;
   margin: 10px 20px;
   width: 100%;
@@ -793,7 +793,7 @@ p {
 }
 
 .navbar-heading {
-  font-size: 1rem;
+  font-size: 16px;
   color: #fff;
   text-align: center;
   padding: 10px 0;
@@ -844,7 +844,7 @@ p {
   font-family: "Material Design Icons";
   font-style: normal;
   display: block;
-  font-size: 1.1rem;
+  font-size: 18px;
   line-height: 10px;
   -webkit-transition: all 0.2s ease-in;
   -moz-transition: all 0.2s ease-in;
@@ -968,4 +968,13 @@ select option {
 
 .duty-details-heading {
   margin: 32px 10px -10px;
+}
+
+.duty-saver-btn {
+  background: linear-gradient(90deg, #FFCC70, #C850C0, #4158D0);
+  border-radius: 20px;
+  border-style: none;
+  width: 80%;
+  font-size: 20px;
+  font-weight: 700;
 }
