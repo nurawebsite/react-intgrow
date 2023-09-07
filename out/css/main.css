@@ -1055,19 +1055,22 @@ a:hover, a:focus{
   line-height: 30px;
   font-size: 12px;
 	position: absolute;
-  top: 0;
-  left: 50px;
+  top: 20px;
+  left: 30px;
 }
 
 .info:hover .extra-info {
   display: block;
+  padding: 0 10px;
+  background: #dbd1d1;
 }
 
 .info {
-  font-size: 20px;
+  font-size: 16px;
   padding-left: 5px;
   width: 20px;
   border-radius: 15px;
+  position: relative;
 }
 
 .info:hover {
