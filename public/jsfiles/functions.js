@@ -323,7 +323,7 @@ function displayGetDuty() {
     showGetDutyDetails.innerHTML = "";
     showGetDutyDetails.innerHTML += formDetails;
 
-    let totalDuty = 0;
+    let totalDuty = 0, footnote_data='';
     const dutyDetailsDesc = getDutyResponse && getDutyResponse.dutyDetails || [];
     let line = "";
     if (dutyDetailsDesc.length > 0) {
@@ -335,6 +335,7 @@ function displayGetDuty() {
         dutyDetailsDesc.forEach(ele => {
             var getKey = Object.keys(ele).filter(e => e.match(/(_dd)$/))[0];
             var prefix = getKey.split("_dd")[0];
+            footnote_data = !footnote_data && prefix.includes('mfn') ? getDutyResponse[`${prefix}_f`] : footnote_data;
             line += `<tr><td>${ele[`${prefix}_dd`]}`;
             line += ele[`${prefix}_define`] ? `<span class="info"> <i class="icon-info-sign"></i> <span class="extra-info"> ${ele[`${prefix}_define`]} </span></span>` : '';
             line += `</td>`;
@@ -353,6 +354,7 @@ function displayGetDuty() {
     string += `<span class='duty-cost'>Landed Cost: ${getdutyTotal}  ${impCurrency}</span>`;
     string += impCurrency != cyn ? ` <span class='duty-costchange'>( ${cynConvertDutyTotal} ${cyn} )</span>` : "";
     string += `<div class='tnc-note'>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.)</div>`;
+    string += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
     string += `</div></div>`;
 
     line += string;
