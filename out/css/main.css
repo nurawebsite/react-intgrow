@@ -1063,6 +1063,9 @@ a:hover, a:focus{
   display: block;
   padding: 0 10px;
   background: #dbd1d1;
+  z-index: 99;
+  width: max-content;
+  max-width: 20vw;
 }
 
 .info {
