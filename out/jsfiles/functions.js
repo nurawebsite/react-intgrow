@@ -323,7 +323,7 @@ function displayGetDuty() {
     showGetDutyDetails.innerHTML = "";
     showGetDutyDetails.innerHTML += formDetails;
 
-    let totalDuty = 0;
+    let totalDuty = 0, footnote_data='';
     const dutyDetailsDesc = getDutyResponse && getDutyResponse.dutyDetails || [];
     let line = "";
     if (dutyDetailsDesc.length > 0) {
@@ -335,7 +335,10 @@ function displayGetDuty() {
         dutyDetailsDesc.forEach(ele => {
             var getKey = Object.keys(ele).filter(e => e.match(/(_dd)$/))[0];
             var prefix = getKey.split("_dd")[0];
-            line += `<tr><td>${ele[`${prefix}_dd`]}</td>`;
+            footnote_data = !footnote_data && prefix.includes('mfn') ? getDutyResponse[`${prefix}_f`] : footnote_data;
+            line += `<tr><td>${ele[`${prefix}_dd`]}`;
+            line += ele[`${prefix}_define`] ? `<span class="info"> <i class="icon-info-sign"></i> <span class="extra-info"> ${ele[`${prefix}_define`]} </span></span>` : '';
+            line += `</td>`;
             line += `<td>${ele[`${prefix}_d`]}</td>`;
             line += `<td>${ele[`${prefix}_cl`] && Math.floor(ele[`${prefix}_cl`]) || 0}</td>`;
             line += impCurrency != cyn ? `<td>${ele[`${prefix}_cl`] && currencyConvert(ele[`${prefix}_cl`] || 0)}</td>` : "";
@@ -351,6 +354,7 @@ function displayGetDuty() {
     string += `<span class='duty-cost'>Landed Cost: ${getdutyTotal}  ${impCurrency}</span>`;
     string += impCurrency != cyn ? ` <span class='duty-costchange'>( ${cynConvertDutyTotal} ${cyn} )</span>` : "";
     string += `<div class='tnc-note'>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.)</div>`;
+    string += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
     string += `</div></div>`;
 
     line += string;
@@ -594,14 +598,17 @@ function displaySaveDuty() {
                         var prefix = getKey.split("_dd")[0];
                         var _dd = ele[`${prefix}_dd`],
                             _d = ele[`${prefix}_d`] || 0,
-                            _cl = ele[`${prefix}_cl`] || 0;
+                            _cl = ele[`${prefix}_cl`] || 0,
+                            _define = ele[`${prefix}_define`] || '';
                         if (!ftaRule) {
                             ftaId.push(prefix.split(`${prefix.split("_")[0]}_`)[1]);
                             ftaLabel = prefix.split(`${prefix.split("_")[0]}_`)[1];
                             footnote_data = duty[0][`${prefix}_f`];
                             ftaRule = _dd;
                         }
-                        entry += `<tr><td>${_dd}</td>`;
+                        entry += `<tr><td>${_dd}`;
+                        entry += _define ? `<span class="info"> <i class="icon-info-sign"></i> <span class="extra-info"> ${_define} </span></span>` : '';
+                        entry += `</td>`;
                         entry += `<td>${_d}</td>`;
                         entry += `<td>${Math.floor(_cl)}</td>`;
                         entry += impCurrency != cyn ? `<td>${currencyConvert(_cl)}</td>` : "";
@@ -682,7 +689,9 @@ function displaySaveDuty() {
                         footnote_data = duty[0][`${prefix}_f`];
                         ftaRule = _dd;
                     }
-                    entry1 += `<tr><td>${_dd}</td>`;
+                    entry1 += `<tr><td>${_dd}`;
+                    entry1 += _define ? `<span class="info"> <i class="icon-info-sign"></i> <span class="extra-info"> ${_define} </span></span>` : '';
+                    entry1 += `</td>`;
                     entry1 += `<td>${_d}</td>`;
                     entry1 += `<td>${Math.floor(_cl)}</td>`;
                     entry1 += impCurrency != cyn ? `<td>${currencyConvert(_cl)}</td>` : "";
