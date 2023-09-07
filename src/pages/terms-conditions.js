@@ -51,7 +51,11 @@ const Page = () => {
                             <Typography variant="h2">
                                 Terms & Conditions
                             </Typography>
-                            <Typography variant="subtitle2" width='50%' textAlign='center'>
+                            <Typography
+                                variant="subtitle2"
+                                width="50%"
+                                textAlign="center"
+                            >
                                 Access to and use of INTGROW.Co (an USA business, SSN*********) is subject to the following terms, conditions and notices (the &quot;Terms and Conditions&quot;).
                             </Typography>
                             <Typography variant="subtitle2" width='50%' textAlign='center'>
@@ -62,10 +66,11 @@ const Page = () => {
                         <Stack
                             sx={{
                                 position: 'absolute',
-                                left: 0
+                                left: 0,
+                                width: '100%'
                             }}
                         >
-                            <svg width="100vw" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                 <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g id="Apple-TV" transform="translate(0.000000, -402.000000)" fill="#FFFFFF">
                                         <path

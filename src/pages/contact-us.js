@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { TopNav } from 'src/layouts/dashboard/top-nav';
+import { Footer } from 'src/sections/footer';
 
 const Page = () => {
     const router = useRouter();
@@ -58,10 +59,11 @@ const Page = () => {
                         <Stack
                             sx={{
                                 position: 'absolute',
-                                left: 0
+                                left: 0,
+                                width: '100%'
                             }}
                         >
-                            <svg width="100vw" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                 <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g id="Apple-TV" transform="translate(0.000000, -402.000000)" fill="#FFFFFF">
                                         <path
@@ -84,7 +86,7 @@ const Page = () => {
                     }}
                 >
                     <div class="row">
-                    <h2>Contact Form</h2>
+                        <h2>Contact Form</h2>
                         <div class="col-md-4 ms-auto order-2" data-aos="fade-up">
                             <ul class="list-unstyled">
                                 <li class="mb-3">
@@ -148,6 +150,7 @@ const Page = () => {
                     </div>
                 </Stack>
             </div>
+            <Footer />
         </>
     );
 };

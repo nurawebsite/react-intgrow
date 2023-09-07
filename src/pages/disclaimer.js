@@ -3,12 +3,11 @@ import { useRouter } from 'next/navigation';
 import {
     Box,
     Stack,
-    Typography,
-    Link
+    Typography
 } from '@mui/material';
-import NextLink from 'next/link';
 import { useAuth } from 'src/hooks/use-auth';
 import { TopNav } from 'src/layouts/dashboard/top-nav';
+import { Footer } from 'src/sections/footer';
 
 const Page = () => {
     const router = useRouter();
@@ -18,7 +17,7 @@ const Page = () => {
         <>
             <Head>
                 <title>
-                    Order Confirm | IntGrow Corp.
+                    Disclaimer | IntGrow Corp.
                 </title>
             </Head>
             <TopNav onNavOpen={() => setOpenNav(true)} />
@@ -51,7 +50,7 @@ const Page = () => {
                             }}
                         >
                             <Typography variant="h2">
-                                Payment Success!
+                                Disclaimer
                             </Typography>
 
                         </Stack>
@@ -78,24 +77,25 @@ const Page = () => {
             <div>
                 <Stack
                     sx={{
-                        margin: '50px auto',
+                        margin: '70px auto 30px',
                         width: '90vw',
-                        textAlign: 'center',
+                        textAlign: 'justify',
                         color: 'neutral.400'
                     }}
                 >
-                    <Typography variant="h4">Thank you for the purchase.</Typography>
-                    <Typography variant="subtitle1" > You&apos;ll soon receive an order confirmation mail.</Typography>
-                    <Typography variant="subtitle1" >Click
-                        <Link
-                            component={NextLink}
-                            href="/"
-                        > here
-                        </Link>
-                        to redirect to the dashboard.
-                    </Typography>
+                    The information contained on this website INTGROW.CO is for general information purposes only. The
+                    INTGROW.CO assumes no responsibility for errors or omissions in the contents of the website. In no event shall
+                    the INTGROW.CO be liable for any special, direct, indirect, consequential, or incidental damages or any
+                    damages whatsoever, whether in an action of contract, negligence or other torts, arising out of or in
+                    connection with the use of the website or the contents of the website. The INTGROW.CO reserves the right to
+                    make additions, deletions, or modifications to the contents on the website at any time without prior notice.
+                    Every effort is made to keep the website up and running smoothly. However, the INTGROW.CO takes no
+                    responsibility for, and will not be liable for, the website being temporarily unavailable due to technical
+                    issues beyond our control. The INTGROW.CO does not warrant that the website is free of viruses or other
+                    harmful components.
                 </Stack>
             </div>
+            <Footer/>
         </>
     );
 };

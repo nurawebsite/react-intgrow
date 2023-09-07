@@ -1002,8 +1002,9 @@ section {
   margin-bottom: 10px;
 }
 
-.footer a {
-  color: #000;
+.footer a:hover {
+  color: #fff;
+  text-decoration: underline !important;
 }
 
 .footer .copyright {
@@ -1013,6 +1014,11 @@ section {
 .footer .copyright,
 .footer .credits {
   font-size: 14px;
+}
+
+.footer-text a,
+.footer-text a:hover {
+  color: #777;
 }
 
 .social a {
@@ -1084,12 +1090,6 @@ section {
 .form-control {
   font-weight: 400;
   font-size: 0.875rem;
-}
-
-.footer-disclaimer {
-  font-size: 10px;
-  text-align: center;
-  margin-bottom: 8px;
 }
 
 select {
