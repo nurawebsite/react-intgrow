@@ -145,11 +145,14 @@ function displayCurrency() {
     const currencyHTML = document.getElementById("cyn");
     let cynData = "";
     let cynStored = localStorage.getItem('cyn');
+    console.log("inside currency, stored ", cynStored);
+    cynData = "<option>Select currency</option>";
     currencyResponse.forEach(c => {
         let isSelect = c.country == cynStored ? 'selected' : '';
         cynData += `<option id=${c.currency} value='${c.country}' ${isSelect}>${c.country}</option>`;
     });
     currencyHTML.innerHTML += cynData;
+    console.log("---currency html  ", currencyHTML.innerHTML);
 }
 
 function loadCurrency() {
@@ -166,6 +169,7 @@ function loadCurrency() {
                 }
             }).then(function (data) {
                 currencyResponse = data;
+                console.log("---currency loaded  ", currencyResponse);
                 currencyResponse && displayCurrency();
             }).catch(function (error) {
                 console.log("Error occurred ", error);

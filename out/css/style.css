@@ -20763,9 +20763,13 @@ code {
 }
 
 .footer a {
-  color: #001737;
-  font-size: inherit;
+  color: #fff;
 }
+
+.footer a:hover {
+  text-decoration: underline !important;
+}
+
 
 @media (max-width: 991px) {
   .footer {

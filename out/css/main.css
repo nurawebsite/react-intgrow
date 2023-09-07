@@ -345,6 +345,7 @@ header {
 
 .card .footer-text {
   padding: 0;
+  font-size: 14px;
   color: #fff;
 }
 
@@ -881,13 +882,6 @@ p {
 
 .form-shipping-details {
   width: 100%;
-}
-
-
-.footer-disclaimer {
-  font-size: 10px;
-  text-align: center;
-  margin-bottom: 8px;
 }
 
 select {
