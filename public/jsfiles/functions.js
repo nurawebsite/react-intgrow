@@ -618,10 +618,12 @@ function displaySaveDuty() {
                 let savedConvertPrice = savedDuty ? currencyConvert(savedDuty) : 0;
                 let categories = `Save ${integerToCurrency(savedDuty, impCurrency)} ( ${integerToCurrency(savedConvertPrice, cyn)} ) Landing cost`;
 
-                var line = `<div><div class='row display-group duty-block'>`;
-                line += `<div class="col-sm-12 save-duty-heading"><a class="nav-link save-duty-title" data-toggle="collapse" href="#index${index}" aria-expanded="false" aria-controls="index${index}">`;
-                line += `<span class="menu-title">${categories}</span><i class="menu-arrow-duty"></i></a></div>`;
-                line += `<div class='collapse row' id=index${index}><div class='col-sm-12 col-md-9 col-lg-9'>`;
+                var line = `<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"><div class='row display-group duty-block panel panel-default'>`;
+                line += `<div class="col-sm-12 save-duty-heading panel-heading" role="tab" id="heading${index}">`;
+                line += `<a class="save-duty-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${index}" aria-expanded="false" aria-controls="index${index}"">`;
+                line += `<span class="menu-title">${categories}</span></a></div>`;
+                line += `<div class='panel-collapse collapse' id='index${index}' role="tabpanel" aria-labelledby="heading${index}" aria-expanded="false"><div class='panel-body row'>`;
+                line += `<div class='col-sm-12 col-md-9 col-lg-9'>`;
                 line += `<div class='col-sm-12'>`;
                 line += `<div class='duty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
                 line += `<table class='duty-details'><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
@@ -646,7 +648,7 @@ function displaySaveDuty() {
             dutyData += "</span></div><div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
             dutyData += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div></div>`;
             dutyData += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
-            dutyData += `</div></div>`;
+            dutyData += `</div></div></div>`;
             ftaRule = "";
             index++;
         }
@@ -656,9 +658,7 @@ function displaySaveDuty() {
 
     });
 
-    console.log("outside nosave => ", nosaveData);
     nosaveData && nosaveData.length && nosaveData.forEach(duty => {
-        console.log("--- inside nosave ", duty);
         var dutyDetailsDesc = duty && duty[0] && duty[0].dutyDetails || [];
         var total = Math.floor(duty[0].total + duty[0].CIFVALUE);
         let cynConvertTotal = currencyConvert(total);
@@ -729,10 +729,12 @@ function displaySaveDuty() {
     });
     let nosaveDutyData = "";
     if (nosaveData && nosaveData.length) {
-        let lines = `<div class='row display-group duty-block no-saving-block'>`;
-        lines += `<div class="col-sm-12 save-duty-heading"><a class="nav-link save-duty-title" data-toggle="collapse" href="#index${index}" aria-expanded="false" aria-controls="index${index}">`;
-        lines += `<span class="menu-title">No saving on Landing cost</span><i class="menu-arrow-duty"></i></a></div>`;
-        lines += `<div class='collapse row' id=index${index}>`;
+
+        let lines = `<div class='row display-group duty-block no-saving-block panel panel-default'>`;
+        lines += `<div class="col-sm-12 save-duty-heading panel-heading" role="tab" id="heading${index}">`;
+        lines += `<a class="save-duty-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${index}" aria-expanded="false" aria-controls="index${index}"">`;
+        lines += `<span class="menu-title">No saving on Landing cost</span></a></div>`;
+        lines += `<div class='panel-collapse collapse' id='index${index}' role="tabpanel" aria-labelledby="heading${index}" aria-expanded="false"><div class='panel-body row'>`;
         nosaveDutyData = lines + dutyData1;
     }
     const landedCost = Math.floor(currencyConvert(getDutyResponse.total + getDutyResponse.CIF));
@@ -1001,11 +1003,11 @@ async function getCountryHSCode(hscode, importCountry, exportCountry) {
         exportCountry = exportCountry && getCountryId(exportCountry);
 
         const countryHSUrl = `${hostname}/api/getProductFromCountryCode?hs=${hscode}&imp=${importCountry}&exp=${exportCountry}`;
-        
-        HSCodeResponse = await fetch(countryHSUrl, {headers :authHeaders}).catch(function (error) {
+
+        HSCodeResponse = await fetch(countryHSUrl, { headers: authHeaders }).catch(function (error) {
             console.log("Error in fetching hscodes", error);
         });
-        
+
         if (!HSCodeResponse.ok) {
             const msg = `Error in fetch ${HSCodeResponse.status}`;
             throw new Error(msg);
@@ -1058,7 +1060,7 @@ function displayFreeHSSearch(hs_codes, importCountry, exportCountry, formEle = "
         string += `<div class="hsfree-text-body">`;
         string += `<table class="hstable-data hstable-hsn-search"><tr> <th> HS Codes </th><th colspan="2"> Product Description </th> </tr>`;
         hs_codes.forEach(h => {
-            let [ value, des ] = h.hs6.split(" -");
+            let [value, des] = h.hs6.split(" -");
             string += `<tr> <td> ${value} </td> <td> ${des} </td> <td><button class='btn btn-outline-primary btn-icon-text btn-center-align btn-select-hsn' type='button' onclick='getCountryHSCode("${value}","${importCountry}","${exportCountry}")' name="HSCode" id="hscode_select">Select</td></tr>`;
         });
         string += "</table></div></div></div>";
