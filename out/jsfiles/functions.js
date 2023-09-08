@@ -30,7 +30,7 @@ function setHeaders() {
 function loadData(cynLoad = true) {
     const impCountry = document.getElementById("import_country").value;
     const expCountryHtml = document.getElementById("export_country");
-    let expList = "<option>Select country</option>";
+    let expList = "<option value=''>Select country</option>";
     countryListResponse && countryListResponse.length && countryListResponse.forEach(item => {
         if (item.label != impCountry && item.is_export) {
             expList += `<option value="${item.label}">${item.label}</option>`;
@@ -43,7 +43,7 @@ function loadData(cynLoad = true) {
 function displayCountryList(countryListResponse) {
     const impCountryHtml = document.getElementById("import_country");
     var impList = "";
-    impList += "<option>Select country</option>";
+    impList += "<option value=''>Select country</option>";
     countryListResponse && countryListResponse.length && countryListResponse.forEach(item => {
         if (item.is_import) {
             impList += `<option value="${item.label}">${item.label} </option>`;
@@ -93,8 +93,8 @@ function displayUserInputs(userInputFields) {
                 break;
             case "droplist":
                 let list = attr.values;
-                userFields += `<select class="form-control form-control-lg" id="${attr.field}">`;
-                userFields += `<option>Select ${attr.label}</option>`;
+                userFields += `<select class="form-control form-control-lg" id="${attr.field}" required>`;
+                userFields += `<option value="">Select ${attr.label}</option>`;
                 list && list.length && list.forEach(v => {
                     userFields += `<option value="${v.value}"> ${v.label} </option>`;
                 });
@@ -145,14 +145,11 @@ function displayCurrency() {
     const currencyHTML = document.getElementById("cyn");
     let cynData = "";
     let cynStored = localStorage.getItem('cyn');
-    console.log("inside currency, stored ", cynStored);
-    cynData = "<option>Select currency</option>";
     currencyResponse.forEach(c => {
         let isSelect = c.country == cynStored ? 'selected' : '';
         cynData += `<option id=${c.currency} value='${c.country}' ${isSelect}>${c.country}</option>`;
     });
     currencyHTML.innerHTML += cynData;
-    console.log("---currency html  ", currencyHTML.innerHTML);
 }
 
 function loadCurrency() {
@@ -169,7 +166,6 @@ function loadCurrency() {
                 }
             }).then(function (data) {
                 currencyResponse = data;
-                console.log("---currency loaded  ", currencyResponse);
                 currencyResponse && displayCurrency();
             }).catch(function (error) {
                 console.log("Error occurred ", error);
@@ -204,7 +200,7 @@ function displayOriginRules(ftaIds) {
                 string += `<table class='roo-table-data'>`;
                 string += `<tr><th colspan='2'>Rules Of Origin</th></tr>`;
                 string += `<tr><td><span class="rules-label"> RoO Criteria </span></td><td> ${r.criteria}</td></tr>`;
-                string += r.doc != '#' ? `<tr><td><span class="rules-label"> Download </span></td><td class="overflow-text"><a href='${r.doc}'>Pdf Link</a></td></tr>` : " ";
+                string += r.doc != '#' ? `<tr><td><span class="rules-label"> Download </span></td><td class="overflow-text"><a href='${r.doc}'><img class='thumbs-up-icon' src='assets/pdf-icon.png' alt='pdf link' /></a></td></tr>` : " ";
                 string += "</table></div>";
                 string += r.note ? `<div class='rules-note'> Note: ${r.note} </div>` : " ";
                 rulesHTML.innerHTML = string;
@@ -327,7 +323,7 @@ function displayGetDuty() {
     showGetDutyDetails.innerHTML = "";
     showGetDutyDetails.innerHTML += formDetails;
 
-    let totalDuty = 0, footnote_data='';
+    let totalDuty = 0, footnote_data = '';
     const dutyDetailsDesc = getDutyResponse && getDutyResponse.dutyDetails || [];
     let line = "";
     if (dutyDetailsDesc.length > 0) {
@@ -497,14 +493,36 @@ function formRequest() {
 
     removeLocalStorage();
 }
+function isElementVisible(element) {
+    const styles = window.getComputedStyle(element);
+    return styles.display !== 'none' && styles.visibility !== 'hidden';
+}
 
 function validateForm() {
+    const form = document.getElementById("myForm");
+    const errorEle = document.getElementById('errorMSg');
+    const requiredFields = form.querySelectorAll("[required]");
+    requiredFields.forEach(field => {
+        if (field.value.trim() == "") {
+            field.classList.add("required-fields");
+        } else {
+            field.classList.remove("required-fields");
+        }
+    });
+
+    const invalidFields = form.querySelectorAll(".required-fields");
+    const visibleFormEle = Array.from(invalidFields).filter(isElementVisible);
+    if (invalidFields.length > 0 && visibleFormEle.length > 0) {
+        errorEle.innerHTML = "**Please enter all the details";
+        return false;
+    }
+
     let importCountry = document.getElementById("import_country").value,
         exportCountry = document.getElementById("export_country").value,
         hscode = document.getElementById("hscode").value,
         currency = document.getElementById('cyn').value;
+
     if (!(getCountryId(importCountry) && getCountryId(exportCountry) && hscode.match(/^[0-9]+[a-zA-Z]*/g) && currency)) {
-        let errorEle = document.getElementById('errorMSg');
         errorEle.innerHTML = "**Please enter all the details";
         return false;
     }
@@ -524,7 +542,8 @@ async function getDuty(event) {
                 if (response.ok) {
                     return response.json();
                 } else {
-                    throw new Error("Could not reach the API: " + response.statusText);
+                    const responseData = response.json();
+                    throw new Error(response.message || response.statusText);
                 }
             }).then(function (data) {
                 getDutyResponse = data;
@@ -532,6 +551,7 @@ async function getDuty(event) {
                 getDutyResponse && displayGetDuty();
             }).catch(function (error) {
                 console.log('Error in getDuty ', error);
+                document.getElementById("errorMSg").innerHTML = error;
             });
     }
     return true;
@@ -576,7 +596,7 @@ function displaySaveDuty() {
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div> </div>`;
     formDetails += `<div class='col-sm-3 row align-center padding-left-zero position-absolute'>`;
     formDetails += `<div class='col-sm-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getSavedDuty(event)'>Get Result</button></div>`;
-    formDetails += `<div class='col-sm-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails")' title='Click to modify Shipping information.>Modify</button></div></div></div>`;
+    formDetails += `<div class='col-sm-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div></div>`;
 
     // document.querySelector('#export_country').value = expLabel.value;
     // document.getElementById('cyn').value = cyn;
@@ -654,11 +674,11 @@ function displaySaveDuty() {
             dutyData += `</div>`;
             // showSaveDutyDetails.innerHTML += dutyData;
             dutyData += "<div class='margin-all col-sm-12 col-md-12 col-lg-12'><div>";
-            dutyData += `<span class='duty-cost'>Landed cost: ${integerToCurrency(total, impCurrency)}`;
-            dutyData += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )` : "";
+            dutyData += `<span class='duty-cost'>Landed cost: ${Math.floor(integerToCurrency(total, impCurrency))}`;
+            dutyData += impCurrency != cyn ? ` ( ${Math.floor(integerToCurrency(cynConvertTotal, cyn))} )` : "";
             dutyData += "</span></div><div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
             dutyData += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div></div>`;
-            dutyData += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
+            dutyData += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote fta-footnote-save'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
             dutyData += `</div></div></div>`;
             ftaRule = "";
             index++;
@@ -686,7 +706,8 @@ function displaySaveDuty() {
                     var prefix = getKey.split("_dd")[0];
                     var _dd = ele[`${prefix}_dd`],
                         _d = ele[`${prefix}_d`] || 0,
-                        _cl = ele[`${prefix}_cl`] || 0;
+                        _cl = ele[`${prefix}_cl`] || 0,
+                        _define = ele[`${prefix}_define`] || '';
                     if (!ftaRule) {
                         ftaId.push(prefix.split(`${prefix.split("_")[0]}_`)[1]);
                         ftaLabel = prefix.split(`${prefix.split("_")[0]}_`)[1];
@@ -730,8 +751,8 @@ function displaySaveDuty() {
             dutyData1 += `</div>`;
             // showSaveDutyDetails.innerHTML += dutyData;
             dutyData1 += "<div class='margin-all col-sm-12 col-md-12 col-lg-12'><div>";
-            dutyData1 += `<span class='duty-cost'>Landed cost: ${integerToCurrency(total, impCurrency)}`;
-            dutyData1 += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )` : "";
+            dutyData1 += `<span class='duty-cost'>Landed cost: ${Math.floor(integerToCurrency(total, impCurrency))}`;
+            dutyData1 += impCurrency != cyn ? ` ( ${Math.floor(integerToCurrency(cynConvertTotal, cyn))} )` : "";
             dutyData1 += "</span></div><div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
             dutyData1 += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div>`;
             dutyData1 += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
@@ -806,9 +827,6 @@ async function getSavedDuty(event) {
                 console.log("Error occurred ", error);
             });
     }
-    // var showToggle = document.getElementById("toggleDuty");
-    // showToggle.style.visibility = "visible";
-    // showToggle.style.display = 'inline-block';
 }
 
 function displayHSCodes(ele) {

@@ -54,7 +54,7 @@
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="import_country" class="col col-form-label">Importing Country</label>
                 <div class="btn-group col form-group-input">
-                  <select class="form-control form-control-lg" id="import_country" onchange="loadData()">
+                  <select class="form-control form-control-lg" id="import_country" onchange="loadData()" required>
                     <!-- load country list -->
                   </select>
                 </div>
@@ -62,8 +62,9 @@
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="export_country" class="col col-form-label">Exporting Country</label>
                 <div class="btn-group col form-group-input" id="export_list">
-                  <select class="form-control form-control-lg" id="export_country">
-                    <option>Select country</option>
+                  <select class="form-control form-control-lg" id="export_country" required>
+                    <option value="">Select Country</option>
+                    <option value="">Select Import country first</option>
                   </select>
                 </div>
               </div>
@@ -87,7 +88,8 @@
                     <input type="text" class="form-control form-control-lg" pattern="[0-9]+[a-zA-Z]*" required
                       id="hscode" oninput="getUserInput()" placeholder="Enter HS Code here" autocomplete="off" />
                     <div class="position-absolute position-absolute-top">
-                      <button id="findHSN" type="button" title="Please click to locate the destination country's specific HS Code."
+                      <button id="findHSN" type="button"
+                        title="Please click to locate the destination country's specific HS Code."
                         class="btn btn-outline-primary btn-icon-text btn-center-align btn-find-hsn"
                         onclick="searchHSCode()">
                         Browse
@@ -100,8 +102,8 @@
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="cyn" class="col col-form-label">Currency</label>
                 <div class="btn-group col form-group-input" id="currencyList">
-                  <select class="form-control form-control-lg" id="cyn">
-                    
+                  <select class="form-control form-control-lg" id="cyn" required>
+                    <option value="">Select Currency</option>
                     <!-- load currency data -->
                   </select>
                 </div>
@@ -110,7 +112,7 @@
                 <label for="productValue" class="col col-form-label">Value of Product</label>
                 <div class="btn-group col form-group-input">
                   <input type="text" class="form-control form-control-lg" id="productValue" placeholder="Numbers only"
-                  pattern="[0-9]+" title="Please enter only numeric value." required required />
+                    pattern="[0-9]+" title="Please enter only numeric value." required />
                 </div>
               </div>
             </div>
@@ -143,8 +145,8 @@
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="inco_term" class="col col-form-label">INCO Term</label>
                 <div class="btn-group col form-group-input">
-                  <select class="form-control form-control-lg" id="inco_term">
-                    <option>Select Incoterm</option>
+                  <select class="form-control form-control-lg" id="inco_term" required>
+                    <option value="">Select Incoterm</option>
                     <option>EXW</option>
                     <option>CIF</option>
                     <option>FOB</option>
@@ -157,28 +159,32 @@
                     <label for="originCharges" class="col col-form-label">Origin Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="originCharges"
-                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+" title="Please enter only numeric value." required  />
+                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+"
+                        title="Please enter only numeric value." required />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="originFreight" class="col col-form-label">Origin Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="originFreight"
-                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+" title="Please enter only numeric value." required  />
+                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+"
+                        title="Please enter only numeric value." required />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="exwIntFreight" class="col col-form-label">International Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="exwIntFreight"
-                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+" title="Please enter only numeric value." required />
+                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+"
+                        title="Please enter only numeric value." required />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="exwInsuranceCharges" class="col col-form-label">Insurance Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="exwInsuranceCharges"
-                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+" title="Please enter only numeric value." required/>
+                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+"
+                        title="Please enter only numeric value." required />
                     </div>
                   </div>
                 </div>
@@ -189,14 +195,16 @@
                     <label for="cifIntFreight" class="col col-form-label">International Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="cifIntFreight"
-                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+" title="Please enter only numeric value." required/>
+                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+"
+                        title="Please enter only numeric value." required />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-6 col-lg-6">
                     <label for="cifInsuranceCharges" class="col col-form-label">Insurance Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="cifInsuranceCharges"
-                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+" title="Please enter only numeric value." required />
+                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+"
+                        title="Please enter only numeric value." required />
                     </div>
                   </div>
                 </div>
@@ -207,14 +215,16 @@
                     <label for="fobIntFreight" class="col col-form-label">International Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="fobIntFreight"
-                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+" title="Please enter only numeric value." required/>
+                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+"
+                        title="Please enter only numeric value." required />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-6 col-lg-6">
                     <label for="fobInsuranceCharges" class="col col-form-label">Insurance Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="fobInsuranceCharges"
-                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+" title="Please enter only numeric value." required/>
+                        placeholder="Numbers only" autocomplete="off" pattern="[0-9]+"
+                        title="Please enter only numeric value." required />
                     </div>
                   </div>
                 </div>
@@ -224,8 +234,8 @@
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="mode" class="col col-form-label">Mode of Transport</label>
                 <div class="btn-group col form-group-input">
-                  <select class="form-control form-control-lg" id="mode">
-                    <option>Select transport mode</option>
+                  <select class="form-control form-control-lg" id="mode" required>
+                    <option value="">Select transport mode</option>
                     <option> Land </option>
                     <option> Sea </option>
                     <option> Air </option>
@@ -325,19 +335,8 @@
   </script>
   <!-- base:js -->
   <script src="vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page-->
-  <script src="vendors/chart.js/Chart.min.js"></script>
-  <!-- End plugin js for this page-->
-  <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <!-- endinject -->
-  <!-- plugin js for this page -->
-  <!-- End plugin js for this page -->
-  <!-- Custom js for this page-->
-  <script src="js/dashboard.js"></script>
+
+
   <!-- End custom js for this page-->
 </body>
 

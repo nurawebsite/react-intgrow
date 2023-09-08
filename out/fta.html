@@ -59,7 +59,7 @@
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="import_country" class="col col-form-label">Importing Country</label>
                 <div class="btn-group col form-group-input">
-                  <select class="form-control form-control-lg" id="import_country" onchange="loadData()">
+                  <select class="form-control form-control-lg" id="import_country" onchange="loadData()" required>
                     <!-- load country list -->
                   </select>
                 </div>
@@ -67,8 +67,9 @@
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="export_country" class="col col-form-label">Exporting Country</label>
                 <div class="btn-group col form-group-input" id="export_list">
-                  <select class="form-control form-control-lg" id="export_country">
-                    <option>Select country</option>
+                  <select class="form-control form-control-lg" id="export_country" required>
+                    <option value="">Select Country</option>
+                    <option value="">Select Import country first</option>
                   </select>
                 </div>
               </div>
@@ -90,7 +91,7 @@
                   </label>
                   <div class="btn-group col form-group-input col-sm-12 col-md-12 col-lg-12">
                     <input type="text" class="form-control form-control-lg" pattern="[0-9]+[a-zA-Z]*" required
-                      id="hscode" oninput="getUserInput()" placeholder="Enter HS Code here" autocomplete="off" />
+                      id="hscode" oninput="getUserInput()" placeholder="Enter HS Code here" autocomplete="off" value="10061010" />
                     <div class="position-absolute">
                       <button id="findHSN" type="button" title="Please click to locate the destination country's specific HS Code."
                         class="btn btn-outline-primary btn-icon-text btn-center-align btn-find-hsn"
@@ -105,7 +106,8 @@
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="cyn" class="col col-form-label">Currency</label>
                 <div class="btn-group col form-group-input" id="currencyList">
-                  <select class="form-control form-control-lg" id="cyn">
+                  <select class="form-control form-control-lg" id="cyn" required>
+                    <option value="">Select Currency</option>
                     <!-- load currency data -->
                   </select>
                 </div>
@@ -143,8 +145,8 @@
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="inco_term" class="col col-form-label">INCO Term</label>
                 <div class="btn-group col form-group-input">
-                  <select class="form-control form-control-lg" id="inco_term">
-                    <option>Select Incoterm</option>
+                  <select class="form-control form-control-lg" id="inco_term" required>
+                    <option value="">Select Incoterm</option>
                     <option>EXW</option>
                     <option>CIF</option>
                     <option>FOB</option>
@@ -224,8 +226,8 @@
               <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="mode" class="col col-form-label">Mode of Transport</label>
                 <div class="btn-group col form-group-input">
-                  <select class="form-control form-control-lg" id="mode">
-                    <option>Select transport mode</option>
+                  <select class="form-control form-control-lg" id="mode" required>
+                    <option value="">Select transport mode</option>
                     <option> Land </option>
                     <option> Sea </option>
                     <option> Air </option>
@@ -318,19 +320,7 @@
     });
   </script>
   <script src="vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page-->
-  <script src="vendors/chart.js/Chart.min.js"></script>
-  <!-- End plugin js for this page-->
-  <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <!-- endinject -->
-  <!-- plugin js for this page -->
-  <!-- End plugin js for this page -->
-  <!-- Custom js for this page-->
-  <script src="js/dashboard.js"></script>
+ 
   <!-- End custom js for this page-->
 </body>
 
