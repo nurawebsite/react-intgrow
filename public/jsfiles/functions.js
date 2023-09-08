@@ -674,8 +674,8 @@ function displaySaveDuty() {
             dutyData += `</div>`;
             // showSaveDutyDetails.innerHTML += dutyData;
             dutyData += "<div class='margin-all col-sm-12 col-md-12 col-lg-12'><div>";
-            dutyData += `<span class='duty-cost'>Landed cost: ${Math.floor(integerToCurrency(total, impCurrency))}`;
-            dutyData += impCurrency != cyn ? ` ( ${Math.floor(integerToCurrency(cynConvertTotal, cyn))} )` : "";
+            dutyData += `<span class='duty-cost'>Landed cost: ${integerToCurrency(total, impCurrency)}`;
+            dutyData += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )` : "";
             dutyData += "</span></div><div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
             dutyData += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div></div>`;
             dutyData += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote fta-footnote-save'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
@@ -751,8 +751,8 @@ function displaySaveDuty() {
             dutyData1 += `</div>`;
             // showSaveDutyDetails.innerHTML += dutyData;
             dutyData1 += "<div class='margin-all col-sm-12 col-md-12 col-lg-12'><div>";
-            dutyData1 += `<span class='duty-cost'>Landed cost: ${Math.floor(integerToCurrency(total, impCurrency))}`;
-            dutyData1 += impCurrency != cyn ? ` ( ${Math.floor(integerToCurrency(cynConvertTotal, cyn))} )` : "";
+            dutyData1 += `<span class='duty-cost'>Landed cost: ${integerToCurrency(total, impCurrency)}`;
+            dutyData1 += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )` : "";
             dutyData1 += "</span></div><div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
             dutyData1 += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div>`;
             dutyData1 += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
