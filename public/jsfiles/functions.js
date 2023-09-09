@@ -2,7 +2,7 @@ let urlInputResponse, currencyResponse, countryListResponse, cyn, impCurrency, c
 let hsDetailsResponse, impcountryHSResponse, expcountryHSResponse, rulesResponse, footnoteResponse;
 let getDutyResponse = saveDutyResponse = {}, inputData = other_params = {}, showSaveDutyDetails = "";
 let importCountrySummary = exportCountrySummary = transportModeSummary = hscodeSummary = hscodeDescSummary = currencyDescSummary = null;
-let cifValSummary = totalDutySummary = totalCostSummary = null;
+let cifValSummary = totalDutySummary = totalCostSummary = null, hsnVal, impCountryVal, expCountryVal;
 // const hostname = "http://localhost:5555";
 const hostname = "https://dev.intgrow.co";
 const getDutyUrl = `${hostname}/api/dutyCalculator/getDuty`;
@@ -894,6 +894,12 @@ function displayHSCodes(ele) {
     document.getElementById("hscodeList").innerHTML = hsDataList;
 }
 
+function showPointsDeductScreen(popupEle="points-popup-box") {
+    document.getElementById(popupEle).style.visibility = "visible";
+    document.getElementById(popupEle).style.opacity = "1";
+    document.getElementById(popupEle).style.display = "flex";
+}
+
 function searchHSCode() {
     let hscode = document.getElementById("hscode").value,
         impCountry = document.getElementById("import_country").value,
@@ -918,8 +924,9 @@ function searchHSCode() {
     searchHSForm.innerHTML = string;
 }
 
-function closeModal() {
-    document.getElementById('popup-box').style.visibility = "hidden";
+function closeModal(modal='popup-box') {
+    document.getElementById(modal).style.visibility = "hidden";
+    document.getElementById(modal).style.display = "none";
 }
 
 async function findHSCode(ele = '') {
@@ -1037,6 +1044,10 @@ function gotoForm(element1, element2) {
     formReset.innerHTML = '';
     formDisplay.style.visibility = 'visible';
     formDisplay.style.display = 'flex';
+
+    document.getElementById("points-popup-box").style.visibility = "hidden";
+    document.getElementById("points-popup-box").style.opacity = "0";
+    document.getElementById("points-popup-box").style.display = "none";
 }
 
 async function fetchCountryHSN(hscode, importCountry, ele) {
@@ -1066,13 +1077,13 @@ function openPopup(ele) {
     htmlEle.innerHTML = `<div>Select Import Country and HS Code</div>`;
 }
 
-async function getCountryHSCode(hscode, importCountry, exportCountry) {
+async function getCountryHSCode(hscode=hsnVal, importCountry=impCountryVal, exportCountry=expCountryVal) {
     if (!getCountryId(importCountry)) {
         openPopup('searchHSN');
     }
     else {
         setHeaders();
-
+        closeModal('points-popup-box');
         let hscodeForm = document.getElementById("hscode_form"),
             hsFreeTextTable = document.getElementById("hs_freetext_search"),
             hscodesDisplay = document.getElementById("show_hscodes");
@@ -1137,6 +1148,13 @@ async function getCountryHSSearch(hscode, imp, formEle) {
     }
 }
 
+function setSelectHSN(hsn,imp,exp) {
+    hsnVal = hsn;
+    impCountryVal= imp;
+    expCountryVal= exp;
+    showPointsDeductScreen();
+}
+
 function displayFreeHSSearch(hs_codes, importCountry, exportCountry, formEle = "hs_freetext_search") {
     let string = '';
     let hsFreeTextTable = document.getElementById(formEle);
@@ -1147,7 +1165,7 @@ function displayFreeHSSearch(hs_codes, importCountry, exportCountry, formEle = "
         string += `<table class="hstable-data hstable-hsn-search"><tr> <th> HS Codes </th><th colspan="2"> Product Description </th> </tr>`;
         hs_codes.forEach(h => {
             let [value, des] = h.hs6.split(" -");
-            string += `<tr> <td> ${value} </td> <td> ${des} </td> <td><button class='btn btn-outline-primary btn-icon-text btn-center-align btn-select-hsn' type='button' onclick='getCountryHSCode("${value}","${importCountry}","${exportCountry}")' name="HSCode" id="hscode_select">Select</td></tr>`;
+            string += `<tr> <td> ${value} </td> <td> ${des} </td> <td><button class='btn btn-outline-primary btn-icon-text btn-center-align btn-select-hsn' type='button' onclick='setSelectHSN("${value}","${importCountry}","${exportCountry}")' name="HSCode" id="hscode_select">Select</td></tr>`;
         });
         string += "</table></div></div></div>";
         hsFreeTextTable.innerHTML = string;
@@ -1178,8 +1196,11 @@ async function loadHsCodes(event) {
             }
         }
         else {
-            const hsn = hscode.value.split(" ")[0];
-            getCountryHSCode(hsn, importCountry.value, exportCountry.value);
+            hsnVal = hscode.value.split(" ")[0];
+            impCountryVal = importCountry.value;
+            expCountryVal = exportCountry.value
+            showPointsDeductScreen();
+            // getCountryHSCode(hsn, , );
         }
     }
     else {
