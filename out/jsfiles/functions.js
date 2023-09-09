@@ -188,6 +188,18 @@ function currencyConvert(val) {
     return total && Math.floor(total) || 0;
 }
 
+function getRTACountry(countryList) {
+    if (countryList) {
+        const countryArray = countryList.replace(/\s+/g, "").split(",");
+        let retVal = [];
+        countryArray.forEach(c => {
+            retVal.push(getCountryId(c, "label"));
+        });
+        return retVal.join(", ");
+    }
+    return "";
+}
+
 function displayOriginRules(ftaIds) {
 
     let string = "";
@@ -196,11 +208,13 @@ function displayOriginRules(ftaIds) {
             let rule = ftaIds.find(f => f == r.rule);
             let rulesHTML = document.getElementById(`rules${rule}`);
             if (r && r.criteria && r.criteria.toLowerCase() != 'not applicable' && rule) {
+                const countries = getRTACountry(r.countries);
                 string = "<div class='col-sm-12 col-md-12 col-lg-12 padding-left-zero'>";
                 string += `<table class='roo-table-data'>`;
                 string += `<tr><th colspan='2'>Rules Of Origin</th></tr>`;
                 string += `<tr><td><span class="rules-label"> RoO Criteria </span></td><td> ${r.criteria}</td></tr>`;
                 string += r.doc != '#' ? `<tr><td><span class="rules-label"> Download </span></td><td class="overflow-text"><a href='${r.doc}'><img class='thumbs-up-icon' src='assets/pdf-icon.png' alt='pdf link' /></a></td></tr>` : " ";
+                string += countries ? `<tr><td><span class="rules-label"> RoO Countries </span></td><td> ${countries}</td></tr>` : "";
                 string += "</table></div>";
                 string += r.note ? `<div class='rules-note'> Note: ${r.note} </div>` : " ";
                 rulesHTML.innerHTML = string;
@@ -772,10 +786,30 @@ function displaySaveDuty() {
         nosaveDutyData = lines + dutyData1;
     }
     const landedCost = Math.floor(currencyConvert(getDutyResponse.total + getDutyResponse.CIF));
+
     let shipmentSummary = "";
-    shipmentSummary += `<div class='row'><div class='col-sm-12 shipment-summary'>`;
-    shipmentSummary += `<h3>YOUR SHIPMENT SUMMARY</h3>`;
-    shipmentSummary += `<div> Import Country: <span>${impCountryLabel}</span></div>`;
+    shipmentSummary += `<div class='row fta-shipment-summary-block'>`;
+    shipmentSummary += `<div class="col-sm-12 fta-shipment-heading"><h3 clas="col-sm-12">YOUR SHIPMENT SUMMARY</h3></div>`;
+    shipmentSummary += `<div class="col-sm-12 vertical-separator"></div>`;
+   
+    // FTAs summary
+    if (savedDutyDetails && savedDutyDetails.length) {
+        shipmentSummary += `<div class='col-sm-12 col-md-6 col-lg-6 fta-shipment-summary'>`;
+        savedDutyDetails.forEach(s => {
+            const saved = getDutyTotal - s.total;
+            shipmentSummary += `<div class='row'>`;
+            shipmentSummary += `<div class='col-sm-12 fta-summary-heading'>- Under ${s.code}</div>`;
+            shipmentSummary += `<div class='col-sm-12 fta-summary-data'>Total Import Duty: ${s.total} ${s.cyn}</div>`;
+            shipmentSummary += `<div class='col-sm-12 fta-summary-data'>Duty Saved: ${saved} ${s.cyn}</div>`;
+            shipmentSummary += `</div>`;
+        });
+        shipmentSummary += `</div>`;
+    }
+
+    // shipment summary
+
+    shipmentSummary += `<div class='col-sm-12 col-md-5 col-lg-5 fta-shipment-summary'>`;
+    shipmentSummary += `<div class="fta-shipment-data"> Import Country: <span>${impCountryLabel}</span></div>`;
     shipmentSummary += `<div> Export Country: <span>${expCountryLabel}</span></div>`;
     shipmentSummary += `<div> Mode of Transport: <span>${inputData.mode}</span></div>`;
     shipmentSummary += `<div> Import HS Code: <span>${getDutyResponse.hscode}</span></div>`;
@@ -784,6 +818,7 @@ function displaySaveDuty() {
     shipmentSummary += `<div> CIF Value: <span>${getDutyResponse.CIF} ${cyn}</span></div>`;
     shipmentSummary += `<div> Total Duty: <span>${currencyConvert(getDutyResponse.total)} ${cyn}</span></div>`;
     shipmentSummary += `<div> Total landed cost: <span>${landedCost}</span></div>`;
+    shipmentSummary += `<div> HSN Description: <span>${getDutyResponse.des}</span></div>`;
     shipmentSummary += '</div></div>';
 
     showSaveDutyDetails.innerHTML += dutyData + nosaveDutyData;

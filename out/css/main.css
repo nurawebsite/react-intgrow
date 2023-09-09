@@ -886,8 +886,38 @@ p {
   padding: 24px;
 }
 
+.fta-shipment-summary-block {
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.fta-shipment-summary {
+  padding: 24px;
+  margin: 16px;
+}
+
+.fta-shipment-summary div {
+  line-height: 24px;
+}
+
+.fta-shipment-heading {
+  text-align: center;
+}
+
 .form-shipping-details {
   width: 100%;
+}
+
+.fta-summary-heading {
+  color: #6d809b;
+}
+
+.fta-summary-data {
+  font-size: 14px;
+  padding-left: 32px;
+}
+
+.fta-shipment-data {
+  margin-top: 16px;
 }
 
 select {
