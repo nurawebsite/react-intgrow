@@ -8,7 +8,11 @@ const hostname = "https://dev.intgrow.co";
 const getDutyUrl = `${hostname}/api/dutyCalculator/getDuty`;
 const saveDutyUrl = `${hostname}/api/dutyCalculator/getFTA`;
 const countryUrl = `${hostname}/api/country/search`;
-
+const incoInfoMap = {
+    EXW: "EXW (Ex Works): EXW Price = Cost of Goods at Factory Premises",
+    CIF: "CIF (Cost, Insurance, Freight): CIF Price = Cost of Goods + Local Transport and Clearance Cost + Cost of Loading Goods onto the Vessel + Freight Cost till Destination + Insurance",
+    FOB: "FOB (Free On Board): FOB Price = Cost of Goods + Local Transport and Clearance Cost + Cost of Loading Goods onto the Vessel"
+}
 
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
@@ -182,7 +186,7 @@ function currencyConvert(val) {
     currencyResponse.forEach(c => {
         if (c.country === cyn || c.currency === cyn) {
             total = val / c.value;
-            cynRate = !cynRate ? c.value : cynRate;
+            cynRate = c.value;
         }
     });
     return total && Math.floor(total) || 0;
@@ -284,12 +288,14 @@ function loadFootnote() {
         let index = 0;
         footnoteResponse.forEach(f => {
             if (index < 4) {
-                footnoteData += `<div class='col-md-3'><button class="btn btn-outline-primary btn-icon-text footnote-btn" type="button" id='btnid${index}' onclick="expandFootnote('btnid${index}', '${f.value}')">${f.label}</button></div>`;
+                footnoteData += `<div class='col-md-3 col-sm-12'><button class="btn btn-outline-primary btn-icon-text footnote-btn" type="button" id='btnid${index}' onclick="expandFootnote('btnid${index}', '${f.value}')">${f.label}</button></div>`;
                 index++;
             }
         });
         footnoteData += `</div><div id='footnotes' class='col-sm-12'>  </div>`;
         footnoteEle.innerHTML = footnoteData;
+     
+        expandFootnote("btnid0",footnoteResponse[0].value);
     }
 }
 
@@ -327,8 +333,8 @@ function displayGetDuty() {
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div></div>`;
     formDetails += `<div class='col-md-3 row align-center padding-left-zero position-absolute'>`;
-    formDetails += `<div class='col-md-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getDuty(event)'>Get Result</button></div>`;
-    formDetails += `<div class='col-md-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div>`;
+    formDetails += `<div class='col-md-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text btn-result-update' id='callGetDuty' type='button' onclick='getDuty(event)'>Get Result</button></div>`;
+    formDetails += `<div class='col-md-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text btn-result-update' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div>`;
     formDetails += `<span class='col-12 result-top-info'>Please click on the "Modify" button to change Exporting Country, Currency, and Value of Products for faster results.</span></div>`;
 
     document.getElementById('export_country').value = expCountryLabel;
@@ -386,7 +392,8 @@ function displayGetDuty() {
 
     let insuranceCharge = params.exwInsuranceCharges || params.cifInsuranceCharges || params.fobInsuranceCharges || 0;
     let internationalFreight = params.exwIntFreight || params.cifIntFreight || params.fobIntFreight || 0;
-    line += `<div class='col-sm-6 summary-label'> Inco Term: </div> <div class='col-sm-6 summary-value'> ${params.inco_term}</div>`;
+    const incoInfo = `<span class="inco-info"> <i class="icon-info-sign"></i> <span class="inco-extra-info"> ${incoInfoMap[params.inco_term]} </span></span>`;
+    line += `<div class='col-sm-6 summary-label'> Inco Term ${incoInfo} : </div> <div class='col-sm-6 summary-value'> ${params.inco_term}</div>`;
     line += params.exwInsuranceCharges ? `<div class='col-sm-6 summary-label'> Origin Charges: </div> <div class='col-sm-6 summary-value'> ${params.exwInsuranceCharges}</div>` : '';
     line += params.exwIntFreight ? `<div class='col-sm-6 summary-label'> Origin Freight: </div> <div class='col-sm-6 summary-value'> ${params.exwIntFreight}</div>` : '';
     line += `<div class='col-sm-6 summary-label'> International Freight: </div> <div class='col-sm-6 summary-value'> ${internationalFreight}</div>`;
@@ -398,10 +405,14 @@ function displayGetDuty() {
     line += `<div class='col-sm-6 summary-label'> HSN Description: </div> <div class='col-sm-12'> ${getDutyResponse.des} </div>`;
     line += `</div>`;    //summary block closed.
 
-    line += `<button class="btn btn-outline-primary btn-icon-text duty-saver-btn" id="callSaveDuty" type="button" onclick="window.top.location.href='/dutysaver'">Duty Saver Pro</button>`;
-    line += `</div>`;
+    line += `<div class='row duty-saver-btn-block'>`;
+    line += `<div class='row duty-saver-block'> <div>"Want to save more with this transaction?</div> <div> Tap the button to unlock Duty Saver Pro now!" </div> </div>`;
+    line += `<button class="row btn btn-outline-primary btn-icon-text duty-saver-btn" id="callSaveDuty" type="button" onclick="window.top.location.href='/dutysaver'">Duty Saver Pro</button>`;
+    line += `</div>`; //duty saver button close
 
-    line += `<div class='col-sm-12 col-md-12 row' id='footnoteBlock'> </div>`;
+    line += `</div> `;
+
+    line += `<div class='row footnote-data-block' id='footnoteBlock'> </div> `;
 
     showGetDutyDetails.innerHTML += line;
     showGetDutyDetails.style.visibility = "visible";
@@ -416,9 +427,8 @@ function expandFootnote(btnEle, data) {
         let btn = document.getElementById(`btnid${index}`);
         btn && btn.classList.value.match(/(active)/g) && btn.classList.remove('active');
     }
-
     btnHTMLEle.classList.add('active');
-    ele.innerHTML = `<div class='footnote-block'><span>${data}</span></div>`;
+    ele.innerHTML = `<div class='footnote-block'> <span>${data}</span></div> `;
 }
 
 function formRequest() {
@@ -603,14 +613,14 @@ function displaySaveDuty() {
     const exportCountryList = document.getElementById('export_countryList');
     const currencyList = document.getElementById('cyn');
 
-    formDetails += `<div class='row'><div class='col-sm-9 row'>`;
+    formDetails += `<div class='row' > <div class='col-sm-9 row'>`;
     // formDetails += `<div class='col-sm-4 form-group'><label for='export_country' class='col col-form-label'>Exporting</label><select class='form-control form-control-lg' id='export_country' value='${expLabel.value}' onchange='updateFieldVal("export_country",this.value)'>${expLabel.innerHTML}</select></div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class='col-hs col-form-label'>Exporting Country</span><input type='text' class='form-control form-control-lg' value='${expCountryLabel}' disabled> </div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div> </div>`;
-    formDetails += `<div class='col-sm-3 row align-center padding-left-zero position-absolute'>`;
-    formDetails += `<div class='col-sm-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text' id='callGetDuty' type='button' onclick='getSavedDuty(event)'>Get Result</button></div>`;
-    formDetails += `<div class='col-sm-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div></div>`;
+    formDetails += `<div class='col-sm-3 row align-center padding-left-zero position-absolute' > `;
+    formDetails += `<div class='col-sm-6 padding-left-zero' > <button class='btn btn-outline-primary btn-icon-text btn-result-update' id='callGetDuty' type='button' onclick='getSavedDuty(event)'>Get Result</button></div> `;
+    formDetails += `<div class='col-sm-6 padding-left-zero' > <button class='btn btn-outline-primary btn-icon-text btn-result-update' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div></div> `;
 
     // document.querySelector('#export_country').value = expLabel.value;
     // document.getElementById('cyn').value = cyn;
@@ -644,12 +654,12 @@ function displaySaveDuty() {
                             footnote_data = duty[0][`${prefix}_f`];
                             ftaRule = _dd;
                         }
-                        entry += `<tr><td>${_dd}`;
+                        entry += `<tr> <td>${_dd}`;
                         entry += _define ? `<span class="info"> <i class="icon-info-sign"></i> <span class="extra-info"> ${_define} </span></span>` : '';
                         entry += `</td>`;
-                        entry += `<td>${_d}</td>`;
-                        entry += `<td>${Math.floor(_cl)}</td>`;
-                        entry += impCurrency != cyn ? `<td>${currencyConvert(_cl)}</td>` : "";
+                        entry += `<td> ${_d}</td> `;
+                        entry += `<td> ${Math.floor(_cl)}</td> `;
+                        entry += impCurrency != cyn ? `<td> ${currencyConvert(_cl)}</td> ` : "";
                         dutyCodes.push(ele[getKey]);
                     }
                 });
@@ -661,13 +671,13 @@ function displaySaveDuty() {
                 });
 
                 let savedConvertPrice = savedDuty ? currencyConvert(savedDuty) : 0;
-                let categories = `Save ${integerToCurrency(savedDuty, impCurrency)} ( ${integerToCurrency(savedConvertPrice, cyn)} ) Landing cost`;
+                let categories = `Save ${integerToCurrency(savedDuty, impCurrency)} (${integerToCurrency(savedConvertPrice, cyn)} ) Landing cost`;
 
-                var line = `<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"><div class='row display-group duty-block panel panel-default'>`;
+                var line = `<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" > <div class='row display-group duty-block panel panel-default'>`;
                 line += `<div class="col-sm-12 save-duty-heading panel-heading" role="tab" id="heading${index}">`;
-                line += `<a class="save-duty-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${index}" aria-expanded="false" aria-controls="index${index}"">`;
+                line += `<a class="save-duty-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${index}" aria-expanded="false" aria-controls="index${index}">`;
                 line += `<span class="menu-title">${categories}</span></a></div>`;
-                line += `<div class='panel-collapse collapse' id='index${index}' role="tabpanel" aria-labelledby="heading${index}" aria-expanded="false"><div class='panel-body row'>`;
+                line += `<div class='panel-collapse collapse' id='index${index}' role="tabpanel" aria-labelledby="heading${index}" aria-expanded="false" > <div class='panel-body row'>`;
                 line += `<div class='col-sm-12 col-md-9 col-lg-9'>`;
                 line += `<div class='col-sm-12'>`;
                 line += `<div class='duty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
@@ -693,7 +703,7 @@ function displaySaveDuty() {
             dutyData += "</span></div><div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
             dutyData += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div></div>`;
             dutyData += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote fta-footnote-save'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
-            dutyData += `</div></div></div>`;
+            dutyData += `</div></div></div> `;
             ftaRule = "";
             index++;
         }
@@ -728,12 +738,12 @@ function displaySaveDuty() {
                         footnote_data = duty[0][`${prefix}_f`];
                         ftaRule = _dd;
                     }
-                    entry1 += `<tr><td>${_dd}`;
+                    entry1 += `<tr> <td>${_dd}`;
                     entry1 += _define ? `<span class="info"> <i class="icon-info-sign"></i> <span class="extra-info"> ${_define} </span></span>` : '';
                     entry1 += `</td>`;
-                    entry1 += `<td>${_d}</td>`;
-                    entry1 += `<td>${Math.floor(_cl)}</td>`;
-                    entry1 += impCurrency != cyn ? `<td>${currencyConvert(_cl)}</td>` : "";
+                    entry1 += `<td> ${_d}</td> `;
+                    entry1 += `<td> ${Math.floor(_cl)}</td> `;
+                    entry1 += impCurrency != cyn ? `<td> ${currencyConvert(_cl)}</td> ` : "";
                     dutyCodes.push(ele[getKey]);
                 }
             });
@@ -745,7 +755,7 @@ function displaySaveDuty() {
             });
 
             let savedConvertPrice = savedDuty ? currencyConvert(savedDuty) : 0;
-            let line1 = `<div class='row'><div class='col-sm-12 col-md-9 col-lg-9'>`;
+            let line1 = `<div class='row' > <div class='col-sm-12 col-md-9 col-lg-9'>`;
             line1 += `<div class='col-sm-12'>`;
             line1 += `<div class='duty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
             line1 += `<table class='duty-details'><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
@@ -758,7 +768,7 @@ function displaySaveDuty() {
             htmlText1 += impCurrency != cyn ? `<td> ${totalPrecision} </td>` : "";
             dutyData1 += `${htmlText1} </tr></table></div></div>`;
 
-            let savedAmt = `<img class="thumbs-up-icon" src="assets/thumbsdown.png" alt="nosave">Sorry you haven't saved duty under ${ftaRule} and you may have to pay ${integerToCurrency(getDutyTotal, impCurrency)} from Duty Calculator.`;
+            let savedAmt = `<img class="thumbs-up-icon" src="assets/thumbsdown.png" alt="nosave"> Sorry you haven't saved duty under ${ftaRule} and you may have to pay ${integerToCurrency(getDutyTotal, impCurrency)} from Duty Calculator.`;
             // let footnote_label = ftaLabel+"_f";
             let footnote_key = Object.keys(duty[0].dutyDetails[0]);
             dutyData1 += `<div class='col-sm-12 col-md-3 col-lg-3'><div id='rules${ftaLabel}' class='roo-table'>  </div>`;
@@ -780,7 +790,7 @@ function displaySaveDuty() {
 
         let lines = `<div class='row display-group duty-block no-saving-block panel panel-default'>`;
         lines += `<div class="col-sm-12 save-duty-heading panel-heading" role="tab" id="heading${index}">`;
-        lines += `<a class="save-duty-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${index}" aria-expanded="false" aria-controls="index${index}"">`;
+        lines += `<a class="save-duty-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${index}" aria-expanded="false" aria-controls="index${index}">`;
         lines += `<span class="menu-title">No saving on Landing cost</span></a></div>`;
         lines += `<div class='panel-collapse collapse' id='index${index}' role="tabpanel" aria-labelledby="heading${index}" aria-expanded="false"><div class='panel-body row'>`;
         nosaveDutyData = lines + dutyData1;
@@ -791,7 +801,7 @@ function displaySaveDuty() {
     shipmentSummary += `<div class='row fta-shipment-summary-block'>`;
     shipmentSummary += `<div class="col-sm-12 fta-shipment-heading"><h3 clas="col-sm-12">YOUR SHIPMENT SUMMARY</h3></div>`;
     shipmentSummary += `<div class="col-sm-12 vertical-separator"></div>`;
-   
+
     // FTAs summary
     if (savedDutyDetails && savedDutyDetails.length) {
         shipmentSummary += `<div class='col-sm-12 col-md-6 col-lg-6 fta-shipment-summary'>`;
@@ -816,6 +826,16 @@ function displaySaveDuty() {
     shipmentSummary += `<div> Currency: <span>${cyn}</span></div>`;
     shipmentSummary += `<div> Currency Rate for ${cyn}: <span>${cynRate} ${impCurrency}</span></div>`;
     shipmentSummary += `<div> CIF Value: <span>${getDutyResponse.CIF} ${cyn}</span></div>`;
+    
+    let insuranceCharge = params.exwInsuranceCharges || params.cifInsuranceCharges || params.fobInsuranceCharges || 0;
+    let internationalFreight = params.exwIntFreight || params.cifIntFreight || params.fobIntFreight || 0;
+    const incoInfo = `<span class="inco-info"> <i class="icon-info-sign"></i> <span class="inco-extra-info"> ${incoInfoMap[params.inco_term]} </span></span>`;
+    shipmentSummary += `<div> Inco Term ${incoInfo} : <span> ${params.inco_term} </span></div>`;
+    shipmentSummary += params.exwInsuranceCharges ? `<div> Origin Charges: <span> ${params.exwInsuranceCharges}</span></div>` : '';
+    shipmentSummary += params.exwIntFreight ? `<div> Origin Freight: <span> ${params.exwIntFreight}</span></div>` : '';
+    shipmentSummary += `<div> International Freight: <span> ${internationalFreight}</span></div>`;
+    shipmentSummary += `<div> Insurance Charges: <span> ${insuranceCharge}</span></div>`;
+    
     shipmentSummary += `<div> Total Duty: <span>${currencyConvert(getDutyResponse.total)} ${cyn}</span></div>`;
     shipmentSummary += `<div> Total landed cost: <span>${landedCost}</span></div>`;
     shipmentSummary += `<div> HSN Description: <span>${getDutyResponse.des}</span></div>`;
