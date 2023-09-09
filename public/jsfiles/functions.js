@@ -188,6 +188,18 @@ function currencyConvert(val) {
     return total && Math.floor(total) || 0;
 }
 
+function getRTACountry(countryList) {
+    if(countryList) {
+        const countryArray = countryList.replace(/\s+/g,"").split(",");
+        let retVal = [];
+        countryArray.forEach(c => {
+            retVal.push(getCountryId(c,"label"));
+        });
+        return retVal.join(", ");
+    }
+    return "";
+}
+
 function displayOriginRules(ftaIds) {
 
     let string = "";
@@ -196,11 +208,13 @@ function displayOriginRules(ftaIds) {
             let rule = ftaIds.find(f => f == r.rule);
             let rulesHTML = document.getElementById(`rules${rule}`);
             if (r && r.criteria && r.criteria.toLowerCase() != 'not applicable' && rule) {
+                const countries = getRTACountry(r.countries);
                 string = "<div class='col-sm-12 col-md-12 col-lg-12 padding-left-zero'>";
                 string += `<table class='roo-table-data'>`;
                 string += `<tr><th colspan='2'>Rules Of Origin</th></tr>`;
                 string += `<tr><td><span class="rules-label"> RoO Criteria </span></td><td> ${r.criteria}</td></tr>`;
                 string += r.doc != '#' ? `<tr><td><span class="rules-label"> Download </span></td><td class="overflow-text"><a href='${r.doc}'><img class='thumbs-up-icon' src='assets/pdf-icon.png' alt='pdf link' /></a></td></tr>` : " ";
+                string += countries ? `<tr><td><span class="rules-label"> RoO Countries </span></td><td> ${countries}</td></tr>`: "";
                 string += "</table></div>";
                 string += r.note ? `<div class='rules-note'> Note: ${r.note} </div>` : " ";
                 rulesHTML.innerHTML = string;
