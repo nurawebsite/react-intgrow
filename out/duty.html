@@ -132,6 +132,7 @@
 
               </div>
             </div>
+
             <div id="user_input" class="row col-12 padding-left-zero">
               <!-- load user inputs here -->
             </div>
@@ -243,18 +244,35 @@
                 </div>
               </div>
             </div>
+            
+            <div id="points-popup-box" class="modal">
+              <div class="content">
+                <span class="box-close" onclick="closeModal('points-popup-box')">
+                  ×
+                </span>
+                <div id="pointsdeduct" class="points-popup">
+                  <!-- Points deduction screen here -->
+                  <div class="points-popup-text">If you proceed, 1 point will be credited. Confirm?</div>
+                  <button type="button" id="popup-confirm" class="btn btn-outline-primary btn-icon-text btn-center-align">
+                    <i class="mdi mdi-file-check btn-icon-prepend" onclick="getDuty(event)"></i>
+                    Yes
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
             <div class="col-sm-12 col-md-12 col-lg-12">
               <button id="formsubmit" type="button" class="btn btn-outline-primary btn-icon-text btn-center-align">
-                <i class="mdi mdi-file-check btn-icon-prepend" onclick="getDuty(event)"></i>
+                <i class="mdi mdi-file-check btn-icon-prepend" onclick="showPointsDeductScreen('points-popup-box')"></i>
                 Calculate duty
               </button>
             </div>
           </form>
-
         </div>
-
       </div>
     </div>
+
     <div class="col-md-12">
       <div class="row-msg error-msg" id="errorMSg">
         <!-- Display error -->
@@ -296,7 +314,8 @@
           fob.style.display = cif.style.display = exw.style.display = 'none';
         }
       });
-      document.getElementById("formsubmit").onclick = function () { getDuty(event) };
+      document.getElementById("formsubmit").onclick = function () { showPointsDeductScreen('points-popup-box') };
+      document.getElementById("popup-confirm").onclick = function () { getDuty(event) };
 
     </script>
   </div>

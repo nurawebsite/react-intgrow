@@ -491,11 +491,19 @@ p {
 
 .content {
   position: absolute;
-  top: 10%;
   background: white;
   width: 80%;
   padding: 1em 2em;
   border-radius: 4px;
+}
+
+.points-popup {
+  text-align: center;
+  margin: 32px auto;
+}
+
+.points-popup-text {
+  margin-bottom: 32px;
 }
 
 .target {
