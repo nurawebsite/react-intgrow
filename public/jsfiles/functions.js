@@ -8,7 +8,11 @@ const hostname = "https://dev.intgrow.co";
 const getDutyUrl = `${hostname}/api/dutyCalculator/getDuty`;
 const saveDutyUrl = `${hostname}/api/dutyCalculator/getFTA`;
 const countryUrl = `${hostname}/api/country/search`;
-
+const incoInfoMap = {
+    EXW: "EXW (Ex Works): EXW Price = Cost of Goods at Factory Premises",
+    CIF: "CIF (Cost, Insurance, Freight): CIF Price = Cost of Goods + Local Transport and Clearance Cost + Cost of Loading Goods onto the Vessel + Freight Cost till Destination + Insurance",
+    FOB: "FOB (Free On Board): FOB Price = Cost of Goods + Local Transport and Clearance Cost + Cost of Loading Goods onto the Vessel"
+}
 
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
@@ -388,7 +392,8 @@ function displayGetDuty() {
 
     let insuranceCharge = params.exwInsuranceCharges || params.cifInsuranceCharges || params.fobInsuranceCharges || 0;
     let internationalFreight = params.exwIntFreight || params.cifIntFreight || params.fobIntFreight || 0;
-    line += `<div class='col-sm-6 summary-label'> Inco Term: </div> <div class='col-sm-6 summary-value'> ${params.inco_term}</div>`;
+    const incoInfo = `<span class="inco-info"> <i class="icon-info-sign"></i> <span class="inco-extra-info"> ${incoInfoMap[params.inco_term]} </span></span>`;
+    line += `<div class='col-sm-6 summary-label'> Inco Term ${incoInfo} : </div> <div class='col-sm-6 summary-value'> ${params.inco_term}</div>`;
     line += params.exwInsuranceCharges ? `<div class='col-sm-6 summary-label'> Origin Charges: </div> <div class='col-sm-6 summary-value'> ${params.exwInsuranceCharges}</div>` : '';
     line += params.exwIntFreight ? `<div class='col-sm-6 summary-label'> Origin Freight: </div> <div class='col-sm-6 summary-value'> ${params.exwIntFreight}</div>` : '';
     line += `<div class='col-sm-6 summary-label'> International Freight: </div> <div class='col-sm-6 summary-value'> ${internationalFreight}</div>`;
@@ -824,7 +829,8 @@ function displaySaveDuty() {
     
     let insuranceCharge = params.exwInsuranceCharges || params.cifInsuranceCharges || params.fobInsuranceCharges || 0;
     let internationalFreight = params.exwIntFreight || params.cifIntFreight || params.fobIntFreight || 0;
-    shipmentSummary += `<div> Inco Term: <span> ${params.inco_term} </span></div>`;
+    const incoInfo = `<span class="inco-info"> <i class="icon-info-sign"></i> <span class="inco-extra-info"> ${incoInfoMap[params.inco_term]} </span></span>`;
+    shipmentSummary += `<div> Inco Term ${incoInfo} : <span> ${params.inco_term} </span></div>`;
     shipmentSummary += params.exwInsuranceCharges ? `<div> Origin Charges: <span> ${params.exwInsuranceCharges}</span></div>` : '';
     shipmentSummary += params.exwIntFreight ? `<div> Origin Freight: <span> ${params.exwIntFreight}</span></div>` : '';
     shipmentSummary += `<div> International Freight: <span> ${internationalFreight}</span></div>`;

@@ -1112,16 +1112,18 @@ a:focus {
   position: relative;
 }
 
-.extra-info {
+.extra-info,
+.inco-extra-info {
   display: none;
-  line-height: 30px;
+  line-height: 20px;
   font-size: 12px;
   position: absolute;
   top: 20px;
   left: 30px;
 }
 
-.info:hover .extra-info {
+.info:hover .extra-info,
+.inco-info:hover .inco-extra-info {
   display: block;
   padding: 0 10px;
   background: #dbd1d1;
@@ -1130,7 +1132,8 @@ a:focus {
   max-width: 20vw;
 }
 
-.info {
+.info,
+.inco-info {
   font-size: 16px;
   padding-left: 5px;
   width: 20px;
