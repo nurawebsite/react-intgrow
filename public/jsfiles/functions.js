@@ -186,7 +186,7 @@ function currencyConvert(val) {
     currencyResponse.forEach(c => {
         if (c.country === cyn || c.currency === cyn) {
             total = val / c.value;
-            cynRate = !cynRate ? c.value : cynRate;
+            cynRate = c.value;
         }
     });
     return total && Math.floor(total) || 0;
