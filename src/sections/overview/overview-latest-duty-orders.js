@@ -24,7 +24,7 @@ const statusMap = {
   failed: 'error'
 };
 
-export const OverviewLatestOrders = (props) => {
+export const OverviewLatestDutyOrders = (props) => {
   const { orders = [], heading, subheading, sx } = props;
 
   return (
@@ -53,13 +53,16 @@ export const OverviewLatestOrders = (props) => {
                   Export Destination
                 </TableCell>
                 <TableCell sx={{padding: '16px 12px'}}>
-                  Product
+                  HSN
                 </TableCell>
                 <TableCell sx={{padding: '16px 12px'}}>
-                  Import Destination HSN
+                  Value of Product(CIF)
                 </TableCell>
                 <TableCell sx={{padding: '16px 12px'}}>
-                  Export Destination HSN
+                  Import Duty Amount
+                </TableCell>
+                <TableCell sx={{padding: '16px 12px'}}>
+                  Landed Cost
                 </TableCell>
                 <TableCell sx={{padding: '16px 12px'}}>
                   Status
@@ -84,13 +87,16 @@ export const OverviewLatestOrders = (props) => {
                       {order.exp}
                     </TableCell>
                     <TableCell sx={{padding: '16px 12px'}}>
-                      {order.des}
+                      {order.hsn}
                     </TableCell>
                     <TableCell sx={{padding: '16px 12px'}}>
-                      {order.impHSN}
+                      {order.cif}
                     </TableCell>
                     <TableCell sx={{padding: '16px 12px'}}>
-                      {order.expHSN}
+                      {order.duty}
+                    </TableCell>
+                    <TableCell sx={{padding: '16px 12px'}}>
+                      {order.amount}
                     </TableCell>
                     <TableCell sx={{padding: '16px 12px'}}>
                       <SeverityPill color={statusMap[order.status]}>
@@ -123,7 +129,7 @@ export const OverviewLatestOrders = (props) => {
   );
 };
 
-OverviewLatestOrders.prototype = {
+OverviewLatestDutyOrders.prototype = {
   orders: PropTypes.array,
   sx: PropTypes.object
 };

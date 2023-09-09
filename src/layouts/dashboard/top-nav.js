@@ -11,12 +11,14 @@ import {
   Stack,
   SvgIcon,
   Tooltip,
-  useMediaQuery
+  useMediaQuery,
+  Typography
 } from '@mui/material';
-import { alpha } from '@mui/material/styles';
 import { usePopover } from 'src/hooks/use-popover';
 import { AccountPopover } from './account-popover';
 import { Logo } from 'src/components/logo';
+import { getUsername } from 'src/utils/constants';
+
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -45,7 +47,6 @@ export const TopNav = (props) => {
           alignItems="center"
           direction="row"
           justifyContent="space-between"
-          spacing={2}
           sx={{
             minHeight: TOP_NAV_HEIGHT,
             px: 2
@@ -54,7 +55,6 @@ export const TopNav = (props) => {
           <Stack
             alignItems="center"
             direction="row"
-            spacing={2}
           >
             {!lgUp && (
               <IconButton onClick={onNavOpen}>
@@ -65,38 +65,58 @@ export const TopNav = (props) => {
             )}
             <Logo />
           </Stack>
+
           <Stack
             alignItems="center"
             direction="row"
-            spacing={2}
+            sx={{
+              marginRight: '40px',
+              cursor: 'pointer',
+              width: '15%'
+            }}
           >
-
-            <Tooltip title="Notifications">
+            <Tooltip
+            title="Notifications"
+            sx={{
+              marginRight: '32px'
+            }}
+            >
               <IconButton>
-                <Badge
-                  badgeContent={4}
-                  color="success"
-                  variant="dot"
-                >
-                  <SvgIcon fontSize="small">
-                    <BellIcon />
-                  </SvgIcon>
-                </Badge>
+                <SvgIcon fontSize="small">
+                  <BellIcon />
+                </SvgIcon>
               </IconButton>
             </Tooltip>
-            <Avatar
+            <Stack
               onClick={accountPopover.handleOpen}
               ref={accountPopover.anchorRef}
-              sx={{
-                cursor: 'pointer',
-                height: 40,
-                width: 40
-              }}
+              direction="row"
+              alignItems="center"
             >
-              <SvgIcon fontSize='small'>
-                <UserIcon />
-              </SvgIcon>
-            </Avatar>
+              <Avatar
+                sx={{
+                  cursor: 'pointer',
+                  height: 30,
+                  width: 30,
+                  background: 'none'
+                }}
+              >
+                <SvgIcon fontSize='small'>
+                  <UserIcon />
+                </SvgIcon>
+              </Avatar>
+
+              <Typography
+                color="#fff"
+                variant="overline"
+                sx={{
+                  margin: '0 8px'
+                }}
+              >
+                {getUsername()}
+              </Typography>
+            </Stack>
+
           </Stack>
         </Stack>
       </Box>

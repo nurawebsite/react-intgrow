@@ -5,7 +5,7 @@ import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 
 export const OverviewBudget = (props) => {
-  const { difference, positive = false, sx, value } = props;
+  const { title, icon, sx, value } = props;
 
   return (
     <Card sx={sx}>
@@ -14,29 +14,29 @@ export const OverviewBudget = (props) => {
           alignItems="flex-start"
           direction="row"
           justifyContent="space-between"
-          spacing={3}
         >
           <Stack spacing={1}>
             <Typography
-              color="text.secondary"
+              color="#012970"
               variant="overline"
+              sx={{
+                lineHeight: 'normal'
+              }}
             >
-              Duty Saved
+              {title}
             </Typography>
-            <Typography variant="h4">
+            <Typography variant="subtitle2">
               {value}
             </Typography>
           </Stack>
           <Avatar
             sx={{
               backgroundColor: 'error.main',
-              height: 56,
-              width: 56
+              height: 40,
+              width: 40
             }}
           >
-            <SvgIcon>
-              <CurrencyDollarIcon />
-            </SvgIcon>
+            {icon}
           </Avatar>
         </Stack>
         
@@ -46,8 +46,8 @@ export const OverviewBudget = (props) => {
 };
 
 OverviewBudget.prototypes = {
-  difference: PropTypes.number,
-  positive: PropTypes.bool,
+  title: PropTypes.string.isRequired,
+  icon: PropTypes.object,
   sx: PropTypes.object,
   value: PropTypes.string.isRequired
 };
