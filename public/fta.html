@@ -19,7 +19,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" type="text/css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
+    type="text/css" />
   <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
   <!-- endinject -->
@@ -29,17 +30,17 @@
 </head>
 
 <body>
-  <script>loadCountryList()</script>
+  <script>loadCountryList(formPrefilledData)</script>
 
   <!-- Duty calculator form -->
   <div>
     <div class="banner-block">
       <img class="banner-img" src="assets/banner.png" alt="subscribe_banner" />
     </div>
-    <div class="col-sm-12 col-lg-12 col-md-12 grid-margin stretch-card" id="getSaveDutyForm">
+    <div class="col-sm-12 col-lg-12 col-md-12 grid-margin stretch-card" id="getdutyForm">
       <div class="card">
         <div class="">
-          <form class="forms-sample row" onsubmit="return getSavedDuty()" id="myForm">
+          <form class="forms-sample row" onsubmit="return showPointsDeductScreen()" id="myForm">
             <div class="row">
               <div class="col-12">
                 <span class="">STEP 1</span>
@@ -93,7 +94,8 @@
                     <input type="text" class="form-control form-control-lg" pattern="[0-9]+[a-zA-Z]*" required
                       id="hscode" oninput="getUserInput()" placeholder="Enter HS Code here" autocomplete="off" />
                     <div class="position-absolute">
-                      <button id="findHSN" type="button" title="Please click to locate the destination country's specific HS Code."
+                      <button id="findHSN" type="button"
+                        title="Please click to locate the destination country's specific HS Code."
                         class="btn btn-outline-primary btn-icon-text btn-center-align btn-find-hsn"
                         onclick="searchHSCode()">
                         Browse
@@ -112,7 +114,7 @@
                   </select>
                 </div>
               </div>
-              <div class="form-group col-sm-12 col-md-3 col-lg-3">
+              <div class="form-group col-sm-12 col-md-4 col-lg-4">
                 <label for="productValue" class="col col-form-label">Value of Product</label>
                 <div class="btn-group col form-group-input">
                   <input type="text" class="form-control form-control-lg" id="productValue" placeholder="Numbers only"
@@ -159,21 +161,21 @@
                     <label for="originCharges" class="col col-form-label">Origin Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="originCharges"
-                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required/>
+                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="originFreight" class="col col-form-label">Origin Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="originFreight"
-                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required/>
+                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
                     <label for="exwIntFreight" class="col col-form-label">International Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="exwIntFreight"
-                        placeholder="Numbers only"pattern="[0-9]+" title="Please enter only numeric value." required/>
+                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-3 col-lg-3">
@@ -191,14 +193,14 @@
                     <label for="cifIntFreight" class="col col-form-label">International Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="cifIntFreight"
-                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required/>
+                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-6 col-lg-6">
                     <label for="cifInsuranceCharges" class="col col-form-label">Insurance Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="cifInsuranceCharges"
-                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required/>
+                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required />
                     </div>
                   </div>
                 </div>
@@ -209,14 +211,14 @@
                     <label for="fobIntFreight" class="col col-form-label">International Freight</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="fobIntFreight"
-                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required/>
+                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required />
                     </div>
                   </div>
                   <div class="form-group col-sm-6 col-md-6 col-lg-6">
                     <label for="fobInsuranceCharges" class="col col-form-label">Insurance Charges</label>
                     <div class="btn-group col form-group-input">
                       <input type="text" class="form-control form-control-lg" id="fobInsuranceCharges"
-                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required/>
+                        placeholder="Numbers only" pattern="[0-9]+" title="Please enter only numeric value." required />
                     </div>
                   </div>
                 </div>
@@ -235,9 +237,28 @@
                 </div>
               </div>
             </div>
+
+            <div id="points-popup-box" class="modal">
+              <div class="content">
+                <span class="box-close" onclick="closeModal('points-popup-box')">
+                  ×
+                </span>
+                <div id="pointsdeduct" class="points-popup">
+                  <!-- Points deduction screen here -->
+                  <div class="points-popup-text" id="deductMsg">If you proceed 1 point towards each FTA rule will be deducted from your Duty
+                    Calulator credits. Do you want to proceed?</div>
+                  <button type="button" id="popup-confirm"
+                    class="btn btn-outline-primary btn-icon-text btn-center-align">
+                    <i class="mdi mdi-file-check btn-icon-prepend" onclick="getSavedDuty()"></i>
+                    Yes
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div class="col-sm-12 col-md-12 col-lg-12">
               <button id="formsubmit" type="button" class="btn btn-outline-primary btn-icon-text btn-center-align">
-                <i class="mdi mdi-file-check btn-icon-prepend" onclick="getSavedDuty(event)"></i>
+                <i class="mdi mdi-file-check btn-icon-prepend" onclick="showPointsDeductScreen()"></i>
                 Calculate duty
               </button>
             </div>
@@ -253,7 +274,7 @@
       </div>
     </div>
     <div class="col-md-12 display-group">
-      <div class="row-msg" id="getSavedDutyDetails">
+      <div class="row-msg" id="getdutyDetails">
         <!-- get duty details -->
       </div>
     </div>
@@ -287,8 +308,8 @@
           fob.style.display = cif.style.display = exw.style.display = 'none';
         }
       });
-      document.getElementById("formsubmit").onclick = function () { getSavedDuty(event) };
-
+      document.getElementById("formsubmit").onclick = function () { showPointsDeductScreen() };
+      document.getElementById("popup-confirm").onclick = function () { getSavedDuty() };
 
     </script>
 
@@ -311,7 +332,7 @@
           <span class="d-block text-center d-sm-inline-block">Copyright © 2023 IntGrow</span>
         </div>
       </div>
-      </div>
+    </div>
     </div>
   </footer>
   <script>
@@ -320,7 +341,7 @@
     });
   </script>
   <script src="vendors/js/vendor.bundle.base.js"></script>
- 
+
   <!-- End custom js for this page-->
 </body>
 

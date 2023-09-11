@@ -14,6 +14,12 @@ const incoInfoMap = {
     FOB: "FOB (Free On Board): FOB Price = Cost of Goods + Local Transport and Clearance Cost + Cost of Loading Goods onto the Vessel"
 }
 
+const deductionMessage = {
+    hsnMsg: "If you proceed 2 points will be deducted from your HS Code finder credits. Do you want to proceed?",
+    dutyMsg: "If you proceed 1 point will be deducted from your Duty Calulator credits. Do you want to proceed?",
+    ftaMsg: "If you proceed 1 point towards each FTA rule will be deducted from your Duty Calulator credits. Do you want to proceed?"
+}
+
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
 }
@@ -286,16 +292,17 @@ function loadFootnote() {
         footnoteData = "";
     if (footnoteResponse) {
         let index = 0;
+        footnoteData += `<div class='row footnote-data-block'>`;
         footnoteResponse.forEach(f => {
             if (index < 4) {
                 footnoteData += `<div class='col-md-3 col-sm-12'><button class="btn btn-outline-primary btn-icon-text footnote-btn" type="button" id='btnid${index}' onclick="expandFootnote('btnid${index}', '${f.value}')">${f.label}</button></div>`;
                 index++;
             }
         });
-        footnoteData += `</div><div id='footnotes' class='col-sm-12'>  </div>`;
+        footnoteData += `</div><div id='footnotes' class='col-sm-12'>  </div></div>`;
         footnoteEle.innerHTML = footnoteData;
-     
-        expandFootnote("btnid0",footnoteResponse[0].value);
+
+        expandFootnote("btnid0", footnoteResponse[0].value);
     }
 }
 
@@ -341,6 +348,7 @@ function displayGetDuty() {
     const showGetDutyDetails = document.getElementById("getdutyDetails");
 
     showGetDutyDetails.innerHTML = "";
+    showGetDutyDetails.innerHTML += addPopup();
     showGetDutyDetails.innerHTML += formDetails;
 
     let totalDuty = 0, footnote_data = '';
@@ -407,12 +415,12 @@ function displayGetDuty() {
 
     line += `<div class='row duty-saver-btn-block'>`;
     line += `<div class='row duty-saver-block'> <div>"Want to save more with this transaction?</div> <div> Tap the button to unlock Duty Saver Pro now!" </div> </div>`;
-    line += `<button class="row btn btn-outline-primary btn-icon-text duty-saver-btn" id="callSaveDuty" type="button" onclick="window.top.location.href='/dutysaver'">Duty Saver Pro</button>`;
+    line += `<button class="row btn btn-outline-primary btn-icon-text duty-saver-btn" id="callSaveDuty" type="button" onclick="goToPageWithPointDeduct('dutysaver','points-popup-box-save')">Duty Saver Pro</button>`;
     line += `</div>`; //duty saver button close
 
     line += `</div> `;
 
-    line += `<div class='row footnote-data-block' id='footnoteBlock'> </div> `;
+    line += `<div class='row' id='footnoteBlock'> </div>`;
 
     showGetDutyDetails.innerHTML += line;
     showGetDutyDetails.style.visibility = "visible";
@@ -585,14 +593,31 @@ function integerToCurrency(value, cynVal) {
     return value.toLocaleString('en-US', { style: 'currency', currency: cynVal });
 }
 
+function addPopup() {
+    return `<div id="points-popup-box-save" class="modal">
+        <div class="content">
+            <span class="box-close" onclick="closeModal('points-popup-box-save')">
+                ×
+            </span>
+            <div id="pointsdeduct" class="points-popup">
+                <div class="points-popup-text" id="deductMsg">If you proceed 1 point towards each FTA rule will be deducted from your Duty Calulator credits. Do you want to proceed?</div>
+                <button type="button" id="popup-confirm-save" class="btn btn-outline-primary btn-icon-text btn-center-align">
+                    <i class="mdi mdi-file-check btn-icon-prepend" onclick="getSavedDuty()"></i>
+                    Yes
+                </button>
+            </div>
+        </div>
+    </div>`;
+}
 
 function displaySaveDuty() {
-    showSaveDutyDetails = document.getElementById("getSavedDutyDetails");
-    saveDutyForm = document.getElementById("getSaveDutyForm");
+    showSaveDutyDetails = document.getElementById("getdutyDetails");
+    saveDutyForm = document.getElementById("getdutyForm");
     saveDutyForm.style.visibility = "hidden";
     saveDutyForm.style.display = "none";
 
     showSaveDutyDetails.innerHTML = " ";
+    // showPointsDeductScreen.innerHTML += addPopup();
     let entry = "", savedDutyDetails = [], ftaRule = "", ftaId = [], ftaLabel = "";
     const getDutyTotal = getDutyResponse && Math.floor(getDutyResponse.CIFVALUE + getDutyResponse.total);
     let importCountry = inputData.import_country,
@@ -619,8 +644,8 @@ function displaySaveDuty() {
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div> </div>`;
     formDetails += `<div class='col-sm-3 row align-center padding-left-zero position-absolute' > `;
-    formDetails += `<div class='col-sm-6 padding-left-zero' > <button class='btn btn-outline-primary btn-icon-text btn-result-update' id='callGetDuty' type='button' onclick='getSavedDuty(event)'>Get Result</button></div> `;
-    formDetails += `<div class='col-sm-6 padding-left-zero' > <button class='btn btn-outline-primary btn-icon-text btn-result-update' id='showGetDutyForm' type='button' onclick='gotoForm("getSaveDutyForm", "getSavedDutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div></div> `;
+    formDetails += `<div class='col-sm-6 padding-left-zero' > <button class='btn btn-outline-primary btn-icon-text btn-result-update' id='callGetDuty' type='button' onclick='getSavedDuty()'>Get Result</button></div> `;
+    formDetails += `<div class='col-sm-6 padding-left-zero' > <button class='btn btn-outline-primary btn-icon-text btn-result-update' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div></div> `;
 
     // document.querySelector('#export_country').value = expLabel.value;
     // document.getElementById('cyn').value = cyn;
@@ -828,7 +853,7 @@ function displaySaveDuty() {
     shipmentSummary += `<div> Currency: <span>${cyn}</span></div>`;
     shipmentSummary += `<div> Currency Rate for ${cyn}: <span>${cynRate} ${impCurrency}</span></div>`;
     shipmentSummary += `<div> CIF Value: <span>${getDutyResponse.CIF} ${cyn}</span></div>`;
-    
+
     let insuranceCharge = params.exwInsuranceCharges || params.cifInsuranceCharges || params.fobInsuranceCharges || 0;
     let internationalFreight = params.exwIntFreight || params.cifIntFreight || params.fobIntFreight || 0;
     const incoInfo = `<span class="inco-info"> <i class="icon-info-sign"></i> <span class="inco-extra-info"> ${incoInfoMap[params.inco_term]} </span></span>`;
@@ -837,7 +862,7 @@ function displaySaveDuty() {
     shipmentSummary += params.exwIntFreight ? `<div> Origin Freight: <span> ${params.exwIntFreight}</span></div>` : '';
     shipmentSummary += `<div> International Freight: <span> ${internationalFreight}</span></div>`;
     shipmentSummary += `<div> Insurance Charges: <span> ${insuranceCharge}</span></div>`;
-    
+
     shipmentSummary += `<div> Total payable duties and taxes: <span>${currencyConvert(getDutyResponse.total)} ${cyn}</span></div>`;
     shipmentSummary += `<div> Total landed cost: <span>${landedCost}</span></div>`;
     shipmentSummary += `<div> HSN Description: <span>${getDutyResponse.des}</span></div>`;
@@ -848,9 +873,8 @@ function displaySaveDuty() {
     displayOriginRules(ftaId);
 }
 
-async function getSavedDuty(event) {
-    event.preventDefault();
-
+async function getSavedDuty() {
+  
     if (validateForm()) {
         formRequest();
         getRulesOfOrigin();
@@ -896,10 +920,24 @@ function displayHSCodes(ele) {
     document.getElementById("hscodeList").innerHTML = hsDataList;
 }
 
-function showPointsDeductScreen(popupEle="points-popup-box") {
-    document.getElementById(popupEle).style.visibility = "visible";
-    document.getElementById(popupEle).style.opacity = "1";
-    document.getElementById(popupEle).style.display = "flex";
+function showPointsDeductScreen(popupEle = "points-popup-box", page) {
+    var ele = document.getElementById(popupEle);
+    if (page) {
+        document.getElementById('deductMsg').innerHTML = deductionMessage[page];
+    }
+    ele.style.visibility = "visible";
+    ele.style.opacity = "1";
+    ele.style.display = "flex";
+}
+
+function goToPageWithPointDeduct(redirectPath, popupEle = "points-popup-box", page = "ftaMsg") {
+    showPointsDeductScreen(popupEle, page);
+    document.getElementById("popup-confirm-save").onclick = function () {
+        const newPath=`/${redirectPath}`;
+        history.pushState(null,null, newPath);
+        getSavedDuty(); 
+    };
+   
 }
 
 function searchHSCode() {
@@ -927,7 +965,7 @@ function searchHSCode() {
     searchHSForm.innerHTML = string;
 }
 
-function closeModal(modal='popup-box') {
+function closeModal(modal = 'popup-box') {
     document.getElementById(modal).style.visibility = "hidden";
     document.getElementById(modal).style.display = "none";
 }
@@ -971,7 +1009,7 @@ function gotoPage(pageURL) {
         expCountry = document.getElementById('export_country'),
         prodVal = document.getElementById('productValue'),
         cyn = document.getElementById('cyn');
-  
+
     if (impCountry && expCountry && prodVal && cyn) {
         localStorage.setItem("imp", getCountryId(impCountry.value, "label"));
         localStorage.setItem("exp", getCountryId(expCountry.value, "label"));
@@ -1073,7 +1111,7 @@ function openPopup(ele) {
     htmlEle.innerHTML = `<div>Select Import Country and HS Code</div>`;
 }
 
-async function getCountryHSCode(hscode=hsnVal, importCountry=impCountryVal, exportCountry=expCountryVal) {
+async function getCountryHSCode(hscode = hsnVal, importCountry = impCountryVal, exportCountry = expCountryVal) {
     if (!getCountryId(importCountry)) {
         openPopup('searchHSN');
     }
@@ -1144,10 +1182,10 @@ async function getCountryHSSearch(hscode, imp, formEle) {
     }
 }
 
-function setSelectHSN(hsn,imp,exp) {
+function setSelectHSN(hsn, imp, exp) {
     hsnVal = hsn;
-    impCountryVal= imp;
-    expCountryVal= exp;
+    impCountryVal = imp;
+    expCountryVal = exp;
     showPointsDeductScreen();
 }
 
