@@ -365,7 +365,7 @@ function displayGetDuty() {
 
         });
         totalDuty = currencyConvert(getDutyResponse.total);
-        line += `<tr><td colspan="2">Total Duty</td><td> ${Math.floor(getDutyResponse.total)} </td>`;
+        line += `<tr><td colspan="2">Total payable duties and taxes</td><td> ${Math.floor(getDutyResponse.total)} </td>`;
         line += impCurrency != cyn ? `<td> ${totalDuty} </td>` : "";
         line += "</tr></table></div>";
     }
@@ -373,6 +373,7 @@ function displayGetDuty() {
     let string = `<div class='col-sm-12 display-group'>`;
     string += `<span class='duty-cost'>Landed Cost: ${getdutyTotal}  ${impCurrency}</span>`;
     string += impCurrency != cyn ? ` <span class='duty-costchange'>( ${cynConvertDutyTotal} ${cyn} )</span>` : "";
+    string += `<div class='col-sm-12 tnc-note'>Landed Cost = Assessable value + Total Duty</div>`;
     string += `<div class='tnc-note'>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.)</div>`;
     string += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
     string += `</div></div>`;
@@ -399,8 +400,7 @@ function displayGetDuty() {
     line += `<div class='col-sm-6 summary-label'> International Freight: </div> <div class='col-sm-6 summary-value'> ${internationalFreight}</div>`;
     line += `<div class='col-sm-6 summary-label'> Insurance Charges: </div> <div class='col-sm-6 summary-value'> ${insuranceCharge}</div>`;
 
-    line += `<div class='col-sm-6 summary-label'> CIF Value: </div> <div class='col-sm-6 summary-value'> ${inputData.CIF} ${cyn}</div>`;
-    line += `<div class='col-sm-6 summary-label'> Total Duty: </div> <div class='col-sm-6 summary-value'> ${totalDuty} ${cyn}</div>`;
+    line += `<div class='col-sm-6 summary-label'> Total payable duties and taxes: </div> <div class='col-sm-6 summary-value'> ${totalDuty} ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> Total Landed Cost: </div> <div class='col-sm-6 summary-value'> ${getdutyTotal}  ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> HSN Description: </div> <div class='col-sm-12'> ${getDutyResponse.des} </div>`;
     line += `</div>`;    //summary block closed.
@@ -687,7 +687,7 @@ function displaySaveDuty() {
 
                 let dutyTotal = duty[0].total ? Math.floor(duty[0].total) : 0;
                 let totalPrecision = impCurrency != cyn && currencyConvert(dutyTotal);
-                let htmlText = line + entry + `<tr><td colspan="2">Total Duty</td><td> ${dutyTotal} </td>`;
+                let htmlText = line + entry + `<tr><td colspan="2">Total payable duties and taxes</td><td> ${dutyTotal} </td>`;
                 htmlText += impCurrency != cyn ? `<td> ${totalPrecision} </td>` : "";
                 dutyData += `${htmlText} </tr></table></div></div>`;
             }
@@ -699,8 +699,9 @@ function displaySaveDuty() {
             // showSaveDutyDetails.innerHTML += dutyData;
             dutyData += "<div class='margin-all col-sm-12 col-md-12 col-lg-12'><div>";
             dutyData += `<span class='duty-cost'>Landed cost: ${integerToCurrency(total, impCurrency)}`;
-            dutyData += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )` : "";
-            dutyData += "</span></div><div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
+            dutyData += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )</span>` : "</span>";
+            dutyData += `</div><div class='col-sm-12 tnc-note'>Landed Cost = Assessable value + Total Duty</div>`;
+            dutyData += "<div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
             dutyData += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div></div>`;
             dutyData += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote fta-footnote-save'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
             dutyData += `</div></div></div> `;
@@ -764,7 +765,7 @@ function displaySaveDuty() {
 
             let dutyTotal = duty[0].total ? Math.floor(duty[0].total) : 0;
             let totalPrecision = impCurrency != cyn && currencyConvert(dutyTotal);
-            let htmlText1 = line1 + entry1 + `<tr><td colspan="2">Total Duty</td><td> ${dutyTotal} </td>`;
+            let htmlText1 = line1 + entry1 + `<tr><td colspan="2">Total payable duties and taxes</td><td> ${dutyTotal} </td>`;
             htmlText1 += impCurrency != cyn ? `<td> ${totalPrecision} </td>` : "";
             dutyData1 += `${htmlText1} </tr></table></div></div>`;
 
@@ -777,7 +778,8 @@ function displaySaveDuty() {
             dutyData1 += "<div class='margin-all col-sm-12 col-md-12 col-lg-12'><div>";
             dutyData1 += `<span class='duty-cost'>Landed cost: ${integerToCurrency(total, impCurrency)}`;
             dutyData1 += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )` : "";
-            dutyData1 += "</span></div><div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
+            dutyData1 += `</span></div><div class='col-sm-12 tnc-note'>Landed Cost = Assessable value + Total Duty</div>`;
+            dutyData1 += "<div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
             dutyData1 += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div>`;
             dutyData1 += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
             dutyData1 += `</div></div>`;
@@ -836,7 +838,7 @@ function displaySaveDuty() {
     shipmentSummary += `<div> International Freight: <span> ${internationalFreight}</span></div>`;
     shipmentSummary += `<div> Insurance Charges: <span> ${insuranceCharge}</span></div>`;
     
-    shipmentSummary += `<div> Total Duty: <span>${currencyConvert(getDutyResponse.total)} ${cyn}</span></div>`;
+    shipmentSummary += `<div> Total payable duties and taxes: <span>${currencyConvert(getDutyResponse.total)} ${cyn}</span></div>`;
     shipmentSummary += `<div> Total landed cost: <span>${landedCost}</span></div>`;
     shipmentSummary += `<div> HSN Description: <span>${getDutyResponse.des}</span></div>`;
     shipmentSummary += '</div></div>';
@@ -918,6 +920,7 @@ function searchHSCode() {
             string += `<div class="col-sm-12 padding-down"> Please enter the product name or at least HS 2, 4, 6 digit of HS codes. </div>`;
             string += `<div class="col col-sm-9 padding-down"><input type="text" class="form-control form-control-lg" id="search-hscode" placeholder="Enter product name or HS code here..." aria-label="search"></div>`;
             string += `<button id="hscodesubmit" type="button" class="btn btn-outline-primary btn-icon-text btn-center-align col-sm-3 modal-btn btn-hscode-result" onclick="getHSNSearch('${impCountry}', 'hs_search_result')"> Get Result</button>`;
+            string += `<div class='col-sm-12'>If you are unable to locate the HS Code, please use Intgrow's HS Code Finder for more accurate results.</div>`;
             string += `<div class="col-sm-12" id="hs_search_result"></div> </div></div>`;
         }
 
@@ -968,20 +971,13 @@ function gotoPage(pageURL) {
         expCountry = document.getElementById('export_country'),
         prodVal = document.getElementById('productValue'),
         cyn = document.getElementById('cyn');
-    // let inputstore = {
-    //     imp: impCountry && impCountry.value || "",
-    //     exp: expCountry && expCountry.value || "",
-    //     val: prodVal && prodVal.value || "",
-    //     cyn: cyn && cyn.value || "",
-    // }
-    // console.log("input store => ", inputstore);
-    // saveInLocalStorage('store', JSON.stringify(inputstore));
+  
     if (impCountry && expCountry && prodVal && cyn) {
         localStorage.setItem("imp", getCountryId(impCountry.value, "label"));
         localStorage.setItem("exp", getCountryId(expCountry.value, "label"));
         localStorage.setItem("cyn", cyn.value);
         localStorage.setItem("val", prodVal.value);
-        window.location.href = `${pageURL}.html`;
+        window.top.location.href = `/${pageURL}`;
     }
 
 }
