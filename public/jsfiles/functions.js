@@ -968,20 +968,13 @@ function gotoPage(pageURL) {
         expCountry = document.getElementById('export_country'),
         prodVal = document.getElementById('productValue'),
         cyn = document.getElementById('cyn');
-    // let inputstore = {
-    //     imp: impCountry && impCountry.value || "",
-    //     exp: expCountry && expCountry.value || "",
-    //     val: prodVal && prodVal.value || "",
-    //     cyn: cyn && cyn.value || "",
-    // }
-    // console.log("input store => ", inputstore);
-    // saveInLocalStorage('store', JSON.stringify(inputstore));
+  
     if (impCountry && expCountry && prodVal && cyn) {
         localStorage.setItem("imp", getCountryId(impCountry.value, "label"));
         localStorage.setItem("exp", getCountryId(expCountry.value, "label"));
         localStorage.setItem("cyn", cyn.value);
         localStorage.setItem("val", prodVal.value);
-        window.location.href = `${pageURL}.html`;
+        window.top.location.href = `/${pageURL}`;
     }
 
 }
