@@ -53,6 +53,29 @@ const handlers = {
   }
 };
 
+const decodeJwt = (token) => {
+  const [headerEncoded, payloadEncoded] = token.split(".");
+
+  // Decode the header and payload from base64
+  const header = JSON.parse(atob(headerEncoded));
+  const payload = JSON.parse(atob(payloadEncoded));
+
+  // Return the decoded header and payload
+  return { header, payload };
+}
+
+const isTokenExpired = (token) => {
+  if(!token) { return true; }
+  const decodedToken = decodeJwt(token);
+  if (!decodedToken.payload || !decodedToken.payload.exp) {
+    // If "exp" claim is missing, consider the token as expired
+    return true;
+  }
+  const expirationTime = decodedToken.payload.exp;
+  const currentTime = Math.floor(Date.now() / 1000);
+  return currentTime >= expirationTime;
+}
+
 const reducer = (state, action) => (
   handlers[action.type] ? handlers[action.type](state, action) : state
 );
@@ -75,15 +98,16 @@ export const AuthProvider = (props) => {
     initialized.current = true;
 
     let isAuthenticated = false;
+    let token;
 
     try {
-      isAuthenticated = window.localStorage.getItem('authenticated') === 'true';
+      token = window.localStorage.getItem('access_token');
+      isAuthenticated = token && !isTokenExpired(token);
     } catch (err) {
       console.error(err);
     }
 
     if (isAuthenticated) {
-      const token = window.localStorage.getItem('access_token');
       const userInfo = jwt(token);
       const user = {
         id: userInfo.id,
@@ -179,7 +203,7 @@ export const AuthProvider = (props) => {
     dispatch({
       type: HANDLERS.SIGN_OUT
     });
-    
+
   };
 
   const updateUserInfo = async (name) => {
@@ -205,7 +229,7 @@ export const AuthProvider = (props) => {
     }
   };
 
-  const updatePassword = async (oldPassword,newPassword) => {
+  const updatePassword = async (oldPassword, newPassword) => {
     try {
       const url = apis.changePassword;
       const data = {
@@ -254,4 +278,4 @@ export const AuthConsumer = AuthContext.Consumer;
 
 export const useAuthContext = () => useContext(AuthContext);
 
-export { reducer, initialState };
+export { reducer, initialState, isTokenExpired };

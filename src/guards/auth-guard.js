@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { useAuthContext } from 'src/contexts/auth-context';
+import { useAuthContext, isTokenExpired } from 'src/contexts/auth-context';
 
 export const AuthGuard = (props) => {
   const { children } = props;
@@ -26,8 +26,12 @@ export const AuthGuard = (props) => {
       }
 
       ignore.current = true;
-      let isAuthenticated = window.localStorage.getItem("authenticated");
-      if (!isAuthenticated) {
+      const token = window.localStorage.getItem("access_token");
+      let isAuthenticated = !isTokenExpired(token);
+      const isInvalidToken = isTokenExpired(token);
+      if (!isAuthenticated && isInvalidToken) {
+        window.localStorage.removeItem("authenticated");
+        window.localStorage.removeItem("access_token");
         console.log('Not authenticated, redirecting');
         router
           .replace({
