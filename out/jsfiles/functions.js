@@ -27,7 +27,7 @@ const monthNames = [
   ];
 
 function formattedDate() {
-    const date = new Date();
+    const currentDate = new Date();
     const day = currentDate.getDate();
     const monthName = monthNames[currentDate.getMonth()];
     const year = currentDate.getFullYear();
@@ -397,7 +397,7 @@ function displayGetDuty() {
     string += impCurrency != cyn ? ` <span class='duty-costchange'>( ${cynConvertDutyTotal} ${cyn} )</span>` : "";
     string += `<div class='col-sm-12 tnc-note'>Landed Cost = Assessable value + Total Duty</div>`;
     string += `<div class='col-sm-12 tnc-note'>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.)</div>`;
-    string += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate} Date". Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;    
+    string += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;    
     string += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
     string += `</div></div>`;
 
@@ -742,7 +742,7 @@ function displaySaveDuty() {
             dutyData += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )</span>` : "</span>";
             dutyData += `</div><div class='col-sm-12 tnc-note'>Landed Cost = Assessable value + Total Duty</div>`;
             dutyData += "<div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
-            dutyData += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate} Date". Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
+            dutyData += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
             dutyData += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div></div>`;
             dutyData += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote fta-footnote-save'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
             dutyData += `</div></div></div> `;
@@ -797,7 +797,7 @@ function displaySaveDuty() {
             });
 
             let savedConvertPrice = savedDuty ? currencyConvert(savedDuty) : 0;
-            let line1 = `<div class='row' > <div class='col-sm-12 col-md-9 col-lg-9'>`;
+            let line1 = `<div class='row'><div class='col-sm-12 col-md-9 col-lg-9'>`;
             line1 += `<div class='col-sm-12'>`;
             line1 += `<div class='duty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
             line1 += `<table class='duty-details'><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
@@ -821,7 +821,7 @@ function displaySaveDuty() {
             dutyData1 += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )` : "";
             dutyData1 += `</span></div><div class='col-sm-12 tnc-note'>Landed Cost = Assessable value + Total Duty</div>`;
             dutyData1 += "<div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
-            dutyData1 += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate} Date". Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
+            dutyData1 += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
             dutyData1 += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div>`;
             dutyData1 += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
             dutyData1 += `</div></div>`;
@@ -837,6 +837,7 @@ function displaySaveDuty() {
         lines += `<a class="save-duty-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${index}" aria-expanded="false" aria-controls="index${index}">`;
         lines += `<span class="menu-title">No saving on Landing cost</span></a></div>`;
         lines += `<div class='panel-collapse collapse' id='index${index}' role="tabpanel" aria-labelledby="heading${index}" aria-expanded="false"><div class='panel-body row'>`;
+        lines += `<div class='col-sm-12 nosave-block-subtitle'><span>This product is not eligible or covered under any existing Trade Agreement signed by importing country.</span></div>`;
         nosaveDutyData = lines + dutyData1;
     }
     const landedCost = Math.floor(currencyConvert(getDutyResponse.total + getDutyResponse.CIF));
@@ -895,6 +896,9 @@ async function getSavedDuty() {
     if (validateForm()) {
         formRequest();
         getRulesOfOrigin();
+        const body = JSON.parse(other_params.body);
+        body.getFTA = "true";
+        other_params.body = JSON.stringify(body);
 
         fetch(getDutyUrl, other_params)
             .then(function (response) {
