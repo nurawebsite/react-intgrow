@@ -2,16 +2,54 @@ import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import {
     Box,
+    Button,
     Stack,
+    TextField,
+    TextareaAutosize,
     Typography
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { TopNav } from 'src/layouts/dashboard/top-nav';
 import { Footer } from 'src/sections/footer';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
 
 const Page = () => {
     const router = useRouter();
     const auth = useAuth();
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+            submit: null
+        },
+        validationSchema: Yup.object({
+            name: Yup
+                .string()
+                .max(255)
+                .required('Name is required'),
+            mobileno: Yup
+                .string()
+                .max(20),
+            email: Yup
+                .string()
+                .email('Must be a valid email')
+                .max(255)
+                .required('Email is required'),
+            subject: Yup
+                .string()
+                .max(255)
+                .required('Mail Subject is required'),
+            message: Yup
+                .string()
+                .max(255)
+                .required('Message is required')
+        }),
+        onSubmit: async (values, helpers) => {
+            console.log("contact form attempted");
+        }
+    });
 
     return (
         <>
@@ -76,80 +114,117 @@ const Page = () => {
                     </div>
                 </Box>
             </Box >
-            <div>
-                <Stack
-                    sx={{
-                        margin: '30px auto',
-                        width: '90vw',
-                        textAlign: 'justify',
-                        color: 'neutral.400'
-                    }}
-                >
-                    <div class="row">
-                        <h2>Contact Form</h2>
-                        <div class="col-md-4 ms-auto order-2" data-aos="fade-up">
-                            <ul class="list-unstyled">
-                                <li class="mb-3">
-                                    <strong class="d-block mb-1">Address</strong>
-                                    <span>203 Fake St. Mountain View, San Francisco, California, USA</span>
-                                </li>
-                                <li class="mb-3">
-                                    <strong class="d-block mb-1">Phone</strong>
-                                    <span>+1 232 3235 324</span>
-                                </li>
-                                <li class="mb-3">
-                                    <strong class="d-block mb-1">Email</strong>
-                                    <span>support@intgrow.com</span>
-                                </li>
-                            </ul>
-                        </div>
+            <Box
+                sx={{
+                    px: 3,
+                    py: '100px',
+                    width: '100%',
+                    textAlign: 'center'
+                }}
+            >
+                <div>
+                    <Stack
+                        spacing={1}
+                        sx={{
+                            margin: '30px auto',
+                            maxWidth: '40%',
+                            textAlign: 'justify',
+                            color: 'neutral.400'
+                        }}
+                    >
+                        <Typography variant="h4">
+                            Contact Form
+                        </Typography>
 
-                        <div class="col-md-6 mb-5 mb-md-0" data-aos="fade-up">
-                            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
 
-                                <div class="row">
-                                    <div class="col-md-6 form-group">
-                                        <label for="name">First Name</label>
-                                        <input type="text" name="name" class="form-control" id="name" required />
-                                    </div>
-                                    <div class="col-md-6 form-group mt-3 mt-md-0">
-                                        <label for="name">Last Name</label>
-                                        <input type="email" class="form-control" name="email" id="email" required />
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label for="name">Email</label>
-                                        <input type="text" name="name" class="form-control" id="name" required />
-                                    </div>
-                                    <div class="col-md-6 form-group mt-3 mt-md-0">
-                                        <label for="name">Mobile No.</label>
-                                        <input type="email" class="form-control" name="email" id="email" required />
-                                    </div>
-                                    <div class="col-md-12 form-group mt-3">
-                                        <label for="name">Subject</label>
-                                        <input type="text" class="form-control" name="subject" id="subject" required />
-                                    </div>
-                                    <div class="col-md-12 form-group mt-3">
-                                        <label for="name">Message</label>
-                                        <textarea class="form-control" name="message" required></textarea>
-                                    </div>
+                        <form
+                            noValidate
+                            onSubmit={formik.handleSubmit}
+                        >
+                            <Stack spacing={3}>
+                                <TextField
+                                    error={!!(formik.touched.name && formik.errors.name)}
+                                    fullWidth
+                                    helperText={formik.touched.email && formik.errors.email}
+                                    label="Name"
+                                    name="name"
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    type="text"
+                                    value={formik.values.name}
+                                />
+                                <TextField
+                                    error={!!(formik.touched.email && formik.errors.email)}
+                                    fullWidth
+                                    helperText={formik.touched.email && formik.errors.email}
+                                    label="Email Address"
+                                    name="email"
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    type="email"
+                                    value={formik.values.email}
+                                />
+                                <TextField
+                                    error={!!(formik.touched.mobileno && formik.errors.mobileno)}
+                                    fullWidth
+                                    helperText={formik.touched.email && formik.errors.email}
+                                    label="Mobile No."
+                                    name="mobileno"
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    type="text"
+                                    value={formik.values.mobileno}
+                                />
+                                <TextField
+                                    error={!!(formik.touched.subject && formik.errors.subject)}
+                                    fullWidth
+                                    helperText={formik.touched.password && formik.errors.password}
+                                    label="Subject"
+                                    name="subject"
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    type="text"
+                                    value={formik.values.subject}
+                                />
+                                <TextareaAutosize
+                                    minRows={15}
+                                    maxRows={30}
+                                    error={!!(formik.touched.message && formik.errors.message)}
+                                    fullWidth
+                                    helperText={formik.touched.password && formik.errors.password}
+                                    label="Message"
+                                    name="message"
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                    type="text"
+                                    value={formik.values.message}
+                                />
+                            </Stack>
 
-                                    <div class="col-md-12 mb-3">
-                                        <div class="loading">Loading</div>
-                                        <div class="error-message"></div>
-                                        <div class="sent-message">Your message has been sent. Thank you!</div>
-                                    </div>
+                            {formik.errors.submit && (
+                                <Typography
+                                    color="error"
+                                    sx={{ mt: 3 }}
+                                    variant="body2"
+                                >
+                                    {formik.errors.submit}
+                                </Typography>
+                            )}
+                            <Button
+                                width='50%'
+                                size="large"
+                                sx={{ mt: 3 }}
+                                type="submit"
+                                variant="contained"
+                            >
+                                Send Message
+                            </Button>
 
-                                    <div class="col-md-6 form-group">
-                                        <input type="submit" class="btn btn-primary d-block w-100" value="Send Message" />
-                                    </div>
-                                </div>
+                        </form>
 
-                            </form>
-                        </div>
-
-                    </div>
-                </Stack>
-            </div>
+                    </Stack>
+                </div>
+            </Box>
             <Footer />
         </>
     );
