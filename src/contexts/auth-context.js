@@ -253,6 +253,42 @@ export const AuthProvider = (props) => {
     }
   };
 
+  const getWalletPoints = async () => {
+    try {
+      const url = apis.getWallet;
+      const token = window.localStorage.getItem('access_token');
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+
+      return response;
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const getAccountSummary = async () => {
+    try {
+      const url = apis.getSummary;
+      const token = window.localStorage.getItem('access_token');
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+      return response;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -262,7 +298,9 @@ export const AuthProvider = (props) => {
         signUp,
         signOut,
         updateUserInfo,
-        updatePassword
+        updatePassword,
+        getWalletPoints,
+        getAccountSummary
       }}
     >
       {children}

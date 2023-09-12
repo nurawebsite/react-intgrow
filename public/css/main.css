@@ -11,6 +11,10 @@
   color: black;
 }
 
+iframe {
+  border: none;
+}
+
 .tnc-note {
   font-size: 12px;
   color: grey;
@@ -1169,4 +1173,10 @@ a:focus {
 
 .copyright-text {
   justify-content: flex-end;
+}
+
+.nosave-block-subtitle {
+  padding: 12px 0px;
+  color: red;
+  font-size: 16px
 }

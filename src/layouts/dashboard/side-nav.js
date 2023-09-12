@@ -91,8 +91,9 @@ export const SideNav = (props) => {
           sx: {
             background: 'linear-gradient(0deg, #1391a5, #274685)',
             color: 'common.white',
-            width: 280,
-            top: 81
+            width: 240,
+            top: 81,
+            border: 'none'
           }
         }}
         variant="permanent"
@@ -111,7 +112,7 @@ export const SideNav = (props) => {
         sx: {
           backgroundColor: 'neutral.800',
           color: 'common.white',
-          width: 280
+          width: 240
         }
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}

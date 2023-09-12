@@ -5,7 +5,9 @@ const apis = {
     register: `${apiEndpoint}auth/signUp`,
     login: `${apiEndpoint}auth/signIn`,
     updateUser: `${apiEndpoint}auth/me`,
-    changePassword: `${apiEndpoint}auth/changePassword`
+    changePassword: `${apiEndpoint}auth/changePassword`,
+    getWallet: `${apiEndpoint}wallets/get`,
+    getSummary: `${apiEndpoint}logs/all`,
 };
 
 const HANDLERS = {

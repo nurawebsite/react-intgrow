@@ -84,20 +84,11 @@ export const dashboardItem = [
     )
   },
   {
-    title: 'Import Duty Calculator',
+    title: 'Duty Calculations',
     value: '4',
     icon: (
       <SvgIcon fontSize="small">
         <CalculatorIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Duty Saver Pro',
-    value: '50',
-    icon: (
-      <SvgIcon fontSize="small">
-        <CurrencyDollarIcon />
       </SvgIcon>
     )
   },

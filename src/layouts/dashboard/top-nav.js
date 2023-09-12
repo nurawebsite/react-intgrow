@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import BellIcon from '@heroicons/react/24/solid/BellIcon';
 import Bars3Icon from '@heroicons/react/24/solid/Bars3Icon';
 import UserIcon from '@heroicons/react/24/solid/UserIcon';
+import { MagnifyingGlassIcon, CalculatorIcon } from "@heroicons/react/24/solid";
+
 
 import {
   Avatar,
@@ -18,15 +20,37 @@ import { usePopover } from 'src/hooks/use-popover';
 import { AccountPopover } from './account-popover';
 import { Logo } from 'src/components/logo';
 import { getUsername } from 'src/utils/constants';
+import { useState, useEffect } from 'react';
+import { useAuth } from 'src/hooks/use-auth';
 
 
-const SIDE_NAV_WIDTH = 280;
+const SIDE_NAV_WIDTH = 240;
 const TOP_NAV_HEIGHT = 64;
 
 export const TopNav = (props) => {
   const { onNavOpen } = props;
+  const [values, setValues] = useState({
+    hs_code: 0,
+    duty_calc: 0
+  });
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const accountPopover = usePopover();
+  const auth = useAuth();
+
+  useEffect(() => {
+    async function fetchData() {
+      const walletData = await auth.getWalletPoints();
+      if (!walletData.ok) {
+        const responseData = await walletData.json();
+        const err = new Error(responseData.error || 'An error occurred');
+        err.status = walletData.status;
+        throw err;
+      }
+      const responseData = await walletData.json();
+      setValues(responseData.result);
+    }
+    fetchData();
+  }, [])
 
   return (
     <>
@@ -72,21 +96,65 @@ export const TopNav = (props) => {
             sx={{
               marginRight: '40px',
               cursor: 'pointer',
-              width: '15%'
             }}
           >
-            <Tooltip
-            title="Notifications"
-            sx={{
-              marginRight: '32px'
-            }}
+
+            <Stack
+              direction="row"
+              alignItems="center"
             >
-              <IconButton>
-                <SvgIcon fontSize="small">
-                  <BellIcon />
+              <Avatar
+                sx={{
+                  cursor: 'pointer',
+                  height: 30,
+                  width: 30,
+                  background: 'none'
+                }}
+              >
+                <SvgIcon fontSize='small'>
+                  <MagnifyingGlassIcon />
                 </SvgIcon>
-              </IconButton>
-            </Tooltip>
+              </Avatar>
+
+              <Typography
+                color="#fff"
+                variant="overline"
+                sx={{
+                  margin: '0 8px'
+                }}
+              >
+                HS Code Points: {values.hs_code}
+              </Typography>
+            </Stack>
+
+            <Stack
+              direction="row"
+              alignItems="center"
+            >
+              <Avatar
+                sx={{
+                  cursor: 'pointer',
+                  height: 30,
+                  width: 30,
+                  background: 'none'
+                }}
+              >
+                <SvgIcon fontSize='small'>
+                  <CalculatorIcon />
+                </SvgIcon>
+              </Avatar>
+
+              <Typography
+                color="#fff"
+                variant="overline"
+                sx={{
+                  margin: '0 8px'
+                }}
+              >
+                Duty Calculation Points: {values.duty_calc}
+              </Typography>
+            </Stack>
+
             <Stack
               onClick={accountPopover.handleOpen}
               ref={accountPopover.anchorRef}

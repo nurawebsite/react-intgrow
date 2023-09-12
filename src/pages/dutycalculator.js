@@ -75,7 +75,7 @@ const Page = () => {
           justifyContent: 'center'
         }}
       >
-        <iframe src="/duty.html" width="100%" height="100%" data-tf-redirect-target="_self"></iframe>
+        <iframe src="/duty.html" width="100%" height="100%" style={{border:'none'}} data-tf-redirect-target="_self"></iframe>
 
       </Box>
     </>
