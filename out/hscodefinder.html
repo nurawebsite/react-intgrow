@@ -133,6 +133,7 @@
     </div>
   </div>
   </div>
+  
   <div id="points-popup-box" class="modal">
     <div class="content">
       <span class="box-close" onclick="closeModal('points-popup-box')">
@@ -140,15 +141,15 @@
       </span>
       <div id="pointsdeduct" class="points-popup">
         <!-- Points deduction screen here -->
-        <div class="points-popup-text">If you proceed 2 points will be deducted from your HS Code finder credits. Do you want to proceed?</div>
+        <div class="points-popup-text" id="hsnMsg">If you proceed 2 points will be deducted from your HS Code finder credits. Do you want to proceed?</div>
         <button type="button" id="popup-confirm" class="btn btn-outline-primary btn-icon-text btn-center-align">
           <i class="mdi mdi-file-check btn-icon-prepend" onclick="getCountryHSCode()"></i>
           Yes
         </button>
       </div>
-
     </div>
   </div>
+
   <div id="popup-box" class="modal">
     <div class="content">
       <span class="box-close" onclick="closeModal()">
