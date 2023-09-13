@@ -548,7 +548,7 @@ function isElementVisible(element) {
 
 function validateForm() {
     const form = document.getElementById("myForm");
-    const errorEle = document.getElementById('errorMSg');
+    const errorEle = document.getElementById('errorMsg');
     const requiredFields = form.querySelectorAll("[required]");
     requiredFields.forEach(field => {
         if (field.value.trim() == "") {
@@ -565,16 +565,16 @@ function validateForm() {
         return false;
     }
 
-    let importCountry = document.getElementById("import_country").value,
-        exportCountry = document.getElementById("export_country").value,
-        hscode = document.getElementById("hscode").value,
-        currency = document.getElementById('cyn').value;
+    // let importCountry = document.getElementById("import_country").value,
+    //     exportCountry = document.getElementById("export_country").value,
+    //     hscode = document.getElementById("hscode").value,
+    //     currency = document.getElementById('cyn').value;
 
-    if (!(getCountryId(importCountry) && getCountryId(exportCountry) && hscode.match(/^[0-9]+[a-zA-Z]*/g) && currency)) {
-        errorEle.innerHTML = "**Please enter all the details";
-        return false;
-    }
-    document.getElementById('errorMSg').innerHTML = "";
+    // if (!(getCountryId(importCountry) && getCountryId(exportCountry) && hscode.match(/^[0-9]+[a-zA-Z]*/g))) {
+    //     errorEle.innerHTML = "**Please enter all the details";
+    //     return false;
+    // }
+    errorEle.innerHTML = "";
     return true;
 }
 
@@ -599,7 +599,7 @@ async function getDuty(event) {
                 getDutyResponse && displayGetDuty();
             }).catch(function (error) {
                 console.log('Error in getDuty ', error);
-                document.getElementById("errorMSg").innerHTML = error;
+                document.getElementById("errorMsg").innerHTML = error;
             });
     
     return true;
