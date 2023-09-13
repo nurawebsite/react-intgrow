@@ -7,6 +7,8 @@ import { OverviewLatestDutyOrders } from 'src/sections/overview/overview-latest-
 import { dashboardItem, hsnHistory, dutyHistory } from 'src/layouts/dashboard/config';
 import { useState, useEffect } from 'react';
 import { useAuth } from 'src/hooks/use-auth';
+import { OverviewHsnLogs } from 'src/sections/overview/overview-hsn-logs';
+import { OverviewDutyLogs } from 'src/sections/overview/overview-duty-logs';
 
 const Page = () => {
   const auth = useAuth();
@@ -26,7 +28,7 @@ const Page = () => {
       }
       const responseData = await response.json();
       console.log("----response => ", responseData);
-      // setValues(responseData.result);
+      setValues(responseData);
     }
     fetchData();
   }, [])
@@ -88,10 +90,10 @@ const Page = () => {
             lg={8}
             sx={{ marginBottom: '32px' }}
           >
-            <OverviewLatestOrders
+            <OverviewHsnLogs
               heading="HS Code Finder"
               subheading="Recent searches"
-              orders={hsnHistory}
+              orders={values.hs_code}
               sx={{
                 height: '100%',
                 boxShadow: '0px 0 30px rgba(1, 41, 112, 0.4) !important',
@@ -106,10 +108,28 @@ const Page = () => {
             lg={8}
             sx={{ marginBottom: '32px' }}
           >
-            <OverviewLatestDutyOrders
+            <OverviewDutyLogs
               heading="Import Duty Calculator"
               subheading="Recent searches"
-              orders={dutyHistory}
+              orders={values.duty}
+              sx={{
+                height: '100%',
+                boxShadow: '0px 0 30px rgba(1, 41, 112, 0.4) !important',
+                borderRadius: '0'
+              }}
+            />
+          </Grid>
+
+          <Grid
+            xs={12}
+            md={12}
+            lg={8}
+            sx={{ marginBottom: '32px' }}
+          >
+            <OverviewDutyLogs
+              heading="Export Duty Calculator"
+              subheading="Recent searches"
+              orders={values.fta}
               sx={{
                 height: '100%',
                 boxShadow: '0px 0 30px rgba(1, 41, 112, 0.4) !important',

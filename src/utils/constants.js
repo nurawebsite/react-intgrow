@@ -29,7 +29,7 @@ const getUserData = () => {
     const token = window.localStorage.getItem("access_token");
     if (token) {
         const userInfo = jwt(token);
-        return  {
+        return {
             name: userInfo.first_name,
             email: userInfo.email
         };
@@ -37,10 +37,24 @@ const getUserData = () => {
     return {};
 };
 
+const monthNames = [
+    "Jan", "Feb", "March", "April", "May", "June",
+    "July", "Aug", "Sept", "Oct", "Nov", "Dec"
+];
+
+const getFormattedDate = (val) => {
+    const date = new Date(val);
+    const day = date.getDate();
+    const monthName = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}-${monthName}-${year}`;
+};
+
 export {
     apiEndpoint,
     apis,
     HANDLERS,
     getUsername,
-    getUserData
+    getUserData,
+    getFormattedDate
 };
