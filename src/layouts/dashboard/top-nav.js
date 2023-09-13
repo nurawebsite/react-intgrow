@@ -90,102 +90,104 @@ export const TopNav = (props) => {
             <Logo />
           </Stack>
 
-          <Stack
-            alignItems="center"
-            direction="row"
-            sx={{
-              marginRight: '40px',
-              cursor: 'pointer',
-            }}
-          >
-
+          {(window.localStorage.getItem('authenticated') == 'true') && (
             <Stack
-              direction="row"
               alignItems="center"
-            >
-              <Avatar
-                sx={{
-                  cursor: 'pointer',
-                  height: 30,
-                  width: 30,
-                  background: 'none'
-                }}
-              >
-                <SvgIcon fontSize='small'>
-                  <MagnifyingGlassIcon />
-                </SvgIcon>
-              </Avatar>
-
-              <Typography
-                color="#fff"
-                variant="overline"
-                sx={{
-                  margin: '0 8px'
-                }}
-              >
-                HS Code Points: {values.hs_code}
-              </Typography>
-            </Stack>
-
-            <Stack
               direction="row"
-              alignItems="center"
+              sx={{
+                marginRight: '40px',
+                cursor: 'pointer',
+              }}
             >
-              <Avatar
-                sx={{
-                  cursor: 'pointer',
-                  height: 30,
-                  width: 30,
-                  background: 'none'
-                }}
-              >
-                <SvgIcon fontSize='small'>
-                  <CalculatorIcon />
-                </SvgIcon>
-              </Avatar>
 
-              <Typography
-                color="#fff"
-                variant="overline"
-                sx={{
-                  margin: '0 8px'
-                }}
+              <Stack
+                direction="row"
+                alignItems="center"
               >
-                Duty Calculation Points: {values.duty_calc}
-              </Typography>
+                <Avatar
+                  sx={{
+                    cursor: 'pointer',
+                    height: 30,
+                    width: 30,
+                    background: 'none'
+                  }}
+                >
+                  <SvgIcon fontSize='small'>
+                    <MagnifyingGlassIcon />
+                  </SvgIcon>
+                </Avatar>
+
+                <Typography
+                  color="#fff"
+                  variant="overline"
+                  sx={{
+                    margin: '0 8px'
+                  }}
+                >
+                  HS Code Points: {values.hs_code}
+                </Typography>
+              </Stack>
+
+              <Stack
+                direction="row"
+                alignItems="center"
+              >
+                <Avatar
+                  sx={{
+                    cursor: 'pointer',
+                    height: 30,
+                    width: 30,
+                    background: 'none'
+                  }}
+                >
+                  <SvgIcon fontSize='small'>
+                    <CalculatorIcon />
+                  </SvgIcon>
+                </Avatar>
+
+                <Typography
+                  color="#fff"
+                  variant="overline"
+                  sx={{
+                    margin: '0 8px'
+                  }}
+                >
+                  Duty Calculation Points: {values.duty_calc}
+                </Typography>
+              </Stack>
+
+              <Stack
+                onClick={accountPopover.handleOpen}
+                ref={accountPopover.anchorRef}
+                direction="row"
+                alignItems="center"
+              >
+                <Avatar
+                  sx={{
+                    cursor: 'pointer',
+                    height: 30,
+                    width: 30,
+                    background: 'none'
+                  }}
+                >
+                  <SvgIcon fontSize='small'>
+                    <UserIcon />
+                  </SvgIcon>
+                </Avatar>
+
+                <Typography
+                  color="#fff"
+                  variant="overline"
+                  sx={{
+                    margin: '0 8px'
+                  }}
+                >
+                  {getUsername()}
+                </Typography>
+              </Stack>
+
             </Stack>
-
-            <Stack
-              onClick={accountPopover.handleOpen}
-              ref={accountPopover.anchorRef}
-              direction="row"
-              alignItems="center"
-            >
-              <Avatar
-                sx={{
-                  cursor: 'pointer',
-                  height: 30,
-                  width: 30,
-                  background: 'none'
-                }}
-              >
-                <SvgIcon fontSize='small'>
-                  <UserIcon />
-                </SvgIcon>
-              </Avatar>
-
-              <Typography
-                color="#fff"
-                variant="overline"
-                sx={{
-                  margin: '0 8px'
-                }}
-              >
-                {getUsername()}
-              </Typography>
-            </Stack>
-
-          </Stack>
+          )}
         </Stack>
       </Box>
       <AccountPopover

@@ -22,9 +22,9 @@ const deductionMessage = {
 
 
 const monthNames = [
-    "January", "February", "March", "April", "May", "June", 
+    "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
-  ];
+];
 
 function formattedDate() {
     const currentDate = new Date();
@@ -307,9 +307,10 @@ function loadFootnote() {
     if (footnoteResponse) {
         let index = 0;
         footnoteData += `<div class='row footnote-data-block'>`;
+        footnoteData += `<div class='row'>`;
         footnoteResponse.forEach(f => {
             if (index < 4) {
-                footnoteData += `<div class='col-md-3 col-sm-12'><button class="btn btn-outline-primary btn-icon-text footnote-btn" type="button" id='btnid${index}' onclick="expandFootnote('btnid${index}', '${f.value}')">${f.label}</button></div>`;
+                footnoteData += `<div class='col-md-3 col-sm-12 footnote-btn-heading'><button class="btn btn-outline-primary btn-icon-text footnote-btn" type="button" id='btnid${index}' onclick="expandFootnote('btnid${index}', '${f.value}')">${f.label}</button></div>`;
                 index++;
             }
         });
@@ -397,7 +398,7 @@ function displayGetDuty() {
     string += impCurrency != cyn ? ` <span class='duty-costchange'>( ${cynConvertDutyTotal} ${cyn} )</span>` : "";
     string += `<div class='col-sm-12 tnc-note'>Landed Cost = Assessable value + Total Duty</div>`;
     string += `<div class='col-sm-12 tnc-note'>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.)</div>`;
-    string += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;    
+    string += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
     string += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
     string += `</div></div>`;
 
@@ -580,7 +581,7 @@ function validateForm() {
 async function getDuty(event) {
     event.preventDefault();
 
-    if (validateForm()) {
+    
 
         formRequest();
 
@@ -600,7 +601,7 @@ async function getDuty(event) {
                 console.log('Error in getDuty ', error);
                 document.getElementById("errorMSg").innerHTML = error;
             });
-    }
+    
     return true;
 }
 
@@ -892,8 +893,7 @@ function displaySaveDuty() {
 }
 
 async function getSavedDuty() {
-  
-    if (validateForm()) {
+
         formRequest();
         getRulesOfOrigin();
         const body = JSON.parse(other_params.body);
@@ -928,7 +928,7 @@ async function getSavedDuty() {
             }).catch(function (error) {
                 console.log("Error occurred ", error);
             });
-    }
+    
 }
 
 function displayHSCodes(ele) {
@@ -942,23 +942,25 @@ function displayHSCodes(ele) {
 }
 
 function showPointsDeductScreen(popupEle = "points-popup-box", page) {
-    var ele = document.getElementById(popupEle);
-    if (page) {
-        document.getElementById('deductMsg').innerHTML = deductionMessage[page];
+    if (validateForm()) {
+        var ele = document.getElementById(popupEle);
+        if (page) {
+            document.getElementById('deductMsg').innerHTML = deductionMessage[page];
+        }
+        ele.style.visibility = "visible";
+        ele.style.opacity = "1";
+        ele.style.display = "flex";
     }
-    ele.style.visibility = "visible";
-    ele.style.opacity = "1";
-    ele.style.display = "flex";
 }
 
 function goToPageWithPointDeduct(redirectPath, popupEle = "points-popup-box", page = "ftaMsg") {
     showPointsDeductScreen(popupEle, page);
     document.getElementById("popup-confirm-save").onclick = function () {
-        const newPath=`/${redirectPath}`;
-        history.pushState(null,null, newPath);
-        getSavedDuty(); 
+        const newPath = `/${redirectPath}`;
+        history.pushState(null, null, newPath);
+        getSavedDuty();
     };
-   
+
 }
 
 function searchHSCode() {
@@ -979,7 +981,7 @@ function searchHSCode() {
             string += `<div class="col-sm-12 padding-down"> Please enter the product name or at least HS 2, 4, 6 digit of HS codes. </div>`;
             string += `<div class="col col-sm-9 padding-down"><input type="text" class="form-control form-control-lg" id="search-hscode" placeholder="Enter product name or HS code here..." aria-label="search"></div>`;
             string += `<button id="hscodesubmit" type="button" class="btn btn-outline-primary btn-icon-text btn-center-align col-sm-3 modal-btn btn-hscode-result" onclick="getHSNSearch('${impCountry}', 'hs_search_result')"> Get Result</button>`;
-            string += `<div class='col-sm-12'>If you are unable to locate the HS Code, please use Intgrow's HS Code Finder for more accurate results.</div>`;
+            string += `<div class='col-sm-12'>If you are unable to locate the HS Code, please use Intgrow's HS Code Finder for more accurate results. <a href='/hscodefinder' target='_parent'> Click here</a></div>`;
             string += `<div class="col-sm-12" id="hs_search_result"></div> </div></div>`;
         }
 

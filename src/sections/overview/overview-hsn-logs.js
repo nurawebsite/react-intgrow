@@ -78,8 +78,8 @@ export const OverviewHsnLogs = (props) => {
                 {orders.map((order) => {
                   const responseData = order && order.response && JSON.parse(order.response);
                   const queryData = order && order.query && JSON.parse(order.query);
-                  const impHSNMap = responseData.import.map(a => a.value);
-                  const expHSNMap = responseData.export.map(a => a.value);
+                  const impHSNMap = responseData && responseData.import && responseData.import.map(a => a.value) || "";
+                  const expHSNMap = responseData && responseData.export && responseData.export.map(a => a.value) || "";
                   return (
                     <TableRow
                       hover
