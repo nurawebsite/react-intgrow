@@ -591,6 +591,7 @@ async function getDuty(event) {
                     return response.json();
                 } else {
                     const responseData = response.json();
+                    document.getElementById("errorMsg").innerHTML = `<div class="hsn-error">${responseData.message}</div>`;
                     throw new Error(response.message || response.statusText);
                 }
             }).then(function (data) {
@@ -916,6 +917,8 @@ async function getSavedDuty() {
                         if (response.ok) {
                             return response.json();
                         } else {
+                            const responseData = response.json();
+                            showSaveDutyDetails.innerHTML= `<div class="hsn-error">${responseData.message}</div>`
                             throw new Error("Could not reach the API: " + response.statusText);
                         }
                     }).then(function (data) {
@@ -1164,7 +1167,9 @@ async function getCountryHSCode(hscode = hsnVal, importCountry = impCountryVal, 
 
         if (!HSCodeResponse.ok) {
             const msg = `Error in fetch ${HSCodeResponse.status}`;
-            throw new Error(msg);
+            const data = await HSCodeResponse.json();
+            hscodesDisplay.innerHTML += `<div class="hsn-error">${data.message}</div>`;
+            throw new Error(data.message);
         }
 
         const HSMap = HSCodeResponse.status != 204 ? await HSCodeResponse.json() : [];
