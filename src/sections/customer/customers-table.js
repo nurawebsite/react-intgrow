@@ -21,19 +21,16 @@ export const CustomersTable = (props) => {
   const {
     count = 0,
     items = [],
-    onDeselectAll,
-    onDeselectOne,
-    onPageChange = () => {},
-    onRowsPerPageChange,
-    onSelectAll,
-    onSelectOne,
+    onPageChange = () => { },
     page = 0,
-    rowsPerPage = 0,
+    rowsPerPage = 10,
     selected = []
   } = props;
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
+
+  console.log("---customer => ", items);
 
   return (
     <Card>
@@ -42,84 +39,47 @@ export const CustomersTable = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedAll}
-                    indeterminate={selectedSome}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        onSelectAll?.();
-                      } else {
-                        onDeselectAll?.();
-                      }
-                    }}
-                  />
+                <TableCell>
+                  Date
                 </TableCell>
                 <TableCell>
-                  Name
+                  HSN
                 </TableCell>
                 <TableCell>
-                  Email
+                  IMPORT DESTINATION
                 </TableCell>
                 <TableCell>
-                  Location
+                  EXPORT DESTINATION
                 </TableCell>
                 <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Signed Up
+                  CREDIT POINTS
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
-                const isSelected = selected.includes(customer.id);
+              {items && items.length && items.map((customer) => {
                 const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
-
+                const query = customer && customer.query && JSON.parse(customer.query) || {};
+                const response = customer && customer.response && JSON.parse(customer.response) || {};
+                const impHSNMap = response && response.import && response.import.map(a => a.value) || "";
+                const expHSNMap = response && response.export && response.export.map(a => a.value) || "";
                 return (
                   <TableRow
                     hover
                     key={customer.id}
                     selected={isSelected}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            onSelectOne?.(customer.id);
-                          } else {
-                            onDeselectOne?.(customer.id);
-                          }
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Stack
-                        alignItems="center"
-                        direction="row"
-                        spacing={2}
-                      >
-                        <Avatar src={customer.avatar}>
-                          {getInitials(customer.name)}
-                        </Avatar>
-                        <Typography variant="subtitle2">
-                          {customer.name}
-                        </Typography>
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
-                      {customer.email}
-                    </TableCell>
-                    <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
-                    </TableCell>
-                    <TableCell>
-                      {customer.phone}
-                    </TableCell>
                     <TableCell>
                       {createdAt}
+                    </TableCell>
+                    <TableCell>
+                      {query ? query.hs : ''}
+                    </TableCell>
+                    <TableCell>
+                      {impHSNMap.toString()}
+                    </TableCell>
+                    <TableCell>
+                      {expHSNMap.toString()}
                     </TableCell>
                   </TableRow>
                 );
@@ -132,10 +92,8 @@ export const CustomersTable = (props) => {
         component="div"
         count={count}
         onPageChange={onPageChange}
-        onRowsPerPageChange={onRowsPerPageChange}
         page={page}
         rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[5, 10, 25]}
       />
     </Card>
   );
@@ -147,7 +105,6 @@ CustomersTable.propTypes = {
   onDeselectAll: PropTypes.func,
   onDeselectOne: PropTypes.func,
   onPageChange: PropTypes.func,
-  onRowsPerPageChange: PropTypes.func,
   onSelectAll: PropTypes.func,
   onSelectOne: PropTypes.func,
   page: PropTypes.number,

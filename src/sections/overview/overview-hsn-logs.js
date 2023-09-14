@@ -18,14 +18,7 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { SeverityPill } from 'src/components/severity-pill';
-import { getFormattedDate } from 'src/utils/constants';
-
-const statusMap = {
-  pending: 'warning',
-  success: 'success',
-  failed: 'error'
-};
-
+import { getFormattedDate, statusMap, statusText } from 'src/utils/constants';
 
 export const OverviewHsnLogs = (props) => {
   const { orders = [], heading, subheading, sx } = props;
@@ -77,6 +70,7 @@ export const OverviewHsnLogs = (props) => {
               <TableBody>
                 {orders.map((order) => {
                   const responseData = order && order.response && JSON.parse(order.response);
+                  const point = order && order.point || 0;
                   const queryData = order && order.query && JSON.parse(order.query);
                   const impHSNMap = responseData && responseData.import && responseData.import.map(a => a.value) || "";
                   const expHSNMap = responseData && responseData.export && responseData.export.map(a => a.value) || "";
@@ -104,8 +98,8 @@ export const OverviewHsnLogs = (props) => {
                         {expHSNMap.toString()}
                       </TableCell>
                       <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                        <SeverityPill color={statusMap.success}>
-                          Success
+                        <SeverityPill color={statusMap[point]}>
+                          {statusText[point]}
                         </SeverityPill>
                       </TableCell>
                     </TableRow>

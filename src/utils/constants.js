@@ -8,6 +8,9 @@ const apis = {
     changePassword: `${apiEndpoint}auth/changePassword`,
     getWallet: `${apiEndpoint}wallets/get`,
     getSummary: `${apiEndpoint}logs/all`,
+    getHsnLog: `${apiEndpoint}logs/hs_code`,
+    getDutyLog: `${apiEndpoint}logs/duty`,
+    getFtaLog: `${apiEndpoint}logs/fta`
 };
 
 const HANDLERS = {
@@ -50,11 +53,23 @@ const getFormattedDate = (val) => {
     return `${day}-${monthName}-${year}`;
 };
 
+const statusMap = {
+    1: 'success',
+    0: 'error'
+};
+
+const statusText = {
+    0: 'Failed',
+    1: 'Success'
+}
+
 export {
     apiEndpoint,
     apis,
     HANDLERS,
     getUsername,
     getUserData,
-    getFormattedDate
+    getFormattedDate,
+    statusMap,
+    statusText
 };

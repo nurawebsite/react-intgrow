@@ -80,6 +80,56 @@ const reducer = (state, action) => (
   handlers[action.type] ? handlers[action.type](state, action) : state
 );
 
+const getHsnHistory = async (page) => {
+  try {
+    const url = apis.getHsnLog + `/${page}`;
+    const token = window.localStorage.getItem('access_token');
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+const getDutyHistory = async (page) => {
+  try {
+    const url = apis.getDutyLog + `/${page}`;
+    const token = window.localStorage.getItem('access_token');
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+const getFtaHistory = async (page) => {
+  try {
+    const url = apis.getFtaLog + `/${page}`;
+    const token = window.localStorage.getItem('access_token');
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
 // The role of this context is to propagate authentication state through the App tree.
 
 export const AuthContext = createContext({ undefined });
@@ -289,6 +339,7 @@ export const AuthProvider = (props) => {
     }
   };
 
+
   return (
     <AuthContext.Provider
       value={{
@@ -316,4 +367,11 @@ export const AuthConsumer = AuthContext.Consumer;
 
 export const useAuthContext = () => useContext(AuthContext);
 
-export { reducer, initialState, isTokenExpired };
+export {
+  reducer,
+  initialState,
+  isTokenExpired,
+  getHsnHistory,
+  getDutyHistory,
+  getFtaHistory
+};

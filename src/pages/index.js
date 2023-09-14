@@ -27,7 +27,6 @@ const Page = () => {
         throw err;
       }
       const responseData = await response.json();
-      console.log("----response => ", responseData);
       setValues(responseData);
     }
     fetchData();

@@ -18,14 +18,7 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { SeverityPill } from 'src/components/severity-pill';
-import { getFormattedDate } from 'src/utils/constants';
-
-const statusMap = {
-  pending: 'warning',
-  success: 'success',
-  failed: 'error'
-};
-
+import { getFormattedDate, statusMap, statusText } from 'src/utils/constants';
 
 export const OverviewDutyLogs = (props) => {
   const { orders = [], heading, subheading, sx } = props;

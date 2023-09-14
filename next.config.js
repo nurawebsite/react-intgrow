@@ -18,5 +18,13 @@ module.exports = {
       source: "/public/landingpage.html",
       destination: "/pages/home.js",
     },
+    {
+      source: "/public/hsnHistory.html",
+      destination: "/pages/hsn-history.js",
+    },
+    {
+      source: "/public/dutyHistory.html",
+      destination: "/pages/duty-history.js",
+    },
   ]
 };

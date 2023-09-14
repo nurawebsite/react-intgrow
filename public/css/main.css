@@ -1185,3 +1185,39 @@ a:focus {
   color: red;
   font-size: 16px
 }
+
+/* hsn history */
+.hsn-history {
+  margin: 32px !important;
+}
+
+.hsn-history-title {
+  margin: 16px 0 32px;
+}
+
+.hsn-history table {
+  width: 95%;
+  display: table;
+  border: none;
+  box-shadow: rgba(1, 41, 112, 0.4) 0px 0px 30px !important;
+}
+
+.hsn-history tbody {
+  display: table-row-group;
+}
+
+.hsn-history td,
+.hsn-history th {
+  border: none;
+  border-bottom: solid rgb(242, 244, 247);
+  padding: 16px 12px;
+  color: rgb(17, 25, 39);
+  overflow: hidden;
+  line-height: 1.57;
+}
+
+.pagination-tab {
+  width: 95%;
+  text-align: right;
+  margin: 16px 0;
+}
