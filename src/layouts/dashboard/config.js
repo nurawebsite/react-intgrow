@@ -2,7 +2,7 @@ import CogIcon from '@heroicons/react/24/solid/CogIcon';
 import HomeIcon from '@heroicons/react/24/solid/HomeIcon';
 import Squares2X2Icon from '@heroicons/react/24/outline/Squares2X2Icon';
 import BanknotesIcon from '@heroicons/react/24/solid/BanknotesIcon';
-import { MagnifyingGlassIcon, CalculatorIcon, CurrencyDollarIcon, GiftIcon, GlobeAltIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon, CalculatorIcon, CurrencyDollarIcon, GiftIcon, GlobeAltIcon, DocumentMagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 import { SvgIcon } from '@mui/material';
 
@@ -57,7 +57,7 @@ export const items = [
     path: '/hsn-history',
     icon: (
       <SvgIcon fontSize="small">
-        <HomeIcon />
+        <DocumentMagnifyingGlassIcon />
       </SvgIcon>
     )
   },
@@ -75,7 +75,7 @@ export const items = [
     path: '/home',
     icon: (
       <SvgIcon fontSize="small">
-        <HomeIcon />
+        <CalculatorIcon />
       </SvgIcon>
     )
   }
