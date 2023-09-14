@@ -1186,6 +1186,13 @@ a:focus {
   font-size: 16px
 }
 
+.hsn-error {
+  text-align: center;
+  padding: 32px;
+  color: red;
+  font-weight: 700;
+}
+
 /* hsn history */
 .hsn-history {
   margin: 32px !important;

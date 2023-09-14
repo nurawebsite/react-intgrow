@@ -52,7 +52,24 @@ export const items = [
       </SvgIcon>
     )
   },
-
+  {
+    title: 'HSN History',
+    path: '/hsn-history',
+    icon: (
+      <SvgIcon fontSize="small">
+        <HomeIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Import Duty History',
+    path: '/dutycalc-history',
+    icon: (
+      <SvgIcon fontSize="small">
+        <HomeIcon />
+      </SvgIcon>
+    )
+  },
   {
     title: 'Home',
     path: '/home',
@@ -62,15 +79,6 @@ export const items = [
       </SvgIcon>
     )
   }
-  // {
-  //   title: 'Error',
-  //   path: '/404',
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <XCircleIcon />
-  //     </SvgIcon>
-  //   )
-  // }
 ];
 
 export const dashboardItem = [

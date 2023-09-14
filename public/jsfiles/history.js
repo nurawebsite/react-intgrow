@@ -5,11 +5,18 @@ const itemsPerPage = 10, maxlength = 20; // Number of items to display per page
 let currentPage = 1;
 
 const tableBody = document.getElementById('table-body');
+const pageType = document.getElementById('hsn-data-table') ? 'hsn'
+                : document.getElementById('duty-data-table') ? 'duty'
+                : document.getElementById('fta-data-table') ? 'fta'
+                : 'hsn';
+
 const prevButton = document.getElementById('prev-page');
 const nextButton = document.getElementById('next-page');
 const pageInfo = document.getElementById('page-info');
 const hostname = "https://dev.intgrow.co";
-const getHsnUrl = `${hostname}/api/logs/hs_code`;
+const getHsnLogUrl = `${hostname}/api/logs/hs_code`;
+const getDutyLogUrl = `${hostname}/api/logs/duty`;
+const getFtaLogUrl = `${hostname}/api/logs/fta`;
 
 function setHeaders() {
     const tokenData = window.localStorage.getItem("access_token") || "EAALlsF27TkEBAPFq6ow61SOkPt3Gg1LqAlkKtoZCsFPP3q3KkOgmXqiDpDyyeMAwxJbTB3k56bkliVcXvXjoZC0GcIMpIEXDjgDf3UGgT4USdVPu1SbVQMHJbssuvjZA5mLhJemWfnttFXRtfuUv5PiaZAeZAB7ZBWql4JCZBAhE71QalEqi78vUFZA5ILIFfv0vAbXFmAM8TkdaKsvvOqCzcZAlUYqXj4T0ZD";
@@ -37,9 +44,9 @@ const getFormattedDate = (val) => {
     return `${day}-${monthName}-${year}`;
 };
 
-async function fetchHsnData(page) {
+async function fetchHsnData(url,page) {
     try {
-        const response = await fetch(`${getHsnUrl}/${page}`, { headers: authHeaders }).catch(function (error) {
+        const response = await fetch(`${url}/${page}`, { headers: authHeaders }).catch(function (error) {
             console.log("Error in fetching hscodes", error);
         });
         if (!response.ok) {
@@ -71,7 +78,15 @@ async function displayData(page) {
     setHeaders();
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const pageData = await fetchHsnData(page);
+    let apiURL = '';
+    switch(pageType) {
+        case 'duty': apiURL = getDutyLogUrl; break;
+        case 'fta': apiURL = getFtaLogUrl; break;
+        case 'hsn':
+        default: apiURL = getHsnLogUrl; break;
+    }
+    const pageData = await fetchHsnData(apiURL,page);
+    
     let number = 0;
     tableBody.innerHTML = '';
     let line = "";
@@ -112,8 +127,11 @@ async function displayData(page) {
         number++;
     });
     tableBody.innerHTML += line;
-
     pageInfo.textContent = `Page ${currentPage} of ${Math.ceil(maxlength / itemsPerPage)}`;
+    if(!pageData || !pageData.length) {
+        tableBody.innerHTML += "<div class='col-sm-12 hsn-history-td'>No Data to display</div>";
+        pageInfo.textContent = `Page 1 of 1`;
+    }   
 }
 
 prevButton.addEventListener('click', () => {

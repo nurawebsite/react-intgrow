@@ -40,7 +40,7 @@ export const TopNav = (props) => {
   useEffect(() => {
     async function fetchData() {
       const walletData = await auth.getWalletPoints();
-      if (!walletData.ok) {
+      if (walletData && !walletData.ok) {
         const responseData = await walletData.json();
         const err = new Error(responseData.error || 'An error occurred');
         err.status = walletData.status;
