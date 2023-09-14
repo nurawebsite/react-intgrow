@@ -47,13 +47,16 @@ const Page = () => {
                                 mb: 3,
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                color: '#fff'
+                                color: '#fff',
+                                textAlign: 'center'
                             }}
                         >
-                            <Typography variant="h2">
-                                Payment Success!
+                            <Typography variant="h2" sx={{ width: '50%'}}>
+                            Thank you for choosing IntGrow&apos;s Import Duty Calculators!.
                             </Typography>
-
+                            <Typography variant="subtitle1"> 
+                            Smartly calculate Duties & Taxes for unbeatable profits.
+                            </Typography>
                         </Stack>
                         <Stack
                             sx={{
@@ -81,18 +84,19 @@ const Page = () => {
                         margin: '50px auto',
                         width: '90vw',
                         textAlign: 'center',
-                        color: 'neutral.400'
+                        color: 'black'
                     }}
                 >
-                    <Typography variant="h4">Thank you for the purchase.</Typography>
-                    <Typography variant="subtitle1" > You&apos;ll soon receive an order confirmation mail.</Typography>
-                    <Typography variant="subtitle1" >Click
+                    <Typography variant="subtitle1"> Unlock business profitability
+                    <Typography variant="overline" color="#457b9d" fontSize="16px"> Duty Calculator + Duty Saver Pro</Typography>
+                     </Typography>
+                    <Typography variant="subtitle1">
                         <Link
                             component={NextLink}
                             href="/"
-                        > here
+                        > Let&apos;s Get Started
                         </Link>
-                        to redirect to the dashboard.
+                        
                     </Typography>
                 </Stack>
             </div>
