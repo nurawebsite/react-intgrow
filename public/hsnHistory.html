@@ -25,21 +25,21 @@
 <body>
   <div class="row hsn-history">
     <h4 class="col-sm-12 hsn-history-title">HS Code Search History</h4>
-    <table id="data-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>HSN</th>
-          <th>Import Destination</th>
-          <th>Export Destination</th>
-          <th>Credit Points</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="table-body">
+    <div class="row hsn-history-table" id="data-table">
+      <div class="row padding-left-zero hsn-history-row">
+        <div class="col-sm-2 hsn-history-td">Date</div>
+        <div class="col-sm-2 hsn-history-td">HSN</div>
+        <div class="col-sm-2 hsn-history-td">Import Destination</div>
+        <div class="col-sm-2 hsn-history-td">Export Destination</div>
+        <div class="col-sm-2 hsn-history-td">Credit Points</div>
+        <div class="col-sm-2 hsn-history-td"></div>
+      </div>
+
+      <div class="row padding-left-zero hsn-history-row" id="table-body">
         <!-- Data rows will be inserted here -->
-      </tbody>
-    </table>
+      </div>
+    </div>
+
 
     <div id="pagination" class="pagination-tab">
       <button id="prev-page">Previous</button>

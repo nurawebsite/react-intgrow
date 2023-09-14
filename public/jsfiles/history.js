@@ -53,31 +53,65 @@ async function fetchHsnData(page) {
     }
 }
 
+function getHSMapTable(HSMap, country) {
+    let hscodeHTML = "";
+    if (HSMap && HSMap.length) {
+        hscodeHTML = "<div class='col-sm-6 hstable'>";
+        hscodeHTML += `<div class="hstable-body"><div class="hstable-title"> <span>HS Codes of ${country} </span></div>`;
+        hscodeHTML += `<table class="hstable-data"><tr> <th> HS Code </th> <th> Product Description </th> </tr>`
+        HSMap.forEach(d => {
+            hscodeHTML += `<tr> <td> ${d.value} </td> <td> ${d.label} </td></tr>`;
+        });
+        hscodeHTML += "</table></div></div>";
+    }
+    return hscodeHTML;
+}
+
 async function displayData(page) {
     setHeaders();
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const pageData = await fetchHsnData(page);
-    let number=0;
+    let number = 0;
     tableBody.innerHTML = '';
-
+    let line = "";
     pageData && pageData.forEach(item => {
         const responseData = item && item.response && JSON.parse(item.response);
         const point = item && item.point || 0;
         const queryData = item && item.query && JSON.parse(item.query);
-        const impHSNMap = responseData && responseData.import && responseData.import.map(a => a.value) || "";
-        const expHSNMap = responseData && responseData.export && responseData.export.map(a => a.value) || "";
+        const impHSNMap = responseData && responseData.import || [];
+        const expHSNMap = responseData && responseData.export || [];
 
-        const row = document.createElement('tr');
-        let line = `<td>${getFormattedDate(item.iso_date)}</td><td>${queryData.hs}</td><td>${queryData.imp}</td><td>${queryData.exp}</td><td>${point}</td>`;
-        line += `<td><div id="accordion" role="tablist" aria-multiselectable="true"><a class="" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${number}" aria-expanded="false" aria-controls="index${number}">`;
-        line += `<span class="menu-title">Expand</span></a></td>`;
-        line += `<div class='panel-collapse collapse' id='index${number}' role="tabpanel" aria-labelledby="heading${number}" aria-expanded="false"><div class='panel-body row'>`;
-        line += `</div></div></div>`
-        row.innerHTML = line;
-        tableBody.appendChild(row);
+        let entryDetails = "";
+        entryDetails += `<div class='row hsn-history-row'>`;
+        entryDetails += `<div class="col-sm-12 hsn-history-subtitle"><span>Input Data: </span>`;
+        entryDetails += `<div class="col-sm-3">HS Code : ${queryData.hs}</div>`;
+        entryDetails += `<div class="col-sm-3">Import Destination : ${queryData.imp}</div>`;
+        entryDetails += `<div class="col-sm-3">Export Destination : ${queryData.exp}</div>`;
+        entryDetails += `</div>`;
+        entryDetails += `<div class="col-sm-12"><span>Response Data: </span>`;
+
+        if (!impHSNMap.length || !expHSNMap.length) {
+            entryDetails += "<span>No Data.</div>";
+        }
+        else {
+            entryDetails += `<div class='row hstable-row'>${getHSMapTable(impHSNMap, queryData.imp)}`;
+            entryDetails += getHSMapTable(expHSNMap, queryData.exp);
+            entryDetails += `</div>`;
+        }
+        entryDetails += `</div>`;
+
+        line += `<div class="row padding-left-zero hsn-history-row"><div class="col-sm-2 hsn-history-td">${getFormattedDate(item.iso_date)}</div><div class="col-sm-2 hsn-history-td">${queryData.hs}</div><div class="col-sm-2 hsn-history-td">${queryData.imp}</div><div class="col-sm-2 hsn-history-td">${queryData.exp}</div><div class="col-sm-2 hsn-history-td">${point}</div>`;
+        line += `<div class="col-sm-2 hsn-history-td"><div id="accordion" role="tablist" aria-multiselectable="true"><a class="" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${number}" aria-expanded="false" aria-controls="index${number}">`;
+        line += `<span class="menu-title">Expand</span></a></div></div>`;
+        line += `<div class='panel-collapse collapse col-sm-12' id='index${number}' role="tabpanel" aria-labelledby="heading${number}" aria-expanded="false">`
+        line += `<div class='panel-body row padding-left-zero'>`;
+        line += entryDetails;
+        line += `</div></div></div>`;
+        // tableBody.appendChild(row);
         number++;
     });
+    tableBody.innerHTML += line;
 
     pageInfo.textContent = `Page ${currentPage} of ${Math.ceil(maxlength / itemsPerPage)}`;
 }

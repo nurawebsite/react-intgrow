@@ -973,8 +973,8 @@ input[type=number] {
 }
 
 .padding-left-zero {
-  padding-left: 0;
-  margin-left: 0;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
 }
 
 ::-webkit-scrollbar {
@@ -1195,7 +1195,7 @@ a:focus {
   margin: 16px 0 32px;
 }
 
-.hsn-history table {
+.hsn-history-table {
   width: 95%;
   display: table;
   border: none;
@@ -1206,10 +1206,12 @@ a:focus {
   display: table-row-group;
 }
 
-.hsn-history td,
-.hsn-history th {
-  border: none;
+.hsn-history-row {
   border-bottom: solid rgb(242, 244, 247);
+}
+
+.hsn-history-td {
+  border: none;
   padding: 16px 12px;
   color: rgb(17, 25, 39);
   overflow: hidden;
@@ -1220,4 +1222,9 @@ a:focus {
   width: 95%;
   text-align: right;
   margin: 16px 0;
+}
+
+.hsn-history-subtitle {
+  line-height: 22px;
+  margin-bottom: 26px;
 }
