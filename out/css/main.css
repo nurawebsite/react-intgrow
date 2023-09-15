@@ -151,6 +151,12 @@ btn-outline-primary {
   text-overflow: ellipsis;
 }
 
+.form-group-editbtn {
+  line-height: normal;
+  padding: 0;
+  margin: 0;
+}
+
 .user-inputs {
   padding-left: 15px;
 }
