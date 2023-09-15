@@ -347,19 +347,21 @@ function displayGetDuty() {
     let formDetails = "";
     loadData(false);
 
-    let expLabel = document.getElementById('export_list');
+    let expLabel = document.getElementById('export_country');
     const currencyList = document.getElementById('cyn');
 
     formDetails += `<div class='row'><div class='col-sm-9 row'>`;
-    formDetails += `<div class='form-group col-sm-12 col-md-4'><span class='col-hs col-form-label'>Exporting Country</span><input type='text' class='form-control form-control-lg' value='${expCountryLabel}' disabled> </div>`;
-    formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
+    formDetails += `<div class='form-group col-sm-12 col-md-4'><label for='export_country1' class='col col-form-label form-group-editbtn'>Exporting</label><select class='form-control form-control-lg' id='export_country1' value='${expCountryLabel}' onchange='updateFieldVal("export_country",this.value)'>${expLabel.innerHTML}</select></div>`;
+    // formDetails += `<div class='form-group col-sm-12 col-md-4'><span class='col-hs col-form-label'>Exporting Country</span><input type='text' class='form-control form-control-lg' value='${expCountryLabel}' disabled> </div>`;
+    formDetails += `<div class='col-sm-4 form-group'><label for='cyn1' class='col col-form-label form-group-editbtn'>Currency</label><select class='form-control form-control-lg' id='cyn1' value='${currencyList.value}' onchange='updateFieldVal("cyn",this.value)'>${currencyList.innerHTML}</select></div>`;
+    // formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div></div>`;
     formDetails += `<div class='col-md-3 row align-center padding-left-zero position-absolute'>`;
     formDetails += `<div class='col-md-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text btn-result-update' id='callGetDuty' type='button' onclick='getDuty(event)'>Get Result</button></div>`;
     formDetails += `<div class='col-md-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text btn-result-update' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div>`;
     formDetails += `<span class='col-12 result-top-info'>Please click on the "Modify" button to change Exporting Country, Currency, and Value of Products for faster results.</span></div>`;
 
-    document.getElementById('export_country').value = expCountryLabel;
+
     const showGetDutyDetails = document.getElementById("getdutyDetails");
 
     showGetDutyDetails.innerHTML = "";
@@ -442,6 +444,23 @@ function displayGetDuty() {
     showGetDutyDetails.style.visibility = "visible";
     showGetDutyDetails.style.display = 'inline-block';
 
+    expLabel = document.getElementById("export_country1");
+    for (let option of expLabel.options) {
+        if (option.value == expCountryLabel) {
+            option.selected = true;
+            break;
+        }
+    }
+    expLabel.value = expCountryLabel;
+
+    let currencyList1 = document.getElementById("cyn1");
+    for (let option of currencyList1.options) {
+        if (option.value == currencyList.value) {
+            option.selected = true;
+            break;
+        }
+    }
+    currencyList1.value = currencyList.value
 }
 
 function expandFootnote(btnEle, data) {
@@ -581,28 +600,29 @@ function validateForm() {
 async function getDuty(event) {
     event.preventDefault();
 
-    
 
-        formRequest();
 
-        fetch(getDutyUrl, other_params)
-            .then(function (response) {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    const responseData = response.json();
-                    document.getElementById("errorMsg").innerHTML = `<div class="hsn-error">${responseData.message}</div>`;
-                    throw new Error(response.message || response.statusText);
-                }
-            }).then(function (data) {
-                getDutyResponse = data;
-                getFootnotes();
-                getDutyResponse && displayGetDuty();
-            }).catch(function (error) {
-                console.log('Error in getDuty ', error);
-                document.getElementById("errorMsg").innerHTML = error;
-            });
-    
+    formRequest();
+
+    fetch(getDutyUrl, other_params)
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                const responseData = response.json();
+                document.getElementById("errorMsg").innerHTML = `<div class="hsn-error">${responseData.message}</div>`;
+                throw new Error(response.message || response.statusText);
+            }
+        }).then(function (data) {
+            getDutyResponse = data;
+            getFootnotes();
+            getDutyResponse && displayGetDuty();
+        }).catch(function (error) {
+            console.log('Error in getDuty ', error);
+            document.getElementById("errorMsg").innerHTML = `<div class="hsn-error">${error.message}</div>`;
+            // document.getElementById("errorMsg").innerHTML = error;
+        });
+
     return true;
 }
 
@@ -656,13 +676,16 @@ function displaySaveDuty() {
     const currencyList = document.getElementById('cyn');
 
     formDetails += `<div class='row' > <div class='col-sm-9 row'>`;
-    // formDetails += `<div class='col-sm-4 form-group'><label for='export_country' class='col col-form-label'>Exporting</label><select class='form-control form-control-lg' id='export_country' value='${expLabel.value}' onchange='updateFieldVal("export_country",this.value)'>${expLabel.innerHTML}</select></div>`;
-    formDetails += `<div class='form-group col-sm-12 col-md-4'><span class='col-hs col-form-label'>Exporting Country</span><input type='text' class='form-control form-control-lg' value='${expCountryLabel}' disabled> </div>`;
-    formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
+    formDetails += `<div class='col-sm-4 form-group'><label for='export_country1' class='col col-form-label form-group-editbtn'>Exporting</label><select class='form-control form-control-lg' id='export_country1' value='${expLabel.value}' onchange='updateFieldVal("export_country",this.value)'>${expLabel.innerHTML}</select></div>`;
+    // formDetails += `<div class='form-group col-sm-12 col-md-4'><span class='col-hs col-form-label'>Exporting Country</span><input type='text' class='form-control form-control-lg' value='${expCountryLabel}' disabled> </div>`;
+    formDetails += `<div class='col-sm-4 form-group'><label for='cyn1' class='col col-form-label form-group-editbtn'>Currency</label><select class='form-control form-control-lg' id='cyn1' value='${currencyList.value}' onchange='updateFieldVal("cyn",this.value)'>${currencyList.innerHTML}</select></div>`;
+    // formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col col-form-label">Currency</span><input type='text' class='form-control form-control-lg' value='${currencyList.value}' disabled></div>`;
+
     formDetails += `<div class='form-group col-sm-12 col-md-4'><span class="col-hs col-form-label">Value of Product</span><input type='text' class='form-control form-control-lg' value='${inputData.CIF}' id='productValue' onchange='updateFieldVal("productValue",this.value)'> </div> </div>`;
     formDetails += `<div class='col-sm-3 row align-center padding-left-zero position-absolute' > `;
     formDetails += `<div class='col-sm-6 padding-left-zero' > <button class='btn btn-outline-primary btn-icon-text btn-result-update' id='callGetDuty' type='button' onclick='getSavedDuty()'>Get Result</button></div> `;
     formDetails += `<div class='col-sm-6 padding-left-zero' > <button class='btn btn-outline-primary btn-icon-text btn-result-update' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div></div> `;
+
 
     // document.querySelector('#export_country').value = expLabel.value;
     // document.getElementById('cyn').value = cyn;
@@ -890,48 +913,58 @@ function displaySaveDuty() {
 
     showSaveDutyDetails.innerHTML += dutyData + nosaveDutyData;
     showSaveDutyDetails.innerHTML += shipmentSummary;
+
+    expLabel = document.getElementById("export_country1");
+    for (let option of expLabel.options) {
+        if (option.value == expCountryLabel) {
+            option.selected = true;
+            break;
+        }
+    }
+    expLabel.value = expCountryLabel;
     displayOriginRules(ftaId);
 }
 
 async function getSavedDuty() {
 
-        formRequest();
-        getRulesOfOrigin();
-        const body = JSON.parse(other_params.body);
-        body.getFTA = "true";
-        other_params.body = JSON.stringify(body);
+    formRequest();
+    getRulesOfOrigin();
+    const body = JSON.parse(other_params.body);
+    body.getFTA = "true";
+    other_params.body = JSON.stringify(body);
 
-        fetch(getDutyUrl, other_params)
-            .then(function (response) {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error("Could not reach the API: " + response.statusText);
-                }
-            }).then(function (data) {
-                getDutyResponse = data;
-                // getDutyResponse && displayGetDuty();
+    fetch(getDutyUrl, other_params)
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Could not reach the API: " + response.statusText);
+            }
+        }).then(function (data) {
+            getDutyResponse = data;
+            // getDutyResponse && displayGetDuty();
 
-                fetch(saveDutyUrl, other_params)
-                    .then(function (response) {
-                        if (response.ok) {
-                            return response.json();
-                        } else {
-                            const responseData = response.json();
-                            showSaveDutyDetails.innerHTML= `<div class="hsn-error">${responseData.message}</div>`
-                            throw new Error("Could not reach the API: " + response.statusText);
-                        }
-                    }).then(function (data) {
-                        saveDutyResponse = data;
-                        saveDutyResponse && displaySaveDuty();
+            fetch(saveDutyUrl, other_params)
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        const responseData = response.json();
+                        showSaveDutyDetails.innerHTML = `<div class="hsn-error">${responseData.message}</div>`
+                        throw new Error("Could not reach the API: " + response.statusText);
+                    }
+                }).then(function (data) {
+                    saveDutyResponse = data;
+                    saveDutyResponse && displaySaveDuty();
 
-                    }).catch(function (error) {
-                        showSaveDutyDetails.innerHTML = error;
-                    });
-            }).catch(function (error) {
-                console.log("Error occurred ", error);
-            });
-    
+                }).catch(function (error) {
+                    showSaveDutyDetails.innerHTML = error;
+                });
+        }).catch(function (error) {
+            console.log("Error occurred ", error);
+            showSaveDutyDetails.innerHTML = `<div class="hsn-error">${error.message}</div>`
+        });
+
 }
 
 function displayHSCodes(ele) {
