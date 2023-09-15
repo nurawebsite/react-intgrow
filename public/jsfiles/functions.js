@@ -277,6 +277,9 @@ function getRulesOfOrigin() {
 function updateFieldVal(eleID, value) {
     let ele = document.getElementById(eleID);
     ele.value = value;
+    if(eleID == "export_country") {
+
+    }
 }
 
 function getFootnotes() {
@@ -461,6 +464,7 @@ function displayGetDuty() {
         }
     }
     currencyList1.value = currencyList.value
+    document.getElementById('export_country').value = expCountryLabel;
 }
 
 function expandFootnote(btnEle, data) {
@@ -922,6 +926,17 @@ function displaySaveDuty() {
         }
     }
     expLabel.value = expCountryLabel;
+
+    let currencyList1 = document.getElementById("cyn1");
+    for (let option of currencyList1.options) {
+        if (option.value == currencyList.value) {
+            option.selected = true;
+            break;
+        }
+    }
+    currencyList1.value = currencyList.value
+    document.getElementById('export_country').value = expCountryLabel;
+    
     displayOriginRules(ftaId);
 }
 
