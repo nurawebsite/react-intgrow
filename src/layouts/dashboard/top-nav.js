@@ -39,15 +39,17 @@ export const TopNav = (props) => {
 
   useEffect(() => {
     async function fetchData() {
-      const walletData = await auth.getWalletPoints();
-      if (walletData && !walletData.ok) {
+      if (window.localStorage.getItem("authenticated")) {
+        const walletData = await auth.getWalletPoints();
+        if (walletData && !walletData.ok) {
+          const responseData = await walletData.json();
+          const err = new Error(responseData.error || 'An error occurred');
+          err.status = walletData.status;
+          throw err;
+        }
         const responseData = await walletData.json();
-        const err = new Error(responseData.error || 'An error occurred');
-        err.status = walletData.status;
-        throw err;
+        setValues(responseData.result);
       }
-      const responseData = await walletData.json();
-      setValues(responseData.result);
     }
     fetchData();
   }, [])

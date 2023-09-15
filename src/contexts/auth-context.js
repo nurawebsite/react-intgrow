@@ -53,25 +53,14 @@ const handlers = {
   }
 };
 
-const decodeJwt = (token) => {
-  const [headerEncoded, payloadEncoded] = token.split(".");
-
-  // Decode the header and payload from base64
-  const header = JSON.parse(atob(headerEncoded));
-  const payload = JSON.parse(atob(payloadEncoded));
-
-  // Return the decoded header and payload
-  return { header, payload };
-}
-
 const isTokenExpired = (token) => {
   if(!token) { return true; }
-  const decodedToken = decodeJwt(token);
-  if (!decodedToken.payload || !decodedToken.payload.exp) {
+  const decodedToken = jwt(token);
+  if (!decodedToken || !decodedToken.exp) {
     // If "exp" claim is missing, consider the token as expired
     return true;
   }
-  const expirationTime = decodedToken.payload.exp;
+  const expirationTime = decodedToken.exp;
   const currentTime = Math.floor(Date.now() / 1000);
   return currentTime >= expirationTime;
 }

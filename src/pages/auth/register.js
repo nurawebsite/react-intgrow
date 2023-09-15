@@ -45,6 +45,10 @@ const Page = () => {
           throw registerError;
         }
         const responseData = await response.json();
+        if(responseData && responseData.result && responseData.result.token) {
+          window.localStorage.setItem('access_token', responseData.result.token);
+          window.localStorage.setItem('authenticated', 'true');
+        }
         setData(responseData);
         setError(null);
         
