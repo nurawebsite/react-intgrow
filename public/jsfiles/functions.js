@@ -499,7 +499,7 @@ function formRequest() {
         var fieldName = y.elements[i].id;
         var fieldValue = y.elements[i].value;
 
-        if (fieldName != "formsubmit") { params[fieldName] = getCountryId(fieldValue) || fieldValue; }
+        if (fieldName != "formsubmit") { params[fieldName] = (fieldName == 'import_country' || fieldName == 'export_country') ? getCountryId(fieldValue) : fieldValue; }
     }
     console.log("---params --- ", params);
 
@@ -536,7 +536,7 @@ function formRequest() {
     }
 
     cynDetail = currencyResponse && currencyResponse.find(c => c.country == params.cyn)
-    cyn = cynDetail.currency || params.cyn;
+    cyn = cynDetail && cynDetail.currency || params.cyn;
     params["CIFVALUE"] = params["CIF"] = cifValue * cynDetail.value;
     params["FOBVALUE"] = fobValue * cynDetail.value;
     otherData = {};
