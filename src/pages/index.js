@@ -16,20 +16,36 @@ const Page = () => {
     hs_code: 0,
     duty_calc: 0
   });
+  const [data, setData] = useState(null);
+
+  async function fetchData() {
+    const response = await auth.getAccountSummary();
+    if (!response.ok) {
+      const responseData = await response.json();
+      const err = new Error(responseData.error || 'An error occurred');
+      err.status = response.status;
+      throw err;
+    }
+    const responseData = await response.json();
+    setValues(responseData);
+  }
+
+  async function countryMap() {
+    const response = await auth.getCountryMap();
+    if (!response.ok) {
+      const responseData = await response.json();
+      const err = new Error(responseData.error || 'An error occurred');
+      err.status = response.status;
+      throw err;
+    }
+    const responseData = await response.json();
+    window.localStorage.setItem("countries", JSON.stringify(responseData));
+    setData(responseData);
+  }
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await auth.getAccountSummary();
-      if (!response.ok) {
-        const responseData = await response.json();
-        const err = new Error(responseData.error || 'An error occurred');
-        err.status = response.status;
-        throw err;
-      }
-      const responseData = await response.json();
-      setValues(responseData);
-    }
     fetchData();
+    countryMap();
   }, [])
 
   return (
@@ -65,7 +81,7 @@ const Page = () => {
                 <Grid
                   xs={12}
                   sm={6}
-                  lg={2}
+                  lg={3}
                   key={item.title}
                 >
                   <OverviewBudget
@@ -93,6 +109,7 @@ const Page = () => {
               heading="HS Code Finder"
               subheading="Recent searches"
               orders={values.hs_code}
+              countryMap={data}
               sx={{
                 height: '100%',
                 boxShadow: '0px 0 30px rgba(1, 41, 112, 0.4) !important',
@@ -111,6 +128,7 @@ const Page = () => {
               heading="Import Duty Calculator"
               subheading="Recent searches"
               orders={values.duty}
+              countryMap={data}
               sx={{
                 height: '100%',
                 boxShadow: '0px 0 30px rgba(1, 41, 112, 0.4) !important',
@@ -129,6 +147,7 @@ const Page = () => {
               heading="Export Duty Calculator"
               subheading="Recent searches"
               orders={values.fta}
+              countryMap={data}
               sx={{
                 height: '100%',
                 boxShadow: '0px 0 30px rgba(1, 41, 112, 0.4) !important',

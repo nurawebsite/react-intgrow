@@ -239,7 +239,7 @@ export const AuthProvider = (props) => {
   const signOut = () => {
     window.localStorage.removeItem('access_token');
     window.localStorage.removeItem('authenticated');
-
+    window.localStorage.removeItem('points');
     dispatch({
       type: HANDLERS.SIGN_OUT
     });
@@ -329,6 +329,21 @@ export const AuthProvider = (props) => {
     }
   };
 
+  const getCountryMap = async () => {
+    try {
+      const url = apis.loadCountry;
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+      return response;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
 
   return (
     <AuthContext.Provider
@@ -341,7 +356,8 @@ export const AuthProvider = (props) => {
         updateUserInfo,
         updatePassword,
         getWalletPoints,
-        getAccountSummary
+        getAccountSummary,
+        getCountryMap
       }}
     >
       {children}

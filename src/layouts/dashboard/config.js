@@ -84,7 +84,7 @@ export const items = [
 export const dashboardItem = [
   {
     title: 'HS Code Finder',
-    value: '6',
+    value: 'used_hscode',
     icon: (
       <SvgIcon fontSize="small">
         <MagnifyingGlassIcon />
@@ -92,8 +92,8 @@ export const dashboardItem = [
     )
   },
   {
-    title: 'Duty Calculations',
-    value: '4',
+    title: 'Duty Calculator',
+    value: 'used_duty',
     icon: (
       <SvgIcon fontSize="small">
         <CalculatorIcon />
@@ -101,33 +101,33 @@ export const dashboardItem = [
     )
   },
   {
-    title: 'Products',
-    value: '25',
+    title: 'Duty Saver Pro',
+    value: 'used_fta',
     icon: (
       <SvgIcon fontSize="small">
         <GiftIcon />
       </SvgIcon>
     )
   },
-  {
-    title: 'Countries',
-    value: '20',
-    icon: (
-      <SvgIcon fontSize="small">
-        <GlobeAltIcon />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: 'Countries',
+  //   value: '20',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <GlobeAltIcon />
+  //     </SvgIcon>
+  //   )
+  // },
 
-  {
-    title: 'Duty Saved',
-    value: '$3500',
-    icon: (
-      <SvgIcon fontSize="small">
-        <CurrencyDollarIcon />
-      </SvgIcon>
-    )
-  }
+  // {
+  //   title: 'Duty Saved',
+  //   value: '$3500',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <CurrencyDollarIcon />
+  //     </SvgIcon>
+  //   )
+  // }
 ];
 
 export const hsnHistory = [

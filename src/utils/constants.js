@@ -10,7 +10,8 @@ const apis = {
     getSummary: `${apiEndpoint}logs/all`,
     getHsnLog: `${apiEndpoint}logs/hs_code`,
     getDutyLog: `${apiEndpoint}logs/duty`,
-    getFtaLog: `${apiEndpoint}logs/fta`
+    getFtaLog: `${apiEndpoint}logs/fta`,
+    loadCountry: `${apiEndpoint}country/search`
 };
 
 const HANDLERS = {
@@ -53,14 +54,21 @@ const getFormattedDate = (val) => {
     return `${day}-${monthName}-${year}`;
 };
 
+const getCountryName = (id, countryMap) => {
+    var obj = countryMap && countryMap.find(o => o.label == id || o.value == id);
+    return obj && obj.label;
+}
+
 const statusMap = {
+    2: 'success',
     1: 'success',
     0: 'error'
 };
 
 const statusText = {
     0: 'Failed',
-    1: 'Success'
+    1: 'Success',
+    2: 'Success'
 }
 
 export {
@@ -71,5 +79,6 @@ export {
     getUserData,
     getFormattedDate,
     statusMap,
-    statusText
+    statusText,
+    getCountryName
 };

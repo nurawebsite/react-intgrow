@@ -6,6 +6,8 @@ import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/mate
 
 export const OverviewBudget = (props) => {
   const { title, icon, sx, value } = props;
+  const points = window.localStorage.getItem("points");
+  const pointsUsed = points && JSON.parse(points) || {};
 
   return (
     <Card sx={sx}>
@@ -26,7 +28,7 @@ export const OverviewBudget = (props) => {
               {title}
             </Typography>
             <Typography variant="subtitle2">
-              {value}
+              {pointsUsed[value] || 0}
             </Typography>
           </Stack>
           <Avatar

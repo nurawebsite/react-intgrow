@@ -37,20 +37,22 @@ export const TopNav = (props) => {
   const accountPopover = usePopover();
   const auth = useAuth();
 
-  useEffect(() => {
-    async function fetchData() {
-      if (window.localStorage.getItem("authenticated")) {
-        const walletData = await auth.getWalletPoints();
-        if (walletData && !walletData.ok) {
-          const responseData = await walletData.json();
-          const err = new Error(responseData.error || 'An error occurred');
-          err.status = walletData.status;
-          throw err;
-        }
+  async function fetchData() {
+    if (window.localStorage.getItem("authenticated")) {
+      const walletData = await auth.getWalletPoints();
+      if (walletData && !walletData.ok) {
         const responseData = await walletData.json();
-        setValues(responseData.result);
+        const err = new Error(responseData.error || 'An error occurred');
+        err.status = walletData.status;
+        throw err;
       }
+      const responseData = await walletData.json();
+      window.localStorage.setItem("points", JSON.stringify(responseData.result));
+      setValues(responseData.result);
     }
+  }
+
+  useEffect(() => {
     fetchData();
   }, [])
 

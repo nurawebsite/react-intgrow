@@ -32,7 +32,7 @@ export const AuthGuard = (props) => {
       if (!isAuthenticated && isInvalidToken) {
         window.localStorage.removeItem("authenticated");
         window.localStorage.removeItem("access_token");
-        
+        window.localStorage.removeItem('points');
         console.log('Not authenticated, redirecting');
         router
           .replace({

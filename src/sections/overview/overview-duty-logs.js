@@ -18,10 +18,10 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { SeverityPill } from 'src/components/severity-pill';
-import { getFormattedDate, statusMap, statusText } from 'src/utils/constants';
+import { getFormattedDate, statusMap, statusText, getCountryName } from 'src/utils/constants';
 
 export const OverviewDutyLogs = (props) => {
-  const { orders = [], heading, subheading, sx } = props;
+  const { orders = [], heading, subheading, sx, countryMap = [] } = props;
 
   if (orders && orders.length) {
     return (
@@ -41,7 +41,7 @@ export const OverviewDutyLogs = (props) => {
               sx={{
                 tableLayout: 'fixed'
               }}
-              >
+            >
               <TableHead>
                 <TableRow>
                   <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
@@ -60,11 +60,11 @@ export const OverviewDutyLogs = (props) => {
                     Value Of Product
                   </TableCell>
                   <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                    Import Duty Amount
+                    Mode Of Transport
                   </TableCell>
-                  <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
+                  {/* <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
                     Landed Cost
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
                     Status
                   </TableCell>
@@ -73,39 +73,40 @@ export const OverviewDutyLogs = (props) => {
               <TableBody>
                 {orders.map((order) => {
                   // const responseData = order && order.response && JSON.parse(order.response);
-                  // const queryData = order && order.query && JSON.parse(order.query);
-                  // const impHSNMap = responseData.import.map(a => a.value);
-                  // const expHSNMap = responseData.export.map(a => a.value);
-                  // return (
-                  //   <TableRow
-                  //     hover
-                  //     key={order.id}
-                  //   >
-                  //     <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                  //       {getFormattedDate(order.iso_date)}
-                  //     </TableCell>
-                  //     <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                  //       {queryData.imp}
-                  //     </TableCell>
-                  //     <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                  //       {queryData.exp}
-                  //     </TableCell>
-                  //     <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                  //       {queryData.hs}
-                  //     </TableCell>
-                  //     <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                  //       {impHSNMap.toString()}
-                  //     </TableCell>
-                  //     <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                  //       {expHSNMap.toString()}
-                  //     </TableCell>
-                  //     <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                  //       <SeverityPill color={statusMap.success}>
-                  //         Success
-                  //       </SeverityPill>
-                  //     </TableCell>
-                  //   </TableRow>
-                  // );
+                  const point = order && order.point || 0;
+                  const queryData = order && order.body && JSON.parse(order.body);
+                  // const impHSNMap = responseData && responseData.import && responseData.import.map(a => a.value) || "";
+                  // const expHSNMap = responseData && responseData.export && responseData.export.map(a => a.value) || "";
+                  return (
+                    <TableRow
+                      hover
+                      key={order.id}
+                    >
+                      <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
+                        {getFormattedDate(order.iso_date)}
+                      </TableCell>
+                      <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
+                        {getCountryName(queryData.import_country,countryMap)}
+                      </TableCell>
+                      <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
+                        {getCountryName(queryData.export_country,countryMap)}
+                      </TableCell>
+                      <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
+                        {queryData.hscode}
+                      </TableCell>
+                      <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
+                        {queryData.CIFVALUE || queryData.CIF || `unknown`}
+                      </TableCell>
+                      <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
+                        {queryData.mode}
+                      </TableCell>
+                      <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
+                        <SeverityPill color={statusMap[point]}>
+                          {statusText[point]}
+                        </SeverityPill>
+                      </TableCell>
+                    </TableRow>
+                  );
                 })}
               </TableBody>
             </Table>
