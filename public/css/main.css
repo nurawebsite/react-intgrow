@@ -315,7 +315,7 @@ input[type="text"]::-ms-input-placeholder {
 }
 
 .row {
-  margin: 0;
+  margin: 0 !important;
   width: 100%;
 }
 
@@ -1240,4 +1240,9 @@ a:focus {
 .hsn-history-subtitle {
   line-height: 22px;
   margin-bottom: 26px;
+}
+
+.log-display-group {
+  margin: 0 0 32px 20px !important;
+  padding: 0 !important;
 }
