@@ -430,7 +430,7 @@ function displayGetDuty() {
     line += `<div class='col-sm-6 summary-label'> Insurance Charges: </div> <div class='col-sm-6 summary-value'> ${insuranceCharge}</div>`;
 
     line += `<div class='col-sm-6 summary-label'> Total payable duties and taxes: </div> <div class='col-sm-6 summary-value'> ${totalDuty} ${cyn}</div>`;
-    line += `<div class='col-sm-6 summary-label'> Total Landed Cost: </div> <div class='col-sm-6 summary-value'> ${getdutyTotal}  ${cyn}</div>`;
+    line += `<div class='col-sm-6 summary-label'> Total Landed Cost: </div> <div class='col-sm-6 summary-value'> ${currencyConvert(getdutyTotal)}  ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> HSN Description: </div> <div class='col-sm-12'> ${getDutyResponse.des} </div>`;
     line += `</div>`;    //summary block closed.
 
@@ -535,7 +535,7 @@ function formRequest() {
             exwValue = fobValue - (fobIntFreight + fobInsuranceCharges);
     }
 
-    cynDetail = currencyResponse && currencyResponse.find(c => c.country == params.cyn)
+    cynDetail = currencyResponse && currencyResponse.find(c => (c.country).toLowerCase() == (params.cyn).toLowerCase())
     cyn = cynDetail && cynDetail.currency || params.cyn;
     params["CIFVALUE"] = params["CIF"] = cifValue * cynDetail.value;
     params["FOBVALUE"] = fobValue * cynDetail.value;

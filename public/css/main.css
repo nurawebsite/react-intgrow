@@ -498,7 +498,7 @@ p {
 }
 
 .modal-body {
-  margin: 34px 32px;
+  margin: 34px 32px !important;
   width: unset;
 }
 
@@ -859,7 +859,7 @@ p {
 }
 
 .footnote-data-block {
-  margin: 32px;
+  margin: 32px !important;
   padding: 0;
   border: solid 1px #b6c4d3;
   border-radius: 0;
@@ -1059,7 +1059,7 @@ select option {
 
 .duty-saver-block {
   padding: 24px 12px;
-  margin: 32px 0 16px;
+  margin: 32px 0 16px !important;
   background: linear-gradient(90deg, #004AAD, #5DE0E6);
   color: #fff;
 }
