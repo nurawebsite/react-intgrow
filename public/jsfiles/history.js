@@ -195,14 +195,15 @@ function displayDutyLog(item, point, queryData, logData, line, tableBody) {
 }
 
 function displayHsnLog(item, point, queryData, logData, line, tableBody) {
+    queryData = item && item.query && JSON.parse(item.query);
     const impHSNMap = logData && logData.import || [];
     const expHSNMap = logData && logData.export || [];
     let entryDetails = "";
     entryDetails += `<div class='row hsn-history-row'>`;
     entryDetails += `<div class="col-sm-12 hsn-history-subtitle"><span>Input Data: </span>`;
     entryDetails += `<div class="col-sm-3">HS Code : ${queryData.hs}</div>`;
-    entryDetails += `<div class="col-sm-3">Import Destination : ${queryData.imp}</div>`;
-    entryDetails += `<div class="col-sm-3">Export Destination : ${queryData.exp}</div>`;
+    entryDetails += `<div class="col-sm-3">Import Destination : ${getCountryId(queryData.imp)}</div>`;
+    entryDetails += `<div class="col-sm-3">Export Destination : ${getCountryId(queryData.exp)}</div>`;
     entryDetails += `</div>`;
     entryDetails += `<div class="col-sm-12"><span>Response Data: </span>`;
 
