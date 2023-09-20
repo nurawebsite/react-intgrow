@@ -164,10 +164,11 @@ function displayDutyLog(item, point, queryData, logData, line, tableBody) {
     let entryDetails = "";
     entryDetails += `<div class='row hsn-history-row'>`;
     entryDetails += `<div class="col-sm-12 hsn-history-subtitle"><span>Input Data: </span>`;
-    entryDetails += `<div class="col-sm-3">Import Destination : ${getCountryId(queryData.import_country)}</div>`;
-    entryDetails += `<div class="col-sm-3">Export Destination : ${getCountryId(queryData.export_country)}</div>`;
-    entryDetails += `<div class="col-sm-3">HS Code : ${queryData.hscode}</div>`;
-    entryDetails += `<div class="col-sm-3">Transportation Mode : ${queryData.mode}</div>`;
+    entryDetails += `<table class="log-input-table"> <tr><td>Import Destination : </td> <td> ${getCountryId(queryData.import_country)}</td></tr>`;
+    entryDetails += `<tr><td>Export Destination : </td><td>${getCountryId(queryData.export_country)}</td></tr>`;
+    entryDetails += `<tr><td>HS Code : </td><td> ${queryData.hscode}</td></tr>`;
+    entryDetails += `<tr><td>HSN Description : </td><td> ${logData.des}</td></tr>`;
+    entryDetails += `<tr><td>Transportation Mode :  </td><td> ${queryData.mode}</td></tr></table>`;
 
     entryDetails += `</div>`;
     entryDetails += `<div class="col-sm-12"><span>Response Data: </span>`;

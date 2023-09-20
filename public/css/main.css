@@ -23,6 +23,7 @@ iframe {
 }
 
 .duty-details,
+.log-input-table,
 th,
 td {
   border: 1px solid black;
@@ -31,7 +32,8 @@ td {
 }
 
 .duty-details,
-.roo-table {
+.roo-table,
+.log-input-table {
   margin: 20px auto;
   border: none;
   max-height: fit-content;
@@ -50,14 +52,16 @@ td {
   flex: 0 0 auto;
 }
 
-.duty-details td {
+.duty-details td,
+.log-input-table td {
   border: solid 1px #9da3bb !important;
   background-color: #fff;
   color: #6d809b;
   width: 15vw;
 }
 
-.duty-details th {
+.duty-details th,
+.log-input-table th {
   background: #0e588d;
   border: solid 1px #9da3bb !important;
   color: #fff;
@@ -71,6 +75,9 @@ td {
   width: 62vw;
 }
 
+.log-input-table td:nth-child(2) {
+  width: 40vw;
+}
 
 .duty-cost {
   font-size: 22px;

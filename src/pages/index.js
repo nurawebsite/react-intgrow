@@ -109,6 +109,7 @@ const Page = () => {
               heading="HS Code Finder"
               subheading="Recent searches"
               orders={values.hs_code}
+              redirectTo="/hsn-history"
               countryMap={data}
               sx={{
                 height: '100%',
@@ -128,6 +129,7 @@ const Page = () => {
               heading="Import Duty Calculator"
               subheading="Recent searches"
               orders={values.duty}
+              redirectTo="/dutycalc-history"
               countryMap={data}
               sx={{
                 height: '100%',
@@ -147,6 +149,7 @@ const Page = () => {
               heading="Export Duty Calculator"
               subheading="Recent searches"
               orders={values.fta}
+              redirectTo="/"
               countryMap={data}
               sx={{
                 height: '100%',

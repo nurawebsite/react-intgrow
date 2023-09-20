@@ -14,14 +14,16 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  Link
 } from '@mui/material';
+import NextLink from "next/link";
 import { Scrollbar } from 'src/components/scrollbar';
 import { SeverityPill } from 'src/components/severity-pill';
-import { getFormattedDate, statusMap, statusText } from 'src/utils/constants';
+import { getFormattedDate, statusMap, statusText, getCountryName } from 'src/utils/constants';
 
 export const OverviewHsnLogs = (props) => {
-  const { orders = [], heading, subheading, sx } = props;
+  const { orders = [], heading, subheading, sx, redirectTo, countryMap } = props;
 
   if (orders && orders.length) {
     return (
@@ -41,7 +43,7 @@ export const OverviewHsnLogs = (props) => {
               sx={{
                 tableLayout: 'fixed'
               }}
-              >
+            >
               <TableHead>
                 <TableRow>
                   <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
@@ -71,6 +73,7 @@ export const OverviewHsnLogs = (props) => {
                 {orders.map((order) => {
                   const responseData = order && order.response && JSON.parse(order.response);
                   const point = order && order.point || 0;
+                  const status = point > 0 ? 1 : 0;
                   const queryData = order && order.query && JSON.parse(order.query);
                   const impHSNMap = responseData && responseData.import && responseData.import.map(a => a.value) || "";
                   const expHSNMap = responseData && responseData.export && responseData.export.map(a => a.value) || "";
@@ -83,10 +86,10 @@ export const OverviewHsnLogs = (props) => {
                         {getFormattedDate(order.iso_date)}
                       </TableCell>
                       <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                        {queryData.imp}
+                        {getCountryName(queryData.imp, countryMap)}
                       </TableCell>
                       <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                        {queryData.exp}
+                        {getCountryName(queryData.exp, countryMap)}
                       </TableCell>
                       <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
                         {queryData.hs}
@@ -98,8 +101,8 @@ export const OverviewHsnLogs = (props) => {
                         {expHSNMap.toString()}
                       </TableCell>
                       <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                        <SeverityPill color={statusMap[point]}>
-                          {statusText[point]}
+                        <SeverityPill color={statusMap[status]}>
+                          {statusText[status]}
                         </SeverityPill>
                       </TableCell>
                     </TableRow>
@@ -111,18 +114,22 @@ export const OverviewHsnLogs = (props) => {
         </Scrollbar>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button
-            color="inherit"
-            endIcon={(
-              <SvgIcon fontSize="small">
-                <ArrowRightIcon />
-              </SvgIcon>
-            )}
-            size="small"
-            variant="text"
-          >
-            View all
-          </Button>
+          <Link
+            component={NextLink}
+            href={redirectTo}>
+            <Button
+              color="inherit"
+              endIcon={(
+                <SvgIcon fontSize="small">
+                  <ArrowRightIcon />
+                </SvgIcon>
+              )}
+              size="small"
+              variant="text"
+            >
+              View all
+            </Button>
+          </Link>
         </CardActions>
       </Card>
     );

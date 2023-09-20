@@ -60,15 +60,13 @@ const getCountryName = (id, countryMap) => {
 }
 
 const statusMap = {
-    2: 'success',
     1: 'success',
     0: 'error'
 };
 
 const statusText = {
     0: 'Failed',
-    1: 'Success',
-    2: 'Success'
+    1: 'Success'
 }
 
 export {
