@@ -56,14 +56,11 @@ export const OverviewHsnLogs = (props) => {
                     Export Destination
                   </TableCell>
                   <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                    Product
+                    HS Code
                   </TableCell>
                   <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                    Import Destination HSN
-                  </TableCell>
-                  <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                    Export Destination HSN
-                  </TableCell>
+                    Product Description
+                  </TableCell>    
                   <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
                     Status
                   </TableCell>
@@ -71,12 +68,9 @@ export const OverviewHsnLogs = (props) => {
               </TableHead>
               <TableBody>
                 {orders.map((order) => {
-                  const responseData = order && order.response && JSON.parse(order.response);
                   const point = order && order.point || 0;
                   const status = point > 0 ? 1 : 0;
                   const queryData = order && order.query && JSON.parse(order.query);
-                  const impHSNMap = responseData && responseData.import && responseData.import.map(a => a.value) || "";
-                  const expHSNMap = responseData && responseData.export && responseData.export.map(a => a.value) || "";
                   return (
                     <TableRow
                       hover
@@ -95,11 +89,11 @@ export const OverviewHsnLogs = (props) => {
                         {queryData.hs}
                       </TableCell>
                       <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
-                        {impHSNMap.toString()}
+                        {queryData.label || "-"} 
                       </TableCell>
-                      <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
+                      {/* <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
                         {expHSNMap.toString()}
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell sx={{ padding: '16px 12px', overflow: 'hidden' }}>
                         <SeverityPill color={statusMap[status]}>
                           {statusText[status]}

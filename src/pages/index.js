@@ -108,7 +108,7 @@ const Page = () => {
             <OverviewHsnLogs
               heading="HS Code Finder"
               subheading="Recent searches"
-              orders={values.hs_code}
+              orders={values.hscode}
               redirectTo="/hsn-history"
               countryMap={data}
               sx={{

@@ -2,7 +2,7 @@ let urlInputResponse, currencyResponse, countryListResponse, cyn, impCurrency, c
 let hsDetailsResponse, impcountryHSResponse, expcountryHSResponse, rulesResponse, footnoteResponse;
 let getDutyResponse = saveDutyResponse = {}, inputData = other_params = {}, showSaveDutyDetails = "";
 let importCountrySummary = exportCountrySummary = transportModeSummary = hscodeSummary = hscodeDescSummary = currencyDescSummary = null;
-let cifValSummary = totalDutySummary = totalCostSummary = null, hsnVal, impCountryVal, expCountryVal;
+let cifValSummary = totalDutySummary = totalCostSummary = null, hsnVal, impCountryVal, expCountryVal, hsnDescription;
 // const hostname = "http://localhost:5555";
 const hostname = "https://dev.intgrow.co";
 const getDutyUrl = `${hostname}/api/dutyCalculator/getDuty`;
@@ -1185,7 +1185,7 @@ function openPopup(ele) {
     htmlEle.innerHTML = `<div>Select Import Country and HS Code</div>`;
 }
 
-async function getCountryHSCode(hscode = hsnVal, importCountry = impCountryVal, exportCountry = expCountryVal) {
+async function getCountryHSCode(hscode = hsnVal, importCountry = impCountryVal, exportCountry = expCountryVal, hsLabel=hsnDescription) {
     if (!getCountryId(importCountry)) {
         openPopup('searchHSN');
     }
@@ -1207,7 +1207,7 @@ async function getCountryHSCode(hscode = hsnVal, importCountry = impCountryVal, 
         importCountry = importCountry && getCountryId(importCountry);
         exportCountry = exportCountry && getCountryId(exportCountry);
 
-        const countryHSUrl = `${hostname}/api/getProductFromCountryCode?hs=${hscode}&imp=${importCountry}&exp=${exportCountry}`;
+        const countryHSUrl = `${hostname}/api/getProductFromCountryCode?hs=${hscode}&imp=${importCountry}&exp=${exportCountry}&label=${hsLabel}`;
 
         HSCodeResponse = await fetch(countryHSUrl, { headers: authHeaders }).catch(function (error) {
             console.log("Error in fetching hscodes", error);
@@ -1258,10 +1258,11 @@ async function getCountryHSSearch(hscode, imp, formEle) {
     }
 }
 
-function setSelectHSN(hsn, imp, exp) {
+function setSelectHSN(hsn, imp, exp, des) {
     hsnVal = hsn;
     impCountryVal = imp;
     expCountryVal = exp;
+    hsnDescription = des;
     showPointsDeductScreen();
 }
 
@@ -1275,7 +1276,7 @@ function displayFreeHSSearch(hs_codes, importCountry, exportCountry, formEle = "
         string += `<table class="hstable-data hstable-hsn-search"><tr> <th> HS Codes </th><th colspan="2"> Product Description </th> </tr>`;
         hs_codes.forEach(h => {
             let [value, des] = h.hs6.split(" -");
-            string += `<tr> <td> ${value} </td> <td> ${des} </td> <td><button class='btn btn-outline-primary btn-icon-text btn-center-align btn-select-hsn' type='button' onclick='setSelectHSN("${value}","${importCountry}","${exportCountry}")' name="HSCode" id="hscode_select">Select</td></tr>`;
+            string += `<tr> <td> ${value} </td> <td> ${des} </td> <td><button class='btn btn-outline-primary btn-icon-text btn-center-align btn-select-hsn' type='button' onclick='setSelectHSN("${value}","${importCountry}","${exportCountry}", "${des}")' name="HSCode" id="hscode_select">Select</td></tr>`;
         });
         string += "</table></div></div></div>";
         hsFreeTextTable.innerHTML = string;
@@ -1306,7 +1307,7 @@ async function loadHsCodes(event) {
             }
         }
         else {
-            hsnVal = hscode.value.split(" ")[0];
+            [hsnVal, hsnDescription] = hscode.value.split(" -");
             impCountryVal = importCountry.value;
             expCountryVal = exportCountry.value
             showPointsDeductScreen();
