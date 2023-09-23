@@ -98,29 +98,44 @@ async function fetchLogData(logId) {
 }
 
 function displayFtaLog(item, point, queryData, logData, line, tableBody) {
-    const impHSNMap = logData && logData.import || [];
-    const expHSNMap = logData && logData.export || [];
     let entryDetails = "";
     entryDetails += `<div class='row hsn-history-row'>`;
-    entryDetails += `<div class="col-sm-12 hsn-history-subtitle"><span>Input Data: </span>`;
-    entryDetails += `<div class="col-sm-3">HS Code : ${queryData.hs}</div>`;
-    entryDetails += `<div class="col-sm-3">Import Destination : ${queryData.imp}</div>`;
-    entryDetails += `<div class="col-sm-3">Export Destination : ${queryData.exp}</div>`;
-    entryDetails += `</div>`;
-    entryDetails += `<div class="col-sm-12"><span>Response Data: </span>`;
+    entryDetails += `<div class="col-sm-12 hsn-history-subtitle"><span>Shipment Details: </span>`;
+    entryDetails += `<table class="log-input-table"> <tr><td>Import Destination: </td> <td> ${getCountryId(queryData.import_country)}</td></tr>`;
+    entryDetails += `<tr><td>Export Destination: </td><td>${getCountryId(queryData.export_country)}</td></tr>`;
+    entryDetails += `<tr><td>HS Code: </td><td> ${queryData.hscode}</td></tr>`;
+    entryDetails += `<tr><td>Transportation Mode:  </td><td> ${queryData.mode}</td></tr></table>`;
 
-    if (!impHSNMap.length || !expHSNMap.length) {
-        entryDetails += "<span>No Data.</div>";
+    entryDetails += `</div>`;
+    entryDetails += `<div class="col-sm-12"><span>Calculated Landed Cost: </span>`;
+    if (logData && logData[0] && logData[0][0] && logData[0][0].hs) {
+        entryDetails += `<table class="log-input-table">`;
+        entryDetails += `<tr><td> HS Code: </td> <td> ${logData[0][0].hscode} </td> </tr>`;
+        entryDetails += `<tr><td>HSN Description: </td><td> ${logData[0][0].des || "-"}</td></tr>`;
+        entryDetails += `<tr><td> Currency: </td> <td> ${logData[0][0].cyn || "-"} </td> </tr>`;
+        entryDetails += `<tr><td> CIF: </td> <td> ${Math.floor(logData[0][0].CIFVALUE) || 0} </td> </tr>`;
+
+        logData.forEach(entry => {
+            var ftaId = entry[0] && entry[0].dutyDetails && entry[0].dutyDetails[1] && Object.keys(entry[0].dutyDetails[1]).filter(e => e.match(/(_dd)$/));
+            var ftaRule = ftaId && ftaId[0] ? entry[0].dutyDetails[1][ftaId[0]] : "-";
+            entryDetails += `<tr> <td> ${ftaRule}</td>  <td> Total Import Duty: ${Math.floor(entry[0].total + entry[0].CIFVALUE) || 0}<br/> Duty Saved: - </td>   </tr>`;
+        });
+
     }
     else {
-        entryDetails += `<div class='row hstable-row'>${getHSMapTable(impHSNMap, queryData.imp)}`;
-        entryDetails += getHSMapTable(expHSNMap, queryData.exp);
-        entryDetails += `</div>`;
+        entryDetails += "<div class='hsn-history-result-text'>No Data Available.</div>";
     }
     entryDetails += `</div>`;
 
-    line += `<div class="row padding-left-zero hsn-history-row"><div class="col-sm-2 hsn-history-td">${getFormattedDate(item.iso_date)}</div><div class="col-sm-2 hsn-history-td">${queryData.hs}</div><div class="col-sm-2 hsn-history-td">${getCountryId(queryData.imp)}</div><div class="col-sm-2 hsn-history-td">${getCountryId(queryData.exp)}</div><div class="col-sm-2 hsn-history-td">${point}</div>`;
-    line += `<div class="col-sm-2 hsn-history-td"><div id="accordion" role="tablist" aria-multiselectable="true"><a class="" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${number}" aria-expanded="false" aria-controls="index${number}">`;
+    line += `<div class="row padding-left-zero hsn-history-row">`;
+    line += `<div class="col-sm hsn-history-td">${getFormattedDate(item.iso_date)}</div>`;
+    line += `<div class="col-sm hsn-history-td">${getCountryId(queryData.import_country)}</div>`;
+    line += `<div class="col-sm hsn-history-td">${getCountryId(queryData.export_country)}</div>`;
+    line += `<div class="col-sm hsn-history-td">${queryData.hscode || "-"}</div>`;
+    line += `<div class="col-sm hsn-history-td">${Math.floor(queryData.CIFVALUE) || 0}</div>`;
+    line += `<div class="col-sm hsn-history-td"> - </div>`;
+    line += `<div class="col-sm hsn-history-td"> - </div>`;
+    line += `<div class="col-sm hsn-history-td"><div id="accordion" role="tablist" aria-multiselectable="true"><a class="" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${number}" aria-expanded="false" aria-controls="index${number}">`;
     line += `<span class="menu-title">Expand</span></a></div></div>`;
     line += `<div class='panel-collapse collapse col-sm-12' id='index${number}' role="tabpanel" aria-labelledby="heading${number}" aria-expanded="false">`
     line += `<div class='panel-body row padding-left-zero'>`;
@@ -163,28 +178,40 @@ function getDutyMapTable(logData) {
 function displayDutyLog(item, point, queryData, logData, line, tableBody) {
     let entryDetails = "";
     entryDetails += `<div class='row hsn-history-row'>`;
-    entryDetails += `<div class="col-sm-12 hsn-history-subtitle"><span>Input Data: </span>`;
-    entryDetails += `<table class="log-input-table"> <tr><td>Import Destination : </td> <td> ${getCountryId(queryData.import_country)}</td></tr>`;
-    entryDetails += `<tr><td>Export Destination : </td><td>${getCountryId(queryData.export_country)}</td></tr>`;
-    entryDetails += `<tr><td>HS Code : </td><td> ${queryData.hscode}</td></tr>`;
-    entryDetails += `<tr><td>HSN Description : </td><td> ${logData.des}</td></tr>`;
-    entryDetails += `<tr><td>Transportation Mode :  </td><td> ${queryData.mode}</td></tr></table>`;
+    entryDetails += `<div class="col-sm-12 hsn-history-subtitle"><span>Shipment Details: </span>`;
+    entryDetails += `<table class="log-input-table"> <tr><td>Import Destination: </td> <td> ${getCountryId(queryData.import_country)}</td></tr>`;
+    entryDetails += `<tr><td>Export Destination: </td><td>${getCountryId(queryData.export_country)}</td></tr>`;
+    entryDetails += `<tr><td>HS Code: </td><td> ${queryData.hscode}</td></tr>`;
+    entryDetails += `<tr><td>Transportation Mode:  </td><td> ${queryData.mode}</td></tr></table>`;
 
     entryDetails += `</div>`;
-    entryDetails += `<div class="col-sm-12"><span>Response Data: </span>`;
+    entryDetails += `<div class="col-sm-12"><span>Calculated Landed Cost: </span>`;
 
-    if (!logData) {
-        entryDetails += "<span>No Data.</div>";
+    if (logData && logData.hscode) {
+        entryDetails += `<table class="log-input-table">`;
+        entryDetails += `<tr><td> HS Code: </td> <td> ${logData.hscode} </td> </tr>`;
+        entryDetails += `<tr><td>HSN Description: </td><td> ${logData.des || "-"}</td></tr>`;
+        entryDetails += `<tr><td> Currency: </td> <td> ${logData.cyn || "-"} </td> </tr>`;
+        entryDetails += `<tr><td> CIF: </td> <td> ${Math.floor(logData.CIFVALUE) || 0} </td> </tr>`;
+        entryDetails += `<tr><td> Total Payable Duties & Taxes: </td> <td> ${Math.floor(logData.total) || 0} ${logData.cyn || ""}</td> </tr>`;
+        entryDetails += `<tr><td> Total Landed Cost: </td> <td> ${Math.floor(logData.total+logData.CIFVALUE) || 0}  ${logData.cyn || ""}</td> </tr>`;
+      
+        // entryDetails += `<div class='row'>${getDutyMapTable(logData)}</div>`;
     }
     else {
-        entryDetails += `<div class='row'>${getDutyMapTable(logData)}</div>`;
+        entryDetails += "<div class='hsn-history-result-text'>No Data Available.</div>";
     }
     entryDetails += `</div>`;
 
-    line += `<div class="row padding-left-zero hsn-history-row"><div class="col-sm-2 hsn-history-td">${getFormattedDate(item.iso_date)}</div><div class="col-sm-1 hsn-history-td">${getCountryId(queryData.import_country)}</div><div class="col-sm-1 hsn-history-td">${getCountryId(queryData.export_country)}</div><div class="col-sm-2 hsn-history-td">${queryData.hscode}</div><div class="col-sm-2 hsn-history-td">${queryData.CIFVALUE}</div>`;
-    line += `<div class="col-sm-2 hsn-history-td">${Math.floor(logData.total)}</div>`;
-    line += `<div class="col-sm-1 hsn-history-td">${Math.floor(logData.total + logData.CIFVALUE)}</div>`;
-    line += `<div class="col-sm-1 hsn-history-td"><div id="accordion" role="tablist" aria-multiselectable="true"><a class="" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${number}" aria-expanded="false" aria-controls="index${number}">`;
+    line += `<div class="row padding-left-zero hsn-history-row">`;
+    line += `<div class="col-sm hsn-history-td">${getFormattedDate(item.iso_date)}</div>`;
+    line += `<div class="col-sm hsn-history-td">${getCountryId(queryData.import_country)}</div>`;
+    line += `<div class="col-sm hsn-history-td">${getCountryId(queryData.export_country)}</div>`;
+    line += `<div class="col-sm hsn-history-td">${queryData.hscode || "-"}</div>`;
+    line += `<div class="col-sm hsn-history-td">${Math.floor(queryData.CIFVALUE) || 0}</div>`;
+    line += `<div class="col-sm hsn-history-td">${Math.floor(logData.total) || 0}</div>`;
+    line += `<div class="col-sm hsn-history-td">${Math.floor(logData.total + logData.CIFVALUE) || 0}</div>`;
+    line += `<div class="col-sm hsn-history-td"><div id="accordion" role="tablist" aria-multiselectable="true"><a class="" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${number}" aria-expanded="false" aria-controls="index${number}">`;
     line += `<span class="menu-title">Expand</span></a></div></div>`;
     line += `<div class='panel-collapse collapse col-sm-12' id='index${number}' role="tabpanel" aria-labelledby="heading${number}" aria-expanded="false">`
     line += `<div class='panel-body row padding-left-zero'>`;
@@ -201,18 +228,13 @@ function displayHsnLog(item, point, queryData, logData, line, tableBody) {
     const expHSNMap = logData && logData.export || [];
     let entryDetails = "";
     entryDetails += `<div class='row hsn-history-row'>`;
-    entryDetails += `<div class="col-sm-12 hsn-history-subtitle"><span>Input Data: </span>`;
-    entryDetails += `<div class="col-sm-3">HS Code : ${queryData.hs}</div>`;
-    entryDetails += `<div class="col-sm-3">Import Destination : ${getCountryId(queryData.imp)}</div>`;
-    entryDetails += `<div class="col-sm-3">Export Destination : ${getCountryId(queryData.exp)}</div>`;
-    entryDetails += `</div>`;
-    entryDetails += `<div class="col-sm-12"><span>Response Data: </span>`;
+    entryDetails += `<div class="col-sm-12"><div class="hsn-history-result-text">HS Code Search Result: </div>`;
 
     if (!impHSNMap.length || !expHSNMap.length) {
-        entryDetails += "<span>No Data.</div>";
+        entryDetails += "<div class='hsn-history-result-text'>No Data.</div>";
     }
     else {
-        entryDetails += `<div class='row hstable-row'>${getHSMapTable(impHSNMap, queryData.imp)}`;
+        entryDetails += `<div class='row hstable-row hsn-history-result-text'>${getHSMapTable(impHSNMap, queryData.imp)}`;
         entryDetails += getHSMapTable(expHSNMap, queryData.exp);
         entryDetails += `</div>`;
     }
@@ -253,7 +275,7 @@ async function displayData(page) {
         const queryData = item && item.body && JSON.parse(item.body);
         fetchLogData(item.id).then((logData) => {
 
-            switch (pageType) {
+            switch(pageType) {
                 case 'duty': displayDutyLog(item, point, queryData, logData, line, tableBody); break;
                 case 'fta': displayFtaLog(item, point, queryData, logData, line, tableBody); break;
                 case 'hsn':

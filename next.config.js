@@ -26,5 +26,9 @@ module.exports = {
       source: "/public/dutyHistory.html",
       destination: "/pages/duty-history.js",
     },
+    {
+      source: "/public/ftaHistory.html",
+      destination: "/pages/fta-history.js",
+    },
   ]
 };

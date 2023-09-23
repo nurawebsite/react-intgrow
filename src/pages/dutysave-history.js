@@ -214,7 +214,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          HSN History | IntGrow Corp.
+          Duty Saver History | IntGrow Corp.
         </title>
       </Head>
       <Box

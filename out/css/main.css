@@ -1253,3 +1253,8 @@ a:focus {
   margin: 0 0 32px 20px !important;
   padding: 0 !important;
 }
+
+.hsn-history-result-text {
+  margin: 16px 0 22px !important;
+  font-weight: 400 !important;
+}

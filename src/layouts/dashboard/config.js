@@ -2,7 +2,7 @@ import CogIcon from '@heroicons/react/24/solid/CogIcon';
 import HomeIcon from '@heroicons/react/24/solid/HomeIcon';
 import Squares2X2Icon from '@heroicons/react/24/outline/Squares2X2Icon';
 import BanknotesIcon from '@heroicons/react/24/solid/BanknotesIcon';
-import { MagnifyingGlassIcon, CalculatorIcon, CurrencyDollarIcon, GiftIcon, GlobeAltIcon, DocumentMagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon, CalculatorIcon, CurrencyDollarIcon, GiftIcon, GlobeAltIcon, DocumentMagnifyingGlassIcon, BookmarkIcon } from "@heroicons/react/24/solid";
 
 import { SvgIcon } from '@mui/material';
 
@@ -66,7 +66,16 @@ export const items = [
     path: '/dutycalc-history',
     icon: (
       <SvgIcon fontSize="small">
-        <HomeIcon />
+        <CalculatorIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Duty Saver History',
+    path: '/fta-history',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BookmarkIcon />
       </SvgIcon>
     )
   },
@@ -75,7 +84,7 @@ export const items = [
     path: '/home',
     icon: (
       <SvgIcon fontSize="small">
-        <CalculatorIcon />
+        <HomeIcon />
       </SvgIcon>
     )
   }
