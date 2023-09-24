@@ -362,7 +362,7 @@ function displayGetDuty() {
     formDetails += `<div class='col-md-3 row align-center padding-left-zero position-absolute'>`;
     formDetails += `<div class='col-md-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text btn-result-update' id='callGetDuty' type='button' onclick='getDuty(event)'>Get Result</button></div>`;
     formDetails += `<div class='col-md-6 padding-left-zero'><button class='btn btn-outline-primary btn-icon-text btn-result-update' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div>`;
-    formDetails += `<span class='col-12 result-top-info'>Please click on the "Modify" button to change Exporting Country, Currency, and Value of Products for faster results.</span></div>`;
+    formDetails += `<span class='col-12 result-top-info'>Please click on the "Modify" button to change Shipment Details, Product Details & Shipping details.</span></div>`;
 
 
     const showGetDutyDetails = document.getElementById("getdutyDetails");
@@ -403,8 +403,8 @@ function displayGetDuty() {
     string += impCurrency != cyn ? ` <span class='duty-costchange'>( ${cynConvertDutyTotal} ${cyn} )</span>` : "";
     string += `<div class='col-sm-12 tnc-note'>Landed Cost = Assessable value + Total Duty</div>`;
     string += `<div class='col-sm-12 tnc-note'>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.)</div>`;
-    string += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
     string += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
+    string += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
     string += `</div></div>`;
 
     line += string;
@@ -432,14 +432,13 @@ function displayGetDuty() {
     line += `<div class='col-sm-6 summary-label'> Total payable duties and taxes: </div> <div class='col-sm-6 summary-value'> ${totalDuty} ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> Total Landed Cost: </div> <div class='col-sm-6 summary-value'> ${currencyConvert(getdutyTotal)}  ${cyn}</div>`;
     line += `<div class='col-sm-6 summary-label'> HSN Description: </div> <div class='col-sm-12'> ${getDutyResponse.des} </div>`;
-    line += `</div>`;    //summary block closed.
+    line += `</div>`;    //summary block closed.   
+    line += `</div> `;
 
     line += `<div class='row duty-saver-btn-block'>`;
-    line += `<div class='row duty-saver-block'> <div>"Want to save more with this transaction?</div> <div> Tap the button to unlock Duty Saver Pro now!" </div> </div>`;
-    line += `<button class="row btn btn-outline-primary btn-icon-text duty-saver-btn" id="callSaveDuty" type="button" onclick="goToPageWithPointDeduct('dutysaver','points-popup-box-save')">Duty Saver Pro</button>`;
+    line += `<div class='col-sm-12 col-md-8 duty-saver-block'> <div>"Want to save more with this transaction?</div> <div> Tap the button to unlock Duty Saver Pro now!" </div> </div>`;
+    line += `<div class="col-sm-4"><button class="btn btn-outline-primary btn-icon-text duty-saver-btn" id="callSaveDuty" type="button" onclick="goToPageWithPointDeduct('dutysaver','points-popup-box-save')">Duty Saver Pro</button></div>`;
     line += `</div>`; //duty saver button close
-
-    line += `</div> `;
 
     line += `<div class='row' id='footnoteBlock'> </div>`;
 
@@ -689,7 +688,7 @@ function displaySaveDuty() {
     formDetails += `<div class='col-sm-3 row align-center padding-left-zero position-absolute' > `;
     formDetails += `<div class='col-sm-6 padding-left-zero' > <button class='btn btn-outline-primary btn-icon-text btn-result-update' id='callGetDuty' type='button' onclick='getSavedDuty()'>Get Result</button></div> `;
     formDetails += `<div class='col-sm-6 padding-left-zero' > <button class='btn btn-outline-primary btn-icon-text btn-result-update' id='showGetDutyForm' type='button' onclick='gotoForm("getdutyForm", "getdutyDetails")' title='Click to modify Shipping information.'>Modify</button></div></div></div> `;
-
+    formDetails += `<span class='col-12 result-top-info'>Please click on the "Modify" button to change Shipment Details, Product Details & Shipping details.</span></div>`;
 
     // document.querySelector('#export_country').value = expLabel.value;
     // document.getElementById('cyn').value = cyn;
@@ -749,7 +748,7 @@ function displaySaveDuty() {
                 line += `<div class='panel-collapse collapse' id='index${index}' role="tabpanel" aria-labelledby="heading${index}" aria-expanded="false" > <div class='panel-body row'>`;
                 line += `<div class='col-sm-12 col-md-9 col-lg-9'>`;
                 line += `<div class='col-sm-12'>`;
-                line += `<div class='duty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
+                line += `<div class='saveduty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
                 line += `<table class='duty-details'><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
                 line += impCurrency != cyn ? `<th>Duty Amount<br>(in ${cyn})</th>` : "";
                 line += "</tr>";
@@ -771,9 +770,9 @@ function displaySaveDuty() {
             dutyData += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )</span>` : "</span>";
             dutyData += `</div><div class='col-sm-12 tnc-note'>Landed Cost = Assessable value + Total Duty</div>`;
             dutyData += "<div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
-            dutyData += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
             dutyData += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div></div>`;
             dutyData += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote fta-footnote-save'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
+            dutyData += `<div class='margin-all col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
             dutyData += `</div></div></div> `;
             ftaRule = "";
             index++;
@@ -828,7 +827,7 @@ function displaySaveDuty() {
             let savedConvertPrice = savedDuty ? currencyConvert(savedDuty) : 0;
             let line1 = `<div class='row'><div class='col-sm-12 col-md-9 col-lg-9'>`;
             line1 += `<div class='col-sm-12'>`;
-            line1 += `<div class='duty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
+            line1 += `<div class='saveduty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
             line1 += `<table class='duty-details'><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
             line1 += impCurrency != cyn ? `<th>Duty Amount<br>(in ${cyn})</th>` : "";
             line1 += "</tr>";
@@ -850,9 +849,10 @@ function displaySaveDuty() {
             dutyData1 += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )` : "";
             dutyData1 += `</span></div><div class='col-sm-12 tnc-note'>Landed Cost = Assessable value + Total Duty</div>`;
             dutyData1 += "<div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
-            dutyData1 += `<div class='col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
+            
             dutyData1 += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div>`;
             dutyData1 += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
+            dutyData1 += `<div class='margin-all col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
             dutyData1 += `</div></div>`;
             ftaRule = "";
             index++;
@@ -1201,7 +1201,7 @@ async function getCountryHSCode(hscode = hsnVal, importCountry = impCountryVal, 
         formDetails += `<div class='row hstable-form'><div class='col-sm-4'><span class='col-hs col-form-label'>Product Name/HS Code</span><input type='text' class='form-control form-control-lg' value='${hscode}' disabled></div>`;
         formDetails += `<div class='col-sm-3'><span class='col-hs col-form-label'>Importing Country</span><input type='text' class='form-control form-control-lg' value='${importCountry}' disabled> </div>`;
         formDetails += `<div class='col-sm-3'><span class='col-hs col-form-label'>Exporting Country</span><input type='text' class='form-control form-control-lg' value='${exportCountry}' disabled> </div>`;
-        formDetails += `<div class='col-sm-1'><button class='btn btn-outline-primary btn-icon-text' id='modifyHS' type='button' onclick='gotoForm("hscode_form", "show_hscodes")'>Modify</button></div>`
+        formDetails += `<div class='col-sm-2'><button class='btn btn-outline-primary btn-icon-text btn-result-update' id='modifyHS' type='button' onclick='gotoForm("hscode_form", "show_hscodes")'>Modify</button></div>`
         hscodesDisplay.innerHTML = formDetails;
         // hscode = hscode.split(" ")[0];
         importCountry = importCountry && getCountryId(importCountry);

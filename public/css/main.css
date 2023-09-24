@@ -418,7 +418,7 @@ tr {
 }
 
 .display-group {
-  padding: 20px 32px;
+  padding: 32px;
 }
 
 .getduty-summary {
@@ -900,6 +900,7 @@ p {
 .fta-footnote {
   font-size: 14px;
   padding: 10px;
+  margin-bottom: 16px;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
@@ -1037,18 +1038,27 @@ select option {
   font-size: 14px;
   margin-top: -10px;
   margin-left: 16px;
+  font-weight: 700;
 }
 
 .duty-details-heading {
-  margin: 20px 10px -5px;
+  margin: 0 10px -5px;
+}
+
+.saveduty-details-heading {
+  margin: 30px 10px -5px;
 }
 
 .duty-saver-btn-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  margin: 32px 0 0 !important;
 }
 
 .duty-saver-btn {
-  width: 80%;
+  width: 70%;
   background: linear-gradient(90deg, #FFCC70, #C850C0, #4158D0);
   border-radius: 20px;
   border-style: none;
@@ -1059,7 +1069,6 @@ select option {
 
 .duty-saver-block {
   padding: 24px 12px;
-  margin: 32px 0 16px !important;
   background: linear-gradient(90deg, #004AAD, #5DE0E6);
   color: #fff;
 }

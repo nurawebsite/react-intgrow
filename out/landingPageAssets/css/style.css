@@ -72,7 +72,7 @@ section {
 }
 
 .section {
-  padding: 3rem 0;
+  padding: 1.5rem 0;
 }
 
 .section-heading {
@@ -321,6 +321,7 @@ section {
 .cta-section {
   background: linear-gradient(to right, rgb(39, 70, 133) 0%, rgb(61, 179, 197) 100%);
   color: #fff;
+  padding: 32px 0;
 }
 
 .cta-section h2 {
@@ -1003,8 +1004,8 @@ section {
 }
 
 .footer a:hover {
-  color: #fff;
-  text-decoration: underline !important;
+  color: #000;
+  text-decoration: none !important;
 }
 
 .footer .copyright {
