@@ -1,5 +1,5 @@
 let urlInputResponse, currencyResponse, countryListResponse, cyn, impCurrency, cynRate, params, authHeaders;
-let hsDetailsResponse, impcountryHSResponse, expcountryHSResponse, rulesResponse, footnoteResponse;
+let hsDetailsResponse, impcountryHSResponse, expcountryHSResponse, rulesResponse, footnoteResponse, HSCategoryResponse;
 let getDutyResponse = saveDutyResponse = {}, inputData = other_params = {}, showSaveDutyDetails = "";
 let importCountrySummary = exportCountrySummary = transportModeSummary = hscodeSummary = hscodeDescSummary = currencyDescSummary = null;
 let cifValSummary = totalDutySummary = totalCostSummary = null, hsnVal, impCountryVal, expCountryVal, hsnDescription;
@@ -589,15 +589,6 @@ function validateForm() {
         return false;
     }
 
-    // let importCountry = document.getElementById("import_country").value,
-    //     exportCountry = document.getElementById("export_country").value,
-    //     hscode = document.getElementById("hscode").value,
-    //     currency = document.getElementById('cyn').value;
-
-    // if (!(getCountryId(importCountry) && getCountryId(exportCountry) && hscode.match(/^[0-9]+[a-zA-Z]*/g))) {
-    //     errorEle.innerHTML = "**Please enter all the details";
-    //     return false;
-    // }
     errorEle.innerHTML = "";
     return true;
 }
@@ -1137,10 +1128,21 @@ function enableBtn(impHSMap, expHSMap, element) {
     }
 }
 
-function displayHSTable(hscodesDisplay, HSMap, importCountry, exportCountry) {
+function displayHSTable(hscodesDisplay, HSMap, importCountry, exportCountry, HSCategories) {
     let hscodeHTML = "", imp_hsn, exp_hsn;
+
+    if(HSCategories && HSCategories[0] && HSCategories[0]) {
+        hscodeHTML += `<div class='row hsn-history-row'>`;
+        hscodeHTML += `<div class="col-sm-12 hsn-history-subtitle"><span>HSN Classification: </span>`;
+        hscodeHTML += `<table class="log-input-table">`
+        hscodeHTML += HSCategories[0].hs2 && HSCategories[0].hs2_des ? `<tr><td> ${HSCategories[0].hs2} </td> <td> ${HSCategories[0].hs2_des}</td></tr>` : "";
+        hscodeHTML += HSCategories[0].hs4 && HSCategories[0].hs4_des ? `<tr><td> ${HSCategories[0].hs4} </td> <td> ${HSCategories[0].hs4_des}</td></tr>` : "";
+        hscodeHTML += HSCategories[0].hs6 && HSCategories[0].hs6_des ? `<tr><td> ${HSCategories[0].hs6} </td> <td> ${HSCategories[0].hs6_des}</td></tr>` : "";
+        hscodeHTML += `</table></div></div>`;
+    }
+
     if (HSMap && HSMap.import && HSMap.import.length) {
-        hscodeHTML = "<div class='row hstable-row'><div class='col-sm-6 hstable'>";
+        hscodeHTML += "<div class='row hstable-row'><div class='col-sm-6 hstable'>";
         hscodeHTML += `<div class="hstable-body"><div class="hstable-title"> <span>HS Codes of ${getCountryId(importCountry, "label")} </span></div>`;
         hscodeHTML += `<table class="hstable-data"><tr> <th> HS Code </th> <th colspan='2'> Product Description </th> </tr>`
         HSMap.import.forEach(d => {
@@ -1186,8 +1188,6 @@ async function fetchCountryHSN(hscode, importCountry, ele) {
     displayHSTable(ele, impHSMap, "", importCountry, "");
 }
 
-
-
 async function getHSNSearch(importCountry, searchHSFormEle) {
     let hscode = document.getElementById('search-hscode').value;
     importCountry = getCountryId(importCountry);
@@ -1225,9 +1225,13 @@ async function getCountryHSCode(hscode = hsnVal, importCountry = impCountryVal, 
         exportCountry = exportCountry && getCountryId(exportCountry);
 
         const countryHSUrl = `${hostname}/api/getProductFromCountryCode?hs=${hscode}&imp=${importCountry}&exp=${exportCountry}&label=${hsLabel}`;
+        const hsCategoryUrl = `${hostname}/api/country/hsDetails?hs=${hscode}`;
 
         HSCodeResponse = await fetch(countryHSUrl, { headers: authHeaders }).catch(function (error) {
             console.log("Error in fetching hscodes", error);
+        });
+
+        HSCategoryResponse = await fetch(hsCategoryUrl).catch(function (error) {
         });
 
         if (!HSCodeResponse.ok) {
@@ -1237,9 +1241,17 @@ async function getCountryHSCode(hscode = hsnVal, importCountry = impCountryVal, 
             throw new Error(data.message);
         }
 
-        const HSMap = HSCodeResponse.status != 204 ? await HSCodeResponse.json() : [];
+        if (!HSCategoryResponse.ok) {
+            const msg = `Error in fetch ${HSCategoryResponse.status}`;
+            const data = await HSCategoryResponse.json();
+            // hscodesDisplay.innerHTML += `<div class="hsn-error">${data.message}</div>`;
+            throw new Error(data.message);
+        }
 
-        displayHSTable(hscodesDisplay, HSMap, importCountry, exportCountry);
+        const HSMap = HSCodeResponse.status != 204 ? await HSCodeResponse.json() : [];
+        const HSCategories = HSCategoryResponse.status != 204 ? await HSCategoryResponse.json() : [];
+
+        displayHSTable(hscodesDisplay, HSMap, importCountry, exportCountry, HSCategories);
     }
 }
 
