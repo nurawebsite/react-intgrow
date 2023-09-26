@@ -2,7 +2,7 @@ export const createTypography = () => {
   return {
     fontFamily: '"Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
     body1: {
-      fontSize: '16px',
+      fontSize: '14px',
       fontWeight: 400,
       lineHeight: 1.5
     },
@@ -20,12 +20,12 @@ export const createTypography = () => {
       lineHeight: 1.66
     },
     subtitle1: {
-      fontSize: '16px',
+      fontSize: '14px',
       fontWeight: 500,
       lineHeight: 1.57
     },
     subtitle2: {
-      fontSize: '14px',
+      fontSize: '12px',
       fontWeight: 500,
       lineHeight: 1.57
     },

@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { TopNav } from 'src/layouts/dashboard/top-nav';
+import { Footer } from '../sections/footer';
 
 const Page = () => {
     const router = useRouter();
@@ -260,6 +261,7 @@ const Page = () => {
                     </section>
                 </Stack>
             </div>
+            <Footer/>
         </>
     );
 };

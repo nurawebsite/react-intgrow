@@ -1,8 +1,21 @@
 import React from 'react';
-import { Container, Link, Stack, Typography, Button } from '@mui/material';
+import { Container, Link, Stack, Typography, Button, Box } from '@mui/material';
 import { NextLink } from "next/link";
+import { height } from '@mui/system';
+import { useEffect } from 'react';
+
 
 export const Footer = () => {
+
+  useEffect(
+    () => {
+      var iframe = document.getElementById("footer");
+      if (iframe) {
+        iframe.width = iframe.contentWindow.document.body.scrollWidth;
+        iframe.height = iframe.contentWindow.document.body.scrollHeight;
+      }
+    },
+    [])
 
   return (
     <>
@@ -10,7 +23,7 @@ export const Footer = () => {
         direction="row"
         sx={{
           p: '32px 0',
-          m: '36px 0',
+          m: '36px 0 0',
           background: "linear-gradient(to right, rgb(39, 70, 133) 0%, rgb(61, 179, 197) 100%)",
         }}>
         <Container maxWidth="100%">
@@ -67,6 +80,19 @@ export const Footer = () => {
 
         </Container>
       </Stack>
+      <Box
+        sx={{
+          flex: '1 1 auto',
+          alignItems: 'center',
+          display: 'flex',
+          justifyContent: 'center'
+        }}
+      >
+        <iframe id="footer" src="/footer.html" width="100%" height="100%"
+          style={{ border: 'none', maxHeight: '400px', height: '70vh' }}
+          data-tf-redirect-target="_self"></iframe>
+
+      </Box>
 
       {/* <Container>
         <Stack direction="row">
