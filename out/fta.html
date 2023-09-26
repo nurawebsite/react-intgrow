@@ -269,7 +269,7 @@
 
             <div class="col-sm-12 col-md-12 col-lg-12">
               <button id="formsubmit" type="button" class="btn btn-outline-primary btn-icon-text btn-center-align">
-                <i class="mdi mdi-file-check btn-icon-prepend" onclick="showPointsDeductScreen()"></i>
+                <i class="mdi mdi-file-check btn-icon-prepend" onclick="showPointsDeductScreen('points-popup-box','ftaMsg')"></i>
                 Calculate duty
               </button>
             </div>
@@ -319,7 +319,7 @@
           fob.style.display = cif.style.display = exw.style.display = 'none';
         }
       });
-      document.getElementById("formsubmit").onclick = function () { showPointsDeductScreen() };
+      document.getElementById("formsubmit").onclick = function () { showPointsDeductScreen('points-popup-box','ftaMsg') };
       document.getElementById("popup-confirm").onclick = function () { getSavedDuty() };
 
     </script>

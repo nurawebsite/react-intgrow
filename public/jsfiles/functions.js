@@ -8,6 +8,8 @@ const hostname = "https://dev.intgrow.co";
 const getDutyUrl = `${hostname}/api/dutyCalculator/getDuty`;
 const saveDutyUrl = `${hostname}/api/dutyCalculator/getFTA`;
 const countryUrl = `${hostname}/api/country/search`;
+const ftaDeductUrl = `${hostname}/api/dutyCalculator/getFTAPoints`;
+
 const incoInfoMap = {
     EXW: "EXW (Ex Works): EXW Price = Cost of Goods at Factory Premises",
     CIF: "CIF (Cost, Insurance, Freight): CIF Price = Cost of Goods + Local Transport and Clearance Cost + Cost of Loading Goods onto the Vessel + Freight Cost till Destination + Insurance",
@@ -603,8 +605,6 @@ function validateForm() {
 async function getDuty(event) {
     event.preventDefault();
 
-
-
     formRequest();
 
     fetch(getDutyUrl, other_params)
@@ -992,11 +992,28 @@ function displayHSCodes(ele) {
     document.getElementById("hscodeList").innerHTML = hsDataList;
 }
 
+async function ftaTotalDeductPoints() {
+    try {
+        formRequest();
+        const response = await fetch(ftaDeductUrl, other_params);
+        const data = await response.json();
+        if (!response.ok) {
+            console.log("Error in fetch fta Deduct API");
+            throw new Error('Error in fta Deduct API');
+        }
+        const points = data && data.rate ? `${data && data.rate } points will be deducted` :
+        "1 point will be deducted for each calculation";
+        document.getElementById('deductMsg').innerHTML = `If you proceed ${points} from your Duty Calulator credits. Do you want to proceed?`;
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+}
+
 function showPointsDeductScreen(popupEle = "points-popup-box", page) {
     if (validateForm()) {
         var ele = document.getElementById(popupEle);
         if (page) {
-            document.getElementById('deductMsg').innerHTML = deductionMessage[page];
+             page == 'ftaMsg' ? ftaTotalDeductPoints() : document.getElementById('deductMsg').innerHTML = deductionMessage[page];
         }
         ele.style.visibility = "visible";
         ele.style.opacity = "1";
