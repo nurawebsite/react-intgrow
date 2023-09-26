@@ -89,7 +89,7 @@ export const Footer = () => {
         }}
       >
         <iframe id="footer" src="/footer.html" width="100%" height="100%"
-          style={{ border: 'none', maxHeight: '400px', height: '70vh' }}
+          style={{ border: 'none', maxHeight: '400px', height: '75vh' }}
           data-tf-redirect-target="_self"></iframe>
 
       </Box>
