@@ -24,7 +24,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from 'src/hooks/use-auth';
 
 
-const SIDE_NAV_WIDTH = 240;
+const SIDE_NAV_WIDTH = 230;
 const TOP_NAV_HEIGHT = 64;
 
 export const TopNav = (props) => {

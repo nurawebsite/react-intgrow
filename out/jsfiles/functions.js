@@ -377,8 +377,10 @@ function displayGetDuty() {
     const dutyDetailsDesc = getDutyResponse && getDutyResponse.dutyDetails || [];
     let line = "";
     if (dutyDetailsDesc.length > 0) {
-        line += `<div class='row display-group duty-block'><div class='col-sm-12 col-md-8 row duty-table'>`;
-        line += `<div class='col-sm-12'><div class='duty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div><table class="duty-details"><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
+        line += `<div class='row display-group duty-block'>`;
+        line += `<div class='col-sm-12 duty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
+        line += `<div class='col-sm-12 col-md-8 row duty-table'>`;
+        line += `<div class='col-sm-12'><table class="duty-details"><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
         line += impCurrency != cyn ? `<th>Duty Amount<br>(in ${cyn})</th>` : "";
         line += "</tr>";
 
@@ -737,10 +739,9 @@ function displaySaveDuty() {
                 line += `<a class="save-duty-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#index${index}" aria-expanded="false" aria-controls="index${index}">`;
                 line += `<span class="menu-title">${categories}</span></a></div>`;
                 line += `<div class='panel-collapse collapse' id='index${index}' role="tabpanel" aria-labelledby="heading${index}" aria-expanded="false" > <div class='panel-body row'>`;
+                line += `<div class='col-sm-12 saveduty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
                 line += `<div class='col-sm-12 col-md-9 col-lg-9'>`;
-                line += `<div class='col-sm-12'>`;
-                line += `<div class='saveduty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
-                line += `<table class='duty-details'><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
+                line += `<div class='col-sm-12'><table class='duty-details'><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
                 line += impCurrency != cyn ? `<th>Duty Amount<br>(in ${cyn})</th>` : "";
                 line += "</tr>";
 
@@ -816,9 +817,9 @@ function displaySaveDuty() {
             });
 
             let savedConvertPrice = savedDuty ? currencyConvert(savedDuty) : 0;
-            let line1 = `<div class='row'><div class='col-sm-12 col-md-9 col-lg-9'>`;
-            line1 += `<div class='col-sm-12'>`;
-            line1 += `<div class='saveduty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
+            let line1 = `<div class='row'>`;
+            line1 += `<div class='col-sm-12 saveduty-details-heading'><h3>Breakdown of Duties and Taxes</h3></div>`;
+            line1 += `<div class='col-sm-12 col-md-9 col-lg-9'><div class='col-sm-12'>`;
             line1 += `<table class='duty-details'><tr><th>Duty Details</th><th>Duty Rate</th><th>Duty Amount<br>(in ${impCurrency})</th>`;
             line1 += impCurrency != cyn ? `<th>Duty Amount<br>(in ${cyn})</th>` : "";
             line1 += "</tr>";

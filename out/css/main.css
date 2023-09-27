@@ -34,7 +34,7 @@ td {
 .duty-details,
 .roo-table,
 .log-input-table {
-  margin: 20px auto;
+  margin: 16px auto;
   border: none;
   max-height: fit-content;
 }
@@ -425,7 +425,7 @@ tr {
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   padding: 0 0 15px 0;
   font-size: 14px;
-  margin-top: 30px;
+  margin-top: 22px !important;
   height: fit-content;
 }
 
@@ -1042,11 +1042,11 @@ select option {
 }
 
 .duty-details-heading {
-  margin: 0 10px -5px;
+  margin-right: 26px;
 }
 
 .saveduty-details-heading {
-  margin: 30px 10px -5px;
+  margin: 30px 20px 0px;
 }
 
 .duty-saver-btn-block {

@@ -91,7 +91,7 @@ export const SideNav = (props) => {
           sx: {
             background: 'linear-gradient(0deg, #1391a5, #274685)',
             color: 'common.white',
-            width: 240,
+            width: 230,
             top: 81,
             border: 'none'
           }
