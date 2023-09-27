@@ -7,12 +7,20 @@ import { Box, Button, Link, Stack, TextField, Typography, Alert } from '@mui/mat
 import { useAuth } from 'src/hooks/use-auth';
 import { TopNav } from 'src/layouts/dashboard/top-nav';
 import { useState } from 'react';
+import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 
 const Page = () => {
   const router = useRouter();
   const auth = useAuth();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  // const [password, setPassword] = useState('');
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -45,13 +53,13 @@ const Page = () => {
           throw registerError;
         }
         const responseData = await response.json();
-        if(responseData && responseData.result && responseData.result.token) {
+        if (responseData && responseData.result && responseData.result.token) {
           window.localStorage.setItem('access_token', responseData.result.token);
           window.localStorage.setItem('authenticated', 'true');
         }
         setData(responseData);
         setError(null);
-        
+
         router.push('/');
       } catch (err) {
         console.log("Error in registration");
@@ -136,17 +144,30 @@ const Page = () => {
                   type="email"
                   value={formik.values.email}
                 />
-                <TextField
-                  error={!!(formik.touched.password && formik.errors.password)}
-                  fullWidth
-                  helperText={formik.touched.password && formik.errors.password}
-                  label="Password"
-                  name="password"
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  type="password"
-                  value={formik.values.password}
-                />
+                <Stack sx={{position: 'relative'}}>
+                  <TextField
+                    error={!!(formik.touched.password && formik.errors.password)}
+                    fullWidth
+                    helperText={formik.touched.password && formik.errors.password}
+                    label="Password"
+                    name="password"
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    // {(e) => formik.values.password = (e.target.value)}
+                    type={passwordVisible ? 'text' : 'password'}
+                    value={formik.values.password}
+                  />
+                  <Button onClick={togglePasswordVisibility}
+                    sx={{
+                      position: 'absolute',
+                      top: '0',
+                      right: '0',
+                      zIndex: '99'
+                    }}
+                  >
+                    {passwordVisible ? <EyeIcon /> : <EyeSlashIcon />}
+                  </Button>
+                </Stack>
               </Stack>
               {formik.errors.submit && (
                 <Typography
@@ -167,7 +188,7 @@ const Page = () => {
                 Register
               </Button>
             </form>
-            { data && <span>Registration successful.</span> }
+            {data && <span>Registration successful.</span>}
           </div>
         </Box>
       </Box>

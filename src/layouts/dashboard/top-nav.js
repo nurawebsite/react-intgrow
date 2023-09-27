@@ -54,6 +54,13 @@ export const TopNav = (props) => {
 
   useEffect(() => {
     fetchData();
+    const host = window.location.protocol + "//" + window.location.host;
+    window.addEventListener('message', (event) => {
+      if (event.origin === host) {
+        const points = window.localStorage.getItem("points");
+        setValues(JSON.parse(points));
+      }
+    });
   }, [])
 
   return (

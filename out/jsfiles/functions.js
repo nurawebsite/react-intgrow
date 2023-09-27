@@ -9,6 +9,7 @@ const getDutyUrl = `${hostname}/api/dutyCalculator/getDuty`;
 const saveDutyUrl = `${hostname}/api/dutyCalculator/getFTA`;
 const countryUrl = `${hostname}/api/country/search`;
 const ftaDeductUrl = `${hostname}/api/dutyCalculator/getFTAPoints`;
+const getWalletUrl = `${hostname}/api/wallets/get`;
 
 const incoInfoMap = {
     EXW: "EXW (Ex Works): EXW Price = Cost of Goods at Factory Premises",
@@ -279,7 +280,7 @@ function getRulesOfOrigin() {
 function updateFieldVal(eleID, value) {
     let ele = document.getElementById(eleID);
     ele.value = value;
-    if(eleID == "export_country") {
+    if (eleID == "export_country") {
 
     }
 }
@@ -612,6 +613,7 @@ async function getDuty(event) {
         }).then(function (data) {
             getDutyResponse = data;
             getFootnotes();
+            getWalletPoints();
             getDutyResponse && displayGetDuty();
         }).catch(function (error) {
             console.log('Error in getDuty ', error);
@@ -644,6 +646,7 @@ function addPopup() {
 }
 
 function displaySaveDuty() {
+    getWalletPoints();
     showSaveDutyDetails = document.getElementById("getdutyDetails");
     saveDutyForm = document.getElementById("getdutyForm");
     saveDutyForm.style.visibility = "hidden";
@@ -841,7 +844,7 @@ function displaySaveDuty() {
             dutyData1 += impCurrency != cyn ? ` ( ${integerToCurrency(cynConvertTotal, cyn)} )` : "";
             dutyData1 += `</span></div><div class='col-sm-12 tnc-note'>Landed Cost = Assessable value + Total Duty</div>`;
             dutyData1 += "<div class='row'> <div class='tnc-note'><i>*Excluding destination freight, destination charges and intermediaries margin (importer, wholesaler, etc.) </i></div>";
-            
+
             dutyData1 += `<div class='col-sm-12 col-md-12 col-lg-12 margin-below'>${savedAmt}</div></div>`;
             dutyData1 += footnote_data ? `<div class='col-sm-12 col-md-12 col-lg-12 fta-footnote'><span>Note: </span><span class='fta-footnote-data'>${footnote_data}</span></div>` : ``;
             dutyData1 += `<div class='margin-all col-sm-12 tnc-note'>This total landed cost calculation is applicable as of ${formattedDate()}. Foreign exchange rates are revised in accordance with notifications from the importing country.</div>`;
@@ -928,7 +931,7 @@ function displaySaveDuty() {
     }
     currencyList1.value = currencyList.value
     document.getElementById('export_country').value = expCountryLabel;
-    
+
     displayOriginRules(ftaId);
 }
 
@@ -950,7 +953,9 @@ async function getSavedDuty() {
         }).then(function (data) {
             getDutyResponse = data;
             // getDutyResponse && displayGetDuty();
-
+            const body = JSON.parse(other_params.body);
+            body.dutyTotal = getDutyResponse && getDutyResponse.total || 0;
+            other_params.body = JSON.stringify(body);
             fetch(saveDutyUrl, other_params)
                 .then(function (response) {
                     if (response.ok) {
@@ -993,8 +998,8 @@ async function ftaTotalDeductPoints() {
             console.log("Error in fetch fta Deduct API");
             throw new Error('Error in fta Deduct API');
         }
-        const points = data && data.rate ? `${data && data.rate } points will be deducted` :
-        "1 point will be deducted for each calculation";
+        const points = data && data.rate ? `${data && data.rate} points will be deducted` :
+            "1 point will be deducted for each calculation";
         document.getElementById('deductMsg').innerHTML = `If you proceed ${points} from your Duty Calulator credits. Do you want to proceed?`;
     } catch (error) {
         console.error('An error occurred:', error);
@@ -1005,7 +1010,7 @@ function showPointsDeductScreen(popupEle = "points-popup-box", page) {
     if (validateForm()) {
         var ele = document.getElementById(popupEle);
         if (page) {
-             page == 'ftaMsg' ? ftaTotalDeductPoints() : document.getElementById('deductMsg').innerHTML = deductionMessage[page];
+            page == 'ftaMsg' ? ftaTotalDeductPoints() : document.getElementById('deductMsg').innerHTML = deductionMessage[page];
         }
         ele.style.visibility = "visible";
         ele.style.opacity = "1";
@@ -1130,9 +1135,10 @@ function enableBtn(impHSMap, expHSMap, element) {
 }
 
 function displayHSTable(hscodesDisplay, HSMap, importCountry, exportCountry, HSCategories) {
+    getWalletPoints();
     let hscodeHTML = "", imp_hsn, exp_hsn;
 
-    if(HSCategories && HSCategories[0] && HSCategories[0]) {
+    if (HSCategories && HSCategories[0] && HSCategories[0]) {
         hscodeHTML += `<div class='row hsn-history-row'>`;
         hscodeHTML += `<div class="col-sm-12 hsn-history-subtitle"><span>HSN Classification: </span>`;
         hscodeHTML += `<table class="log-input-table">`
@@ -1178,6 +1184,24 @@ function gotoForm(element1, element2) {
     document.getElementById("points-popup-box").style.display = "none";
 }
 
+async function getWalletPoints() {
+    const walletResponse = await fetch(getWalletUrl, { headers: authHeaders }).catch(function (error) {
+        console.log("Error in fetching fetching wallet information", error);
+    });
+
+    if (!walletResponse.ok) {
+        const msg = `Error in fetch ${walletResponse.status}`;
+        const data = await walletResponse.json();
+        throw new Error(data.message);
+    }
+
+    const walletPoints = walletResponse.status != 204 ? await walletResponse.json() : [];
+    window.localStorage.setItem("points", JSON.stringify(walletPoints.result));
+    const message = "update points";
+    const host = window.location.protocol + "//" + window.location.host;
+    window.parent.postMessage(message, host);
+}
+
 async function fetchCountryHSN(hscode, importCountry, ele) {
     const countryHSUrl = `${hostname}/api/getProductFromCountryCode?hs=${hscode}&imp=${importCountry}`;
     impcountryHSResponse = await fetch(countryHSUrl);
@@ -1203,7 +1227,7 @@ function openPopup(ele) {
     htmlEle.innerHTML = `<div>Select Import Country and HS Code</div>`;
 }
 
-async function getCountryHSCode(hscode = hsnVal, importCountry = impCountryVal, exportCountry = expCountryVal, hsLabel=hsnDescription) {
+async function getCountryHSCode(hscode = hsnVal, importCountry = impCountryVal, exportCountry = expCountryVal, hsLabel = hsnDescription) {
     if (!getCountryId(importCountry)) {
         openPopup('searchHSN');
     }

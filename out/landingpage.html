@@ -46,7 +46,7 @@
       </div>
 
       <nav id="navbar" class="navbar">
-        <ul>
+        <ul id="home-navlist">
           <li><a class="active " href="/home" target="_parent">Home</a></li>
           <li class="dropdown"><a href="#"><span>Solutions</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
@@ -62,8 +62,7 @@
             </ul>
           </li>
           <li><a href="/subscriptions" target="_parent">Pricing</a></li>
-          <li><a href="/auth/login" target="_parent">Login</a></li>
-          <li><a href="/auth/register" target="_parent">Register</a></li>
+
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -98,8 +97,7 @@
               <p class="mb-5" data-aos="fade-right" data-aos-delay="100">Smartly Calculate Duties and Taxes for
                 Unbeatable Profits</p>
               <p data-aos="fade-right" data-aos-delay="200" data-aos-offset="-500">
-                  <button type="button"
-                  class="btn btn-outline-white" onclick="gotoPage('hscodefinder')">
+                <button type="button" class="btn btn-outline-white" onclick="gotoPage('hscodefinder')">
                   Get Started
                 </button>
               </p>
@@ -134,7 +132,8 @@
                           <label for="productValue" class="col col-form-label">Product Value</label>
                           <div class="btn-group col form-group-input col-12">
                             <input type="text" class="form-control form-control-lg" id="productValue"
-                              placeholder="Numbers only" autocomplete="off" pattern="[0-9]+" title="Please enter only numeric value." required/>
+                              placeholder="Numbers only" autocomplete="off" pattern="[0-9]+"
+                              title="Please enter only numeric value." required />
                           </div>
                         </div>
                         <div class="form-group col-sm-12 col-md-7">
@@ -151,7 +150,8 @@
 
                       <div class="col-12">
                         <button id="formsubmit" type="button"
-                          class="btn btn-icon-text btn-center-align landing-page-btn " onclick="gotoPage('dutycalculator')">
+                          class="btn btn-icon-text btn-center-align landing-page-btn "
+                          onclick="gotoPage('dutycalculator')">
                           Calculate duty
                         </button>
                       </div>
@@ -321,7 +321,8 @@
             <p>Get access to free calculations and HS code lookups. No credit card needed.
           </div>
           <div class="col-md-5 text-center text-md-end">
-            <p><a href="/auth/register" target="_parent" class="btn d-inline-flex align-items-center"><span>Register Now</span></a></p>
+            <p><a href="/auth/register" target="_parent" class="btn d-inline-flex align-items-center"><span>Register
+                  Now</span></a></p>
           </div>
         </div>
       </div>
@@ -334,13 +335,14 @@
     <div class="container">
       <div class="row">
         <div class="col-md-4 mb-4 mb-md-0">
-          
-          <a href="/home" target="_parent"><img src="landingPageAssets/img/logo_b.png" alt="" class="img-fluid" width="100"></a>
+
+          <a href="/home" target="_parent"><img src="landingPageAssets/img/logo_b.png" alt="" class="img-fluid"
+              width="100"></a>
           <p>Smartly Calculate Duties and Taxes for Unbeatable Profits</p>
           <p class="social">
             <a href="#"><span class="bi bi-facebook"></span></a>
             <a href="#"><span class="bi bi-instagram"></span></a>
-            <a href="#"><span class="bi bi-linkedin"></span></a> 
+            <a href="#"><span class="bi bi-linkedin"></span></a>
           </p>
         </div>
         <div class="col-md-7 ms-auto">
@@ -399,7 +401,29 @@
 
   <!-- Template Main JS File -->
   <script src="landingPageAssets/js/main.js"></script>
+  <script>
 
+    function decodeJwt(token) {
+      const [, payloadBase64] = token.split('.'); // Get the base64-encoded payload
+      const payload = JSON.parse(atob(payloadBase64)); // Decode and parse the payload
+      return payload;
+    }
+
+
+    const ul = document.getElementById('home-navlist');
+    const authenticated = window.localStorage.getItem('authenticated');
+    let item = "";
+    const jwtToken = window.localStorage.getItem('access_token');
+    if (authenticated && jwtToken) {
+      const decodedPayload = decodeJwt(jwtToken);
+      item =  decodedPayload && decodedPayload.first_name ? `<li><a href="#" target="_parent">${decodedPayload.first_name}</a></li>`: "";
+      // item = "";
+    }
+    else {
+      item = '<li><a href="/auth/login" target="_parent">Login</a></li><li><a href="/auth/register" target="_parent">Register</a></li>';
+    }
+    ul.innerHTML += item;
+  </script>
 </body>
 
 </html>
